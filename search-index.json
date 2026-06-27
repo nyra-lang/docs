@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-27T06:06:45.692Z",
+  "generated": "2026-06-27T08:17:20.066Z",
   "docs": [
     {
       "pageTitle": "AI skill file",
@@ -179,7 +179,7 @@
       "id": "backend.html#stack",
       "title": "Backend application layer",
       "heading": "Stack",
-      "body": "Stack net/http — stdlib/net/http/mod.ny — full HTTP/1.1 client + routed server ( net/http reference ) TCP — stdlib/net/tcp.ny · TcpListener , TcpStream Async — stdlib/async.ny , promises + await ( Async guide ) JSON — stdlib/json/mod.ny field encode/decode TLS / HTTPS — stdlib/tls.ny + OpenSSL; client auto-upgrades https:// URLs Env / config — stdlib/env/mod.ny , stdlib/config/mod.ny DB — nyra pkg install ny-sqlite@^0.1.0 · import \"pkg/ny-sqlite\" Production APIs — use Sonic for middleware, auth, DB, and concurrent server"
+      "body": "Stack net/http — stdlib/net/http/mod.ny — full HTTP/1.1 client + routed server ( net/http reference ) TCP — stdlib/net/tcp.ny · TcpListener , TcpStream Async — stdlib/async.ny , promises + await ( Async guide ) JSON — stdlib/json/mod.ny field encode/decode TLS / HTTPS — stdlib/tls.ny + OpenSSL; client auto-upgrades https:// URLs Env / config — stdlib/env/mod.ny , stdlib/config/mod.ny DB — nyra pkg install ny-sqlite@^0.1.0 · import \"pkg/ny-sqlite\" Production APIs — compose net/http handler slots with stdlib/db/* or NyraPkg drivers; see NyraPkg"
     },
     {
       "pageTitle": "Backend application layer",
@@ -230,16 +230,6 @@
       "title": "Backend application layer",
       "heading": "HTTPS",
       "body": "HTTPS Requires OpenSSL at link time ( brew install openssl on macOS; libssl-dev on Debian/Ubuntu). Without types With types import \"stdlib/net/http/mod.ny\" fn main() { let resp = get(\"https) print(resp) } import \"stdlib/net/http/mod.ny\" fn main() -> void { let resp = get(\"https) print(resp) }"
-    },
-    {
-      "pageTitle": "Backend application layer",
-      "url": "backend.html#when-to-use-sonic-instead",
-      "section": "Guides",
-      "kind": "content",
-      "id": "backend.html#when-to-use-sonic-instead",
-      "title": "Backend application layer",
-      "heading": "When to use Sonic instead",
-      "body": "When to use Sonic instead Nyra net/http is the stdlib layer: client verbs, path routing, CORS, keep-alive. For NestJS-style apps with controllers, validation, SQLite/Postgres/Redis, rate limits, threaded pool, and native Socket.io , use the Sonic framework ( sonic serve ). SonicNy docs — overview Socket.io & realtime hub — Hub_use , rooms, handshake auth Routing & controllers Database — PostgreSQL, SQLite, MySQL"
     },
     {
       "pageTitle": "Backend application layer",
@@ -713,6 +703,16 @@
     },
     {
       "pageTitle": "Changelog",
+      "url": "changelog.html#v13612-2026-06-27",
+      "section": "Project",
+      "kind": "content",
+      "id": "changelog.html#v13612-2026-06-27",
+      "title": "Changelog",
+      "heading": "v1.36.12 (2026-06-27)",
+      "body": "v1.36.12 (2026-06-27) Removed Sonic — sonic/ tree, import \"sonic/...\" resolver, make smoke-sonic , and Sonic example projects Tests — workspace patterns retained as CONF-WS-* in conformance/workspace.rs Examples — examples/net_http_smoke.ny uses stdlib HttpRouter only"
+    },
+    {
+      "pageTitle": "Changelog",
       "url": "changelog.html#v1350-2026-06-24",
       "section": "Project",
       "kind": "content",
@@ -853,16 +853,6 @@
     },
     {
       "pageTitle": "Changelog",
-      "url": "changelog.html#sonic-020-realtime-2026-06-18",
-      "section": "Project",
-      "kind": "content",
-      "id": "changelog.html#sonic-020-realtime-2026-06-18",
-      "title": "Changelog",
-      "heading": "Sonic 0.2.0 (realtime — 2026-06-18)",
-      "body": "Sonic 0.2.0 (realtime — 2026-06-18) Socket.io / Engine.IO v4 — native protocol in rt/sonic_socketio.c ; polling + WebSocket; rooms, ACK Realtime hub — Hub_use , Hub_on_connection , Hub_on , HubContext ( src/realtime/ ) Handshake auth — Hub_use middleware on connect; CLIENT_PAIRING_TOKEN in .env PATCH routing — patch(app, path, slot) in src/routing/ PostgreSQL — Manager_shared_connection() keeps correct driver after boot Docs — Sonic Socket.io guide ; CyberHub backend reference app Tests — ./sonic test includes socket.io-client protocol smoke"
-    },
-    {
-      "pageTitle": "Changelog",
       "url": "changelog.html#v320-char-2026-06-15",
       "section": "Project",
       "kind": "content",
@@ -989,7 +979,7 @@
       "id": "changelog.html#v120-language-http-2026-06-15",
       "title": "Changelog",
       "heading": "v1.2.0 (language & HTTP — 2026-06-15)",
-      "body": "v1.2.0 (language & HTTP — 2026-06-15) Template strings — backtick literals with {expr} interpolation ( i32 , string ); see examples/syntax/template_strings.ny and Learn → Strings Arrow functions — (x: i32) => expr and block bodies (Extended tier, warning[W001] ); examples/arrow_fn_smoke.ny net/http handler dispatch — Router_add_slot_get , listen_and_serve_handlers , RequestContext → custom Nyra handlers; examples/net_http_smoke.ny Modular net/http — primary import stdlib/net/http/mod.ny ; client verbs GET–DELETE, router, CORS, keep-alive ( net/http reference ) Native interop docs — C runtime + FFI shims pattern; Sonic framework uses Nyra for HTTP logic + thin C for pools/DB ( Backend guide ) Reference packages — ny-redis , ny-postgres , ny-mysql under examples/packages/ with link-source shims AI skill — canonical nyra-skill.md updated to v1.2.x semantics"
+      "body": "v1.2.0 (language & HTTP — 2026-06-15) Template strings — backtick literals with {expr} interpolation ( i32 , string ); see examples/syntax/template_strings.ny and Learn → Strings Arrow functions — (x: i32) => expr and block bodies (Extended tier, warning[W001] ); examples/arrow_fn_smoke.ny net/http handler dispatch — Router_add_slot_get , listen_and_serve_handlers , RequestContext → custom Nyra handlers; examples/net_http_smoke.ny Modular net/http — primary import stdlib/net/http/mod.ny ; client verbs GET–DELETE, router, CORS, keep-alive ( net/http reference ) Native interop docs — C runtime + FFI shims pattern for DB and network drivers ( Backend guide ) Reference packages — ny-redis , ny-postgres , ny-mysql under examples/packages/ with link-source shims AI skill — canonical nyra-skill.md updated to v1.2.x semantics"
     },
     {
       "pageTitle": "Changelog",
@@ -1452,92 +1442,82 @@
       "body": "Grammar only Grammar file: grammar/nyra.tmLanguage.json nyra-syntax/ package.json syntaxes/nyra.tmLanguage.json Copy from repo or use raw URL from grammar README. This is highlighting only — see Language spec for semantics. Toolchain →"
     },
     {
-      "pageTitle": "Enterprise & large teams",
+      "pageTitle": "Workspaces & large teams",
       "url": "enterprise.html#intro",
       "section": "Guides",
       "kind": "content",
       "id": "enterprise.html#intro",
-      "title": "Enterprise & large teams",
-      "heading": "Enterprise & large teams",
-      "body": "Enterprise & large teams Nyra v2.7 delivers production-shaped workspaces , a conformance suite ( CONF-ENT-* ), and documented ownership patterns for teams of 50+ developers — without requiring a service mesh or distributed tracing stack inside the language."
+      "title": "Workspaces & large teams",
+      "heading": "Workspaces & large teams",
+      "body": "Workspaces & large teams Nyra supports multi-module workspaces ( nyra.mod ), a language conformance suite ( CONF-WS-* ), and documented ownership patterns for teams — without requiring a service mesh or distributed tracing stack inside the language."
     },
     {
-      "pageTitle": "Enterprise & large teams",
-      "url": "enterprise.html#evaluation-status-v27",
+      "pageTitle": "Workspaces & large teams",
+      "url": "enterprise.html#evaluation-status",
       "section": "Guides",
       "kind": "content",
-      "id": "enterprise.html#evaluation-status-v27",
-      "title": "Enterprise & large teams",
-      "heading": "Evaluation status (v2.7)",
-      "body": "Evaluation status (v2.7) Area Status Notes nyra.mod workspaces ✅ Multi-module layout, stdlib requires, per-service entrypoints Enterprise docs ✅ This page, README in example project, docs/conformance/enterprise.md Conformance suite ✅ CONF-ENT-001 … 006 + scripts/enterprise-check.sh Monolith structs + strings ✅ v2.4 composite drop, partial moves Shared ownership / graphs ✅ v2.5 Arc<T> Async microservices ✅ v2.6 spawn + await bootstrap, HTTP health Distributed tracing / service mesh External Integrate via FFI or sidecar; not part of Nyra stdlib"
+      "id": "enterprise.html#evaluation-status",
+      "title": "Workspaces & large teams",
+      "heading": "Evaluation status",
+      "body": "Evaluation status Area Status Notes nyra.mod workspaces ✅ Multi-module layout, stdlib requires, per-service entrypoints Workspace docs ✅ This page and Toolchain → conformance Conformance suite ✅ CONF-WS-001 … 004 in conformance/workspace.rs Monolith structs + strings ✅ Composite drop, partial moves ( examples/monolith_struct_smoke.ny ) Shared ownership / graphs ✅ Arc<T> ( examples/graph_arc_smoke.ny ) Async bootstrap ✅ spawn + await ready-probe pattern (CONF-WS-002) Distributed tracing / service mesh External Integrate via FFI or sidecar; not part of Nyra stdlib"
     },
     {
-      "pageTitle": "Enterprise & large teams",
+      "pageTitle": "Workspaces & large teams",
       "url": "enterprise.html#workspace-layout-nyramod",
       "section": "Guides",
       "kind": "content",
       "id": "enterprise.html#workspace-layout-nyramod",
-      "title": "Enterprise & large teams",
+      "title": "Workspaces & large teams",
       "heading": "Workspace layout ( nyra.mod )",
-      "body": "Workspace layout ( nyra.mod ) Declare module identity and stdlib dependencies once per service: module enterprise.platform require stdlib.enterprise require stdlib.microservice require stdlib.arc require stdlib.option Recommended tree (see examples/projects/enterprise_platform/ ): enterprise_platform/ nyra.mod main.ny lib/common/ # domain types + config services/api/ # HTTP-facing handlers services/worker/ # background jobs, Arc-shared labels Minimal team service: examples/projects/team_api/ (single entry, enterprise bootstrap + health JSON)."
+      "body": "Workspace layout ( nyra.mod ) Declare module identity and stdlib dependencies once per project: module my.api require stdlib.net.http require stdlib.arc require stdlib.option Typical tree for a service with shared domain types: my_api/ nyra.mod main.ny lib/common/ # domain types + config handlers/ # HTTP-facing handlers workers/ # background jobs, Arc-shared state Smoke examples: examples/graph_arc_smoke.ny , examples/monolith_struct_smoke.ny , examples/net_http_smoke.ny ."
     },
     {
-      "pageTitle": "Enterprise & large teams",
-      "url": "enterprise.html#stdlibenterprise",
+      "pageTitle": "Workspaces & large teams",
+      "url": "enterprise.html#async-ready-probe",
       "section": "Guides",
       "kind": "content",
-      "id": "enterprise.html#stdlibenterprise",
-      "title": "Enterprise & large teams",
-      "heading": "stdlib/enterprise",
-      "body": "stdlib/enterprise Without types With types import \"stdlib/enterprise/mod.ny\" fn main() { let ready = Enterprise_bootstrap() // async spawn + await let meta = EnterpriseMeta_new(\"api\", \"2.7.0\", \"prod\") let health = Enterprise_health_json(meta) let probe = Enterprise_ready_probe() } import \"stdlib/enterprise/mod.ny\" fn main() -> void { let ready = Enterprise_bootstrap() // async spawn + await let meta = EnterpriseMeta_new(\"api\", \"2.7.0\", \"prod\") let health = Enterprise_health_json(meta) let probe = Enterprise_ready_probe() } EnterpriseMeta — owned strings with composite auto-drop Enterprise_health_json — builds JSON health payload (move fields out of meta) Enterprise_ready_probe — returns Option<i32> after bootstrap"
+      "id": "enterprise.html#async-ready-probe",
+      "title": "Workspaces & large teams",
+      "heading": "Async ready probe",
+      "body": "Async ready probe Services can bootstrap async work with promises and expose readiness via Option<i32> (CONF-WS-002). See Async guide for spawn/await semantics."
     },
     {
-      "pageTitle": "Enterprise & large teams",
-      "url": "enterprise.html#async-microservices",
-      "section": "Guides",
-      "kind": "content",
-      "id": "enterprise.html#async-microservices",
-      "title": "Enterprise & large teams",
-      "heading": "Async microservices",
-      "body": "Async microservices Without types With types import \"stdlib/microservice.ny\" fn main() { let cfg = ServiceConfig_new(\"orders-api\", \"0.0.0.0\", 8080) let ready = Service_bootstrap_async() print(ready) // Service_run_async_health(cfg) // blocking HTTP listen } import \"stdlib/microservice.ny\" fn main() -> void { let cfg = ServiceConfig_new(\"orders-api\", \"0.0.0.0\", 8080) let ready = Service_bootstrap_async() print(ready) // Service_run_async_health(cfg) // blocking HTTP listen } Send — spawn captures must be Send Ownership — move payloads into spawn; no &mut across await HTTP — sync accept loop in stdlib/net/http ; async work via promises"
-    },
-    {
-      "pageTitle": "Enterprise & large teams",
+      "pageTitle": "Workspaces & large teams",
       "url": "enterprise.html#ownership-review-checklist",
       "section": "Guides",
       "kind": "content",
       "id": "enterprise.html#ownership-review-checklist",
-      "title": "Enterprise & large teams",
+      "title": "Workspaces & large teams",
       "heading": "Ownership review checklist",
       "body": "Ownership review checklist Area Review focus Strings in structs Composite auto-drop; extract fields before second use Shared graphs Arc<string> / Arc<i32> ; last drop frees payload Cross-module types One consuming call per moved struct (tenant summary OR display id) Async tasks Spawn captures Send; await before reusing moved handles Generics Monomorph instances in borrowck ( Option__T , Arc__T )"
     },
     {
-      "pageTitle": "Enterprise & large teams",
-      "url": "enterprise.html#conformance-suite-conf-ent",
+      "pageTitle": "Workspaces & large teams",
+      "url": "enterprise.html#conformance-suite-conf-ws",
       "section": "Guides",
       "kind": "content",
-      "id": "enterprise.html#conformance-suite-conf-ent",
-      "title": "Enterprise & large teams",
-      "heading": "Conformance suite (CONF-ENT)",
-      "body": "Conformance suite (CONF-ENT) ID Checks CONF-ENT-001 enterprise_platform/main.ny — multi-module, async, Arc worker CONF-ENT-002 team_api/main.ny workspace compiles CONF-ENT-003 Cross-module struct + string composite drop CONF-ENT-004 Option<i32> ready probe pattern CONF-ENT-005 graph_arc_smoke.ny CONF-ENT-006 monolith_struct_smoke.ny Run locally: bash scripts/enterprise-check.sh Spec: docs/conformance/enterprise.md"
+      "id": "enterprise.html#conformance-suite-conf-ws",
+      "title": "Workspaces & large teams",
+      "heading": "Conformance suite (CONF-WS)",
+      "body": "Conformance suite (CONF-WS) ID Checks CONF-WS-001 Cross-module struct + string composite drop CONF-WS-002 Option<i32> async ready-probe pattern CONF-WS-003 examples/graph_arc_smoke.ny CONF-WS-004 examples/monolith_struct_smoke.ny Run locally: cargo test -p compiler --test conformance conf_ws"
     },
     {
-      "pageTitle": "Enterprise & large teams",
+      "pageTitle": "Workspaces & large teams",
       "url": "enterprise.html#ci-matrix-recommended",
       "section": "Guides",
       "kind": "content",
       "id": "enterprise.html#ci-matrix-recommended",
-      "title": "Enterprise & large teams",
+      "title": "Workspaces & large teams",
       "heading": "CI matrix (recommended)",
-      "body": "CI matrix (recommended) bash scripts/enterprise-check.sh cargo test -p compiler --test conformance conf_ent conf_msvc conf_arc conf_own Per-service nyra check on each nyra.mod project"
+      "body": "CI matrix (recommended) cargo test -p compiler --test conformance conf_ws conf_arc conf_own Per-project nyra check on each nyra.mod workspace make test-all for full gate"
     },
     {
-      "pageTitle": "Enterprise & large teams",
+      "pageTitle": "Workspaces & large teams",
       "url": "enterprise.html#explicitly-out-of-scope",
       "section": "Guides",
       "kind": "content",
       "id": "enterprise.html#explicitly-out-of-scope",
-      "title": "Enterprise & large teams",
+      "title": "Workspaces & large teams",
       "heading": "Explicitly out of scope",
       "body": "Explicitly out of scope These belong in platform tooling around Nyra, not in the compiler/stdlib MVP: OpenTelemetry / distributed tracing exporters Service mesh (Istio, Linkerd, etc.) Fully async HTTP accept loop (roadmap; sync loop today)"
     },
@@ -2873,13 +2853,13 @@
     },
     {
       "pageTitle": "Language vs Ecosystem",
-      "url": "language-vs-ecosystem.html#three-layers",
+      "url": "language-vs-ecosystem.html#two-layers",
       "section": "Ecosystem",
       "kind": "content",
-      "id": "language-vs-ecosystem.html#three-layers",
+      "id": "language-vs-ecosystem.html#two-layers",
       "title": "Language vs Ecosystem",
-      "heading": "Three layers",
-      "body": "Three layers ┌─────────────────────────────────────────────────────────┐ │ Layer 3 — Community / NyraPkg │ │ ny-sqlite, ny-redis, game engines, CLI libs, … │ ├─────────────────────────────────────────────────────────┤ │ Layer 2 — Sonic (backend / microservices framework) │ │ sonic/core/microservice.ny, sonic/net/http (router) │ ├─────────────────────────────────────────────────────────┤ │ Layer 1 — Nyra language + strong stdlib (Core) │ │ ownership, Result/Option/?, crypto, db, serde, net │ └─────────────────────────────────────────────────────────┘"
+      "heading": "Two layers",
+      "body": "Two layers ┌─────────────────────────────────────────────────────────┐ │ Layer 2 — Community / NyraPkg │ │ ny-sqlite, ny-redis, game engines, CLI libs, … │ ├─────────────────────────────────────────────────────────┤ │ Layer 1 — Nyra language + strong stdlib (Core) │ │ ownership, Result/Option/?, crypto, db, serde, net │ └─────────────────────────────────────────────────────────┘"
     },
     {
       "pageTitle": "Language vs Ecosystem",
@@ -2893,33 +2873,23 @@
     },
     {
       "pageTitle": "Language vs Ecosystem",
-      "url": "language-vs-ecosystem.html#layer-2-sonic",
+      "url": "language-vs-ecosystem.html#layer-2-nyrapkg-community",
       "section": "Ecosystem",
       "kind": "content",
-      "id": "language-vs-ecosystem.html#layer-2-sonic",
+      "id": "language-vs-ecosystem.html#layer-2-nyrapkg-community",
       "title": "Language vs Ecosystem",
-      "heading": "Layer 2 — Sonic",
-      "body": "Layer 2 — Sonic Backend-oriented patterns moved out of stdlib (v3.x boundary): Was (stdlib) Now (Sonic) stdlib/microservice.ny sonic/core/microservice.ny stdlib/enterprise/ sonic/core/enterprise/ HTTP router, CORS, handler slots sonic/src/http/ , sonic/src/routing/ — Socket.io / Engine.IO v4 — sonic/src/realtime/ , rt/sonic_socketio.c Without types With types import \"sonic/src/realtime/mod.ny\" import \"sonic/src/sonic.ny\" import \"sonic/src/realtime/mod.ny\" import \"sonic/src/sonic.ny\" Docs: SonicNy webDocs · Socket.io hub · Enterprise workspaces CI gate: bash scripts/sonic-check.sh (CONF-ENT-*, CONF-MSVC-*) — separate from language tests."
+      "heading": "Layer 2 — NyraPkg & community",
+      "body": "Layer 2 — NyraPkg & community Database drivers, crypto, compression, domain SDKs — published via nyra pkg , not the compiler: nyra pkg install ny-sqlite@^0.1.0 import \"pkg/ny-sqlite\" See NyraPkg . Anyone can publish; the language stays neutral."
     },
     {
       "pageTitle": "Language vs Ecosystem",
-      "url": "language-vs-ecosystem.html#layer-3-nyrapkg-community",
+      "url": "language-vs-ecosystem.html#nethttp",
       "section": "Ecosystem",
       "kind": "content",
-      "id": "language-vs-ecosystem.html#layer-3-nyrapkg-community",
+      "id": "language-vs-ecosystem.html#nethttp",
       "title": "Language vs Ecosystem",
-      "heading": "Layer 3 — NyraPkg & community",
-      "body": "Layer 3 — NyraPkg & community Database drivers, crypto, compression, domain SDKs — published via nyra pkg , not the compiler: nyra pkg install ny-sqlite@^0.1.0 import \"pkg/ny-sqlite\" See NyraPkg . Anyone can publish; the language stays neutral."
-    },
-    {
-      "pageTitle": "Language vs Ecosystem",
-      "url": "language-vs-ecosystem.html#nethttp-boundaries",
-      "section": "Ecosystem",
-      "kind": "content",
-      "id": "language-vs-ecosystem.html#nethttp-boundaries",
-      "title": "Language vs Ecosystem",
-      "heading": "net/http boundaries",
-      "body": "net/http boundaries In stdlib (Core) In Sonic HttpClient , GET/POST/… Router , route tables, patch() RequestContext , parse/build response CORS + request logging middleware Server_listen_once (one-shot) serve() , handler slots, Socket.io hub"
+      "heading": "net/http",
+      "body": "net/http HTTP client, server, router slots, and handler dispatch live in stdlib ( stdlib/net/http/ ). See net/http reference and examples/net_http_smoke.ny ."
     },
     {
       "pageTitle": "Language vs Ecosystem",
@@ -2929,7 +2899,7 @@
       "id": "language-vs-ecosystem.html#who-enters-a-domain",
       "title": "Language vs Ecosystem",
       "heading": "Who enters a domain?",
-      "body": "Who enters a domain? The language is ready for any field (systems, web, embedded, games, data). Teams and community bring Nyra into a domain via Sonic + packages — not by growing the compiler/stdlib for one vertical. Standard library →"
+      "body": "Who enters a domain? The language is ready for any field (systems, web, embedded, games, data). Teams and community bring Nyra into a domain via packages and app modules — not by growing the compiler/stdlib for one vertical. Standard library →"
     },
     {
       "pageTitle": "Language syntax",
@@ -4949,7 +4919,7 @@
       "id": "net-http.html#production-apis",
       "title": "net/http",
       "heading": "Production APIs",
-      "body": "Production APIs For threaded pools, auth guards, validation, SQLite/Redis, and NestJS-style controllers, use the Sonic framework in sonic/ . Nyra net/http is the stdlib foundation Sonic builds on. ← Backend guide · Standard library →"
+      "body": "Production APIs Build services with handler slots ( examples/net_http_smoke.ny ), stdlib/db/* , and NyraPkg drivers ( ny-postgres , ny-redis ). See Backend guide and NyraPkg . ← Backend guide · Standard library →"
     },
     {
       "pageTitle": "OS, files & hardware",
@@ -5509,7 +5479,7 @@
       "id": "packages.html#reference-packages-v12",
       "title": "NyraPkg",
       "heading": "Reference packages (v1.2)",
-      "body": "Reference packages (v1.2) Bundled under examples/packages/ for development — same pattern as production NyraPkg: Package Native lib Import ny-sqlite libsqlite3 import \"pkg/ny-sqlite\" ny-serde rust::serde_json import \"pkg/ny-serde/serde.ny\" ny-toml rust::toml import \"pkg/ny-toml/toml.ny\" ny-redis hiredis import \"pkg/ny-redis\" ny-postgres libpq import \"pkg/ny-postgres\" ny-mysql libmysqlclient import \"pkg/ny-mysql\" Each ships link-source rt/*.c shims — Nyra app code calls extern fn ; heavy work stays in the C library. See Sonic’s native interop guide ."
+      "body": "Reference packages (v1.2) Bundled under examples/packages/ for development — same pattern as production NyraPkg: Package Native lib Import ny-sqlite libsqlite3 import \"pkg/ny-sqlite\" ny-serde rust::serde_json import \"pkg/ny-serde/serde.ny\" ny-toml rust::toml import \"pkg/ny-toml/toml.ny\" ny-redis hiredis import \"pkg/ny-redis\" ny-postgres libpq import \"pkg/ny-postgres\" ny-mysql libmysqlclient import \"pkg/ny-mysql\" Each ships link-source rt/*.c shims — Nyra app code calls extern fn ; heavy work stays in the C library. See C Bindgen and FFI & ABI ."
     },
     {
       "pageTitle": "NyraPkg",
@@ -6059,7 +6029,7 @@
       "id": "stdlib.html#philosophy",
       "title": "Standard library",
       "heading": "Philosophy — strong stdlib, NyraPkg for extensions",
-      "body": "Philosophy — strong stdlib, NyraPkg for extensions Nyra is a general-purpose language with a production-oriented standard library. Everyday domains ship with the compiler; frameworks (Sonic) and community libraries use NyraPkg: Need Stdlib (target) NyraPkg (optional) SHA-256, HMAC, AES stdlib/crypto Alternative crypto backends gzip / zip stdlib/compress Specialized codecs SQLite / Postgres / Redis stdlib/db/* ORMs, query builders WebSocket stdlib/net/websocket Socket.io hubs (Sonic) Full JSON / TOML / YAML json/ , serialize/ Custom schema tooling"
+      "body": "Philosophy — strong stdlib, NyraPkg for extensions Nyra is a general-purpose language with a production-oriented standard library. Everyday domains ship with the compiler; optional extensions use NyraPkg: Need Stdlib (target) NyraPkg (optional) SHA-256, HMAC, AES stdlib/crypto Alternative crypto backends gzip / zip stdlib/compress Specialized codecs SQLite / Postgres / Redis stdlib/db/* ORMs, query builders WebSocket stdlib/net/websocket Protocol adapters, hubs Full JSON / TOML / YAML json/ , serialize/ Custom schema tooling"
     },
     {
       "pageTitle": "Standard library",
@@ -7289,7 +7259,7 @@
       "id": "tooling.html#ci",
       "title": "Toolchain",
       "heading": "CI cookbook",
-      "body": "CI cookbook Job: Typical pipeline steps for GitHub Actions or any CI. nyra check . nyra fmt . --check nyra test . nyra build . --release Repository scripts: scripts/test-all.sh (includes scripts/conformance-tests.sh for CONF-LANG), scripts/enterprise-check.sh , scripts/sanitizer-check.sh . Workflow: .github/workflows/ci.yml ."
+      "body": "CI cookbook Job: Typical pipeline steps for GitHub Actions or any CI. nyra check . nyra fmt . --check nyra test . nyra build . --release Repository scripts: make test-all (includes make test-conformance for CONF-LANG), make test-sanitizer . Workflow: .github/workflows/ci.yml ."
     },
     {
       "pageTitle": "Toolchain",
@@ -8167,7 +8137,7 @@
       "pageTitle": "Nyra AI Skill (nyra-skill.md)",
       "title": "Nyra AI Skill (nyra-skill.md)",
       "heading": "Identity",
-      "body": "Identity - **Nyra** — systems language: Go-like syntax, Rust-like ownership, LLVM backend. - Source: `.ny` / `.nyra` files → lexer → parser → expand → monomorph (+ generic call inference) → auto-borrow coercion → typecheck → ownership (Copy inference) → borrow + lifetimes + Send/Sync → **escape analysis** → drop plan → LLVM IR → `opt` → clang + runtime C modules. - CLI: `nyra` (Rust). Package manager: `nyra pkg` (NyraPkg). - Version baseline: **v1.2.x** — **Core tier semver-stable**; Extended tier experimental ([`docs/stability-v1.md`](../docs/stability-v1.md)). - **v1.2:** template strings, arrow functions, `net/http` handler dispatch, language bridge (Python/Node/Java workers), NyraPkg semver + registry, `link-source` auto-link, bindings reference, native C interop pattern. - **v2.1:** stack closures (loop-safe), arrow param inference, tuple destructure in arrow params, `??` nullish coalescing, `?.` optional chaining. - **v2.2:** heap closure promotion; `?.method()`; **`Option.Some(T)` payloads** when using `import \"stdlib/option.ny\"` (replaces tag-only built-in `Option` for that module). - **v2.3:** composite struct field drop, auto-owned `extern fn -> string`, `Box_string` (superseded by `Box<string>` in v2.4), `OptionStr`. - **v2.4:** generic `enum Option<T>` / `enum Result<T,E>` monomorph; enum payload drop; `struct Box<T>` + `Box_new(string)` (replaces `Box_string`). - **v2.5:** generic `struct Arc<T>` (`Arc<i32>`, `Arc<string>`); auto Drop for monomorph instances; `Arc_i32` kept as legacy alias in `stdlib/arc.ny`. - **v2.6:** `stdlib/microservice.ny`, async bootstrap + HTTP health, team workspace example. - **v2.7:** `stdlib/enterprise/mod.ny`, `nyra.mod` workspaces (`enterprise_platform`, `team_api`), `CONF-ENT-*` conformance, `scripts/enterprise-check.sh`, full `webDocs/enterprise.html`. Tracing/service mesh = external. - **v2.8:** return type inference (`void` default), generic call-site inference (`id(7)`), auto-borrow at calls (`T` → `&T`), `string.clone()` + synthesized struct `Clone`, struct ctor sugar `User(\"Ada\")` / `Point()`. - **v2.9:** Swift-style use-after-move diagnostics (`was moved into save()` + fix-it notes), `move` / `clone` prefix at call sites (`save(move user)`, `save(clone user)`). - **v3.0:** auto Copy inference for all-Copy structs (`Point`, `Rect`); `#[derive(Copy)]` validation; no annotation needed for value types. - **v3.1:** `f64` IEEE-754 double — float literals (`3.14`), mixed `i32`/`f64` promotion, LLVM `double` codegen. - **v3.2:** `char` Unicode scalar — `'a'`, `'\\n'`, `'\\u{...}'`; LLVM `i32`; `print` via `%c`. - **v1.3:** **CONF-LANG** Nyra-source conformance (`tests/conformance/` — pass + fail + fixtures), `stdlib/testing.ny` assertions, `scripts/conformance-tests.sh` in `test-all.sh`.",
+      "body": "Identity - **Nyra** — systems language: Go-like syntax, Rust-like ownership, LLVM backend. - Source: `.ny` / `.nyra` files → lexer → parser → expand → monomorph (+ generic call inference) → auto-borrow coercion → typecheck → ownership (Copy inference) → borrow + lifetimes + Send/Sync → **escape analysis** → drop plan → LLVM IR → `opt` → clang + runtime C modules. - CLI: `nyra` (Rust). Package manager: `nyra pkg` (NyraPkg). - Version baseline: **v1.2.x** — **Core tier semver-stable**; Extended tier experimental ([`docs/stability-v1.md`](../docs/stability-v1.md)). - **v1.2:** template strings, arrow functions, `net/http` handler dispatch, language bridge (Python/Node/Java workers), NyraPkg semver + registry, `link-source` auto-link, bindings reference, native C interop pattern. - **v2.1:** stack closures (loop-safe), arrow param inference, tuple destructure in arrow params, `??` nullish coalescing, `?.` optional chaining. - **v2.2:** heap closure promotion; `?.method()`; **`Option.Some(T)` payloads** when using `import \"stdlib/option.ny\"` (replaces tag-only built-in `Option` for that module). - **v2.3:** composite struct field drop, auto-owned `extern fn -> string`, `Box_string` (superseded by `Box<string>` in v2.4), `OptionStr`. - **v2.4:** generic `enum Option<T>` / `enum Result<T,E>` monomorph; enum payload drop; `struct Box<T>` + `Box_new(string)` (replaces `Box_string`). - **v2.5:** generic `struct Arc<T>` (`Arc<i32>`, `Arc<string>`); auto Drop for monomorph instances; `Arc_i32` kept as legacy alias in `stdlib/arc.ny`. - **v2.6:** async bootstrap patterns, HTTP health via stdlib `net/http`. - **v2.7:** `nyra.mod` workspaces, `CONF-WS-*` conformance (`conformance/workspace.rs`), `webDocs/enterprise.html`. Tracing/service mesh = external. - **v2.8:** return type inference (`void` default), generic call-site inference (`id(7)`), auto-borrow at calls (`T` → `&T`), `string.clone()` + synthesized struct `Clone`, struct ctor sugar `User(\"Ada\")` / `Point()`. - **v2.9:** Swift-style use-after-move diagnostics (`was moved into save()` + fix-it notes), `move` / `clone` prefix at call sites (`save(move user)`, `save(clone user)`). - **v3.0:** auto Copy inference for all-Copy structs (`Point`, `Rect`); `#[derive(Copy)]` validation; no annotation needed for value types. - **v3.1:** `f64` IEEE-754 double — float literals (`3.14`), mixed `i32`/`f64` promotion, LLVM `double` codegen. - **v3.2:** `char` Unicode scalar — `'a'`, `'\\n'`, `'\\u{...}'`; LLVM `i32`; `print` via `%c`. - **v1.3:** **CONF-LANG** Nyra-source conformance (`tests/conformance/` — pass + fail + fixtures), `stdlib/testing.ny` assertions, `scripts/conformance-tests.sh` in `test-all.sh`.",
       "section": "AI",
       "kind": "content"
     },
@@ -8327,7 +8297,7 @@
       "pageTitle": "Nyra AI Skill (nyra-skill.md)",
       "title": "Nyra AI Skill (nyra-skill.md)",
       "heading": "Stdlib (modular — see stdlib/README.md)",
-      "body": "Stdlib (modular — see stdlib/README.md) > **Batteries-included by design:** Nyra’s stdlib is **strong** — crypto, databases, serialization, WebSocket, compression, and encoding belong **in-tree** with the compiler. Some modules are still **stubs or MVP** while native implementations land in `stdlib/rt/`; import paths stay stable. **NyraPkg** complements stdlib for community and optional packages — it does not replace core domains. Status inventory: `stdlib/README.md` · `webDocs/stdlib.html#status`. ### What ships vs what is in progress | Status | Modules | Notes | |--------|---------|-------| | **Shipped** | `vec.ny`, `vec_str.ny`, `map.ny`, `collections/*`, `strings/ops.ny`, `fs/mod.ny`, `path.ny`, `crypto/mod.ny`, `encoding/base64.ny`, `net/tcp.ny`, `net/http/mod.ny`, `net/udp.ny`, `net/websocket.ny`, `compress/mod.ny`, `serialize/mod.ny`, `json/mod.ny`, `db/sqlite.ny`, `tls.ny`, `time/*`, `strconv/mod.ny`, `flag/mod.ny`, `bufio/mod.ny`, `context/mod.ny`, `sync/mod.ny`, `process.ny` (POSIX), `bridge/mod.ny`, `terminal/*`, `encoding/csv.ny`, `archive/zip.ny`, `mime/mod.ny`, `random_bytes`, `embed/mod.ny`, `slog/mod.ny`, `testing/fstest.ny`, `testing/quick.ny` | Collections, FS, crypto, HTTP/TCP/UDP/WS, CLI, DB (SQLite), sync | | **MVP / partial** | `json/mod.ny` / `serialize/mod.ny` (multi-key encode; not full schema serde), `uuid/mod.ny`, `url` helpers, `async.ny`, `reflect/mod.ny` | Use NyraPkg (`ny-serde`) for full schema serde | | **Native when linked** | `db/postgres.ny` (`link pq`), `db/mysql.ny` (`link mysqlclient`), `compress/bzip2.ny` (`link bz2`) | | **Shipped (v1.1)** | `env_set`, `process` (POSIX + Windows), Windows prebuilt releases | | **Stub → in progress** | `compress/bzip2.ny` (link `bz2`) | Native driver when linked | Tell users Nyra **targets** production crypto, SQLite, WebSocket, and full serde **in stdlib**. Where a module is still a stub, say so honestly — do not redirect to NyraPkg as the primary path. See [Language vs Ecosystem](../webDocs/language-vs-ecosystem.html). ### Naming: current style vs legacy (read this) Nyra uses **monomorph names** in Core stdlib and **generic syntax** in Extended tiers. Both compile; prefer the **Current** column for new code and `--deny-extended` CI. | API | Current (use this) | Legacy / alternate | Notes | |-----|-------------------|-------------------|-------| | Growable `i32` vector | `Vec_i32_new()`, `Vec_i32_push(v, x)`, `Vec_i32_len(v)` | `Vec<T>` generic syntax (Extended) | Handle type is `ptr`; free with `Vec_i32_free(v)` or scope end if owned | | String-key map | `HashMap_str_i32_*`, `HashMap_str_str_*`, `Map_str_i32_*` in `map.ny` | `HashMap<K,V>` (Extended) | **Method chaining works:** `HashMap_str_i32_new().insert(\"a\", 1).insert(\"b\", 2)` · or low-level `ptr` + `nyra_map_*` externs | | String vector | `StrVec`, `StrVec_from_argv`, `StrVec_from_lines` in `vec_str.ny` | `Vec_str_*` low-level `ptr` API | CLI args, JSON keys, line lists | | Heap single owner | `import \"stdlib/box.ny\"` → `Box<string>`, `Box_new(value)` | `Box_string` (v2.3 changelog name) | `Box<T>` monomorph; today `Box_new` ships for `string` | | Shared ownership | `import \"stdlib/arc.ny\"` → `Arc<i32>`, `Arc<string>`, `Arc_from_i32`, `Arc_from_string`, `Arc_get_applied_i32` | `Arc_i32`, `Arc_new_i32`, `Arc_clone_i32` (v2.3 struct + manual `impl Drop`) | Legacy `Arc_i32` API remains in `arc.ny` for backward compat | | Optional / errors | `import \"stdlib/option.ny\"` → `Option<T>`, `Result<T,E>` | `Option_i32`, `Result_i32_i32` in `stdlib/result.ny` | Prefer generic `option.ny`; `result.ny` is older explicit monomorph helpers | | Option tags only | built-in `Option.None` / `Option.Some` (no args) | — | For `??` / `?.` desugar only; not storage | **Rule of thumb:** If you see `Foo_bar_baz` (underscore monomorph), that is the **stable Core stdlib surface**. If you see `Foo<T>` in source, it is **generic Extended** — compiler emits `Foo__T` (or similar) at compile time. ### Vec example (current Core idiom) Do **not** write `v.push(1)` — `Vec_i32` is a `ptr` handle, not a method-chaining object. Use `Vec_i32_push(v, x)` or `import \"stdlib/builtins_array.ny\"` helpers (`Array_push`, `Array_map`, …). ### Arc / Box examples (Extended — generic syntax) See: `examples/graph_arc_smoke.ny` · `examples/monolith_struct_smoke.ny` · `stdlib/README.md` **Stdlib auto-prelude (lazy):** Referenced stdlib symbols resolve on demand via a virtual symbol table — use `read_file`, `Vec_i32_new`, `StrVec`, `os_arg_count`, `os_arg_at`, `list_dir`, `is_dir`, etc. without imports; only used modules are merged into the build. Opt out with `# no_std` or `--no-prelude`. Explicit `import \"stdlib/vec.ny\"` still works. **Compiler math intrinsics (always on):** `abs_i32`, `abs_f64`, `min_i32`, `max_i32`, `clamp_i32`, `min_f64`, `max_f64`, and typed `abs(x)` lower to LLVM intrinsics — no stdlib merge required. See `examples/builtins/math_intrinsics.ny` with `--no-prelude`. **Core modules (usable):** `vec.ny`, `vec_str.ny`, `map.ny`, `collections/*`, `strings/ops.ny`, `strings/regex.ny`, `fs/mod.ny`, `path.ny`, `crypto/mod.ny`, `encoding/base64.ny`, `time/instant.ny`, `time/date.ny`, `json/mod.ny`, `serialize/mod.ny`, `iter/mod.ny`, `env/mod.ny`, `config/mod.ny`, **`net/http/mod.ny`**, `net/tcp.ny`, `net/udp.ny`, `net/websocket.ny`, `tls.ny`, `strconv/mod.ny`, `flag/mod.ny`, `bufio/mod.ny`, `context/mod.ny`, `sync/mod.ny`, `process.ny`, `bridge/mod.ny`, `db/sqlite.ny`, `db/lsm.ny`, `db/sql_parse.ny`, `db/sstable.ny`, `collections/btree_pages.ny`, `bench/mod.ny`, `profile/mod.ny`, `testing.ny`, `async.ny` (Extended). Docs: `webDocs/stdlib.html` (`#cli-parsing`, `#database`, `#process`, `#crypto`). ### Database quick start (v1.21) Requires `link sqlite3` in `nyra.mod` for SQLite. LSM/B-tree/SQL parser are pure Nyra stdlib. **Shipped (v1.1):** `env_set`, `process` on Windows, postgres/mysql native when linked. **NyraPkg** for full serde: `ny-serde`, `ny-toml`. See `stdlib/README.md`. ### net/http quick start (v1.2) Static response bodies: Handler dispatch (Nyra functions per route slot): Full API: `webDocs/net-http.html` · `examples/net_http_smoke.ny`. Production frameworks: **Sonic** (`sonic serve`) — NestJS-style stack with C runtime shims for concurrency and DB drivers. **Low-level runtime** (still valid): `read_file`, `vec_i32_*`, `map_str_i32_*`, `channel_*`, `bridge_exec`, `spawn { }`. Crypto, SQLite, WebSocket, gzip, and full serde are **stdlib domains** — native implementations in `stdlib/rt/`; NyraPkg remains for community extensions.",
+      "body": "Stdlib (modular — see stdlib/README.md) > **Batteries-included by design:** Nyra’s stdlib is **strong** — crypto, databases, serialization, WebSocket, compression, and encoding belong **in-tree** with the compiler. Some modules are still **stubs or MVP** while native implementations land in `stdlib/rt/`; import paths stay stable. **NyraPkg** complements stdlib for community and optional packages — it does not replace core domains. Status inventory: `stdlib/README.md` · `webDocs/stdlib.html#status`. ### What ships vs what is in progress | Status | Modules | Notes | |--------|---------|-------| | **Shipped** | `vec.ny`, `vec_str.ny`, `map.ny`, `collections/*`, `strings/ops.ny`, `fs/mod.ny`, `path.ny`, `crypto/mod.ny`, `encoding/base64.ny`, `net/tcp.ny`, `net/http/mod.ny`, `net/udp.ny`, `net/websocket.ny`, `compress/mod.ny`, `serialize/mod.ny`, `json/mod.ny`, `db/sqlite.ny`, `tls.ny`, `time/*`, `strconv/mod.ny`, `flag/mod.ny`, `bufio/mod.ny`, `context/mod.ny`, `sync/mod.ny`, `process.ny` (POSIX), `bridge/mod.ny`, `terminal/*`, `encoding/csv.ny`, `archive/zip.ny`, `mime/mod.ny`, `random_bytes`, `embed/mod.ny`, `slog/mod.ny`, `testing/fstest.ny`, `testing/quick.ny` | Collections, FS, crypto, HTTP/TCP/UDP/WS, CLI, DB (SQLite), sync | | **MVP / partial** | `json/mod.ny` / `serialize/mod.ny` (multi-key encode; not full schema serde), `uuid/mod.ny`, `url` helpers, `async.ny`, `reflect/mod.ny` | Use NyraPkg (`ny-serde`) for full schema serde | | **Native when linked** | `db/postgres.ny` (`link pq`), `db/mysql.ny` (`link mysqlclient`), `compress/bzip2.ny` (`link bz2`) | | **Shipped (v1.1)** | `env_set`, `process` (POSIX + Windows), Windows prebuilt releases | | **Stub → in progress** | `compress/bzip2.ny` (link `bz2`) | Native driver when linked | Tell users Nyra **targets** production crypto, SQLite, WebSocket, and full serde **in stdlib**. Where a module is still a stub, say so honestly — do not redirect to NyraPkg as the primary path. See [Language vs Ecosystem](../webDocs/language-vs-ecosystem.html). ### Naming: current style vs legacy (read this) Nyra uses **monomorph names** in Core stdlib and **generic syntax** in Extended tiers. Both compile; prefer the **Current** column for new code and `--deny-extended` CI. | API | Current (use this) | Legacy / alternate | Notes | |-----|-------------------|-------------------|-------| | Growable `i32` vector | `Vec_i32_new()`, `Vec_i32_push(v, x)`, `Vec_i32_len(v)` | `Vec<T>` generic syntax (Extended) | Handle type is `ptr`; free with `Vec_i32_free(v)` or scope end if owned | | String-key map | `HashMap_str_i32_*`, `HashMap_str_str_*`, `Map_str_i32_*` in `map.ny` | `HashMap<K,V>` (Extended) | **Method chaining works:** `HashMap_str_i32_new().insert(\"a\", 1).insert(\"b\", 2)` · or low-level `ptr` + `nyra_map_*` externs | | String vector | `StrVec`, `StrVec_from_argv`, `StrVec_from_lines` in `vec_str.ny` | `Vec_str_*` low-level `ptr` API | CLI args, JSON keys, line lists | | Heap single owner | `import \"stdlib/box.ny\"` → `Box<string>`, `Box_new(value)` | `Box_string` (v2.3 changelog name) | `Box<T>` monomorph; today `Box_new` ships for `string` | | Shared ownership | `import \"stdlib/arc.ny\"` → `Arc<i32>`, `Arc<string>`, `Arc_from_i32`, `Arc_from_string`, `Arc_get_applied_i32` | `Arc_i32`, `Arc_new_i32`, `Arc_clone_i32` (v2.3 struct + manual `impl Drop`) | Legacy `Arc_i32` API remains in `arc.ny` for backward compat | | Optional / errors | `import \"stdlib/option.ny\"` → `Option<T>`, `Result<T,E>` | `Option_i32`, `Result_i32_i32` in `stdlib/result.ny` | Prefer generic `option.ny`; `result.ny` is older explicit monomorph helpers | | Option tags only | built-in `Option.None` / `Option.Some` (no args) | — | For `??` / `?.` desugar only; not storage | **Rule of thumb:** If you see `Foo_bar_baz` (underscore monomorph), that is the **stable Core stdlib surface**. If you see `Foo<T>` in source, it is **generic Extended** — compiler emits `Foo__T` (or similar) at compile time. ### Vec example (current Core idiom) Do **not** write `v.push(1)` — `Vec_i32` is a `ptr` handle, not a method-chaining object. Use `Vec_i32_push(v, x)` or `import \"stdlib/builtins_array.ny\"` helpers (`Array_push`, `Array_map`, …). ### Arc / Box examples (Extended — generic syntax) See: `examples/graph_arc_smoke.ny` · `examples/monolith_struct_smoke.ny` · `stdlib/README.md` **Stdlib auto-prelude (lazy):** Referenced stdlib symbols resolve on demand via a virtual symbol table — use `read_file`, `Vec_i32_new`, `StrVec`, `os_arg_count`, `os_arg_at`, `list_dir`, `is_dir`, etc. without imports; only used modules are merged into the build. Opt out with `# no_std` or `--no-prelude`. Explicit `import \"stdlib/vec.ny\"` still works. **Compiler math intrinsics (always on):** `abs_i32`, `abs_f64`, `min_i32`, `max_i32`, `clamp_i32`, `min_f64`, `max_f64`, and typed `abs(x)` lower to LLVM intrinsics — no stdlib merge required. See `examples/builtins/math_intrinsics.ny` with `--no-prelude`. **Core modules (usable):** `vec.ny`, `vec_str.ny`, `map.ny`, `collections/*`, `strings/ops.ny`, `strings/regex.ny`, `fs/mod.ny`, `path.ny`, `crypto/mod.ny`, `encoding/base64.ny`, `time/instant.ny`, `time/date.ny`, `json/mod.ny`, `serialize/mod.ny`, `iter/mod.ny`, `env/mod.ny`, `config/mod.ny`, **`net/http/mod.ny`**, `net/tcp.ny`, `net/udp.ny`, `net/websocket.ny`, `tls.ny`, `strconv/mod.ny`, `flag/mod.ny`, `bufio/mod.ny`, `context/mod.ny`, `sync/mod.ny`, `process.ny`, `bridge/mod.ny`, `db/sqlite.ny`, `db/lsm.ny`, `db/sql_parse.ny`, `db/sstable.ny`, `collections/btree_pages.ny`, `bench/mod.ny`, `profile/mod.ny`, `testing.ny`, `async.ny` (Extended). Docs: `webDocs/stdlib.html` (`#cli-parsing`, `#database`, `#process`, `#crypto`). ### Database quick start (v1.21) Requires `link sqlite3` in `nyra.mod` for SQLite. LSM/B-tree/SQL parser are pure Nyra stdlib. **Shipped (v1.1):** `env_set`, `process` on Windows, postgres/mysql native when linked. **NyraPkg** for full serde: `ny-serde`, `ny-toml`. See `stdlib/README.md`. ### net/http quick start (v1.2) Static response bodies: Handler dispatch (Nyra functions per route slot): Full API: `webDocs/net-http.html` · `examples/net_http_smoke.ny`. Compose with `stdlib/db/*` and NyraPkg drivers for production services. **Low-level runtime** (still valid): `read_file`, `vec_i32_*`, `map_str_i32_*`, `channel_*`, `bridge_exec`, `spawn { }`. Crypto, SQLite, WebSocket, gzip, and full serde are **stdlib domains** — native implementations in `stdlib/rt/`; NyraPkg remains for community extensions.",
       "section": "AI",
       "kind": "content"
     },
@@ -8347,7 +8317,7 @@
       "pageTitle": "Nyra AI Skill (nyra-skill.md)",
       "title": "Nyra AI Skill (nyra-skill.md)",
       "heading": "Native code & C interop",
-      "body": "Native code & C interop Nyra **compiles to native LLVM code** — it is not interpreted. C appears in three deliberate layers: | Layer | Role | Example | |-------|------|---------| | **Nyra runtime** | Bootstrap I/O, strings, spawn, channels | `stdlib/rt/*.c` → stable C ABI | | **FFI shims** | Thin wrappers around existing C APIs | `link-source rt/hiredis_shim.c`, `sonic/rt/sonic_db.c` | | **Your app logic** | Business code, routing, validation | `.ny` files — **preferred** | Nyra is **not** “too weak” for these tasks — C is used for mature libraries (OpenSSL, libpq, hiredis) and low-level runtime, same pattern as Rust + libc. Application code stays in Nyra; do not rewrite Redis/Postgres wire protocols in Nyra.",
+      "body": "Native code & C interop Nyra **compiles to native LLVM code** — it is not interpreted. C appears in three deliberate layers: | Layer | Role | Example | |-------|------|---------| | **Nyra runtime** | Bootstrap I/O, strings, spawn, channels | `stdlib/rt/*.c` → stable C ABI | | **FFI shims** | Thin wrappers around existing C APIs | `link-source rt/hiredis_shim.c`, `examples/packages/ny-redis/rt/` | | **Your app logic** | Business code, routing, validation | `.ny` files — **preferred** | Nyra is **not** “too weak” for these tasks — C is used for mature libraries (OpenSSL, libpq, hiredis) and low-level runtime, same pattern as Rust + libc. Application code stays in Nyra; do not rewrite Redis/Postgres wire protocols in Nyra.",
       "section": "AI",
       "kind": "content"
     },
@@ -8457,7 +8427,7 @@
       "pageTitle": "Nyra AI Skill (nyra-skill.md)",
       "title": "Nyra AI Skill (nyra-skill.md)",
       "heading": "Doc map (webDocs)",
-      "body": "Doc map (webDocs) | Topic | Page | |-------|------| | Learn Nyra (W3Schools-style track) | learn-intro.html | | Language reference (keywords, operators) | reference.html | | Data structures (arrays, vec, tuples, hashmap) | learn-data-structures.html | | Language basics + examples | language-basics.html | | Syntax cheat sheet | language.html | | Types detail | types.html | | Imports | imports.html | | Memory & ownership (full guide) | memory.html | | Learn ownership / borrowing | learn-ownership.html · learn-borrowing.html | | Unsafe / no_std | memory.html#unsafe | | **PGO** | pgo.html | | **Escape analysis** | escape-analysis.html | | Performance toolchain | performance.html | | OS APIs (battery, syscalls) | stdlib.html#os | | Stdlib API & all builtins | stdlib.html#builtins | | Backend (TCP/HTTP/JSON) | backend.html | | net/http API reference | net-http.html | | C Bindgen & `nyra pkg c` | c-bindgen.html | | FFI & ABI policy | ffi-abi.html | | NyraPkg (semver, registry, link-source) | packages.html | | Runtime bindings (C ↔ stdlib) | bindings.html | | Integration (bridge, sidecar, FFI) | integration.html | | Example apps | examples.html | | **This AI skill file** | ai-skill.html · nyra-skill.md | Repo docs: [`docs/bindings.md`](../docs/bindings.md) · [`stdlib/README.md`](../stdlib/README.md) · Sonic native interop: [`sonic/docs/native-interop.md`](../../sonic/docs/native-interop.md)",
+      "body": "Doc map (webDocs) | Topic | Page | |-------|------| | Learn Nyra (W3Schools-style track) | learn-intro.html | | Language reference (keywords, operators) | reference.html | | Data structures (arrays, vec, tuples, hashmap) | learn-data-structures.html | | Language basics + examples | language-basics.html | | Syntax cheat sheet | language.html | | Types detail | types.html | | Imports | imports.html | | Memory & ownership (full guide) | memory.html | | Learn ownership / borrowing | learn-ownership.html · learn-borrowing.html | | Unsafe / no_std | memory.html#unsafe | | **PGO** | pgo.html | | **Escape analysis** | escape-analysis.html | | Performance toolchain | performance.html | | OS APIs (battery, syscalls) | stdlib.html#os | | Stdlib API & all builtins | stdlib.html#builtins | | Backend (TCP/HTTP/JSON) | backend.html | | net/http API reference | net-http.html | | C Bindgen & `nyra pkg c` | c-bindgen.html | | FFI & ABI policy | ffi-abi.html | | NyraPkg (semver, registry, link-source) | packages.html | | Runtime bindings (C ↔ stdlib) | bindings.html | | Integration (bridge, sidecar, FFI) | integration.html | | Example apps | examples.html | | **This AI skill file** | ai-skill.html · nyra-skill.md | Repo docs: [`docs/bindings.md`](../docs/bindings.md) · [`stdlib/README.md`](../stdlib/README.md) · [`webDocs/c-bindgen.html`](../webDocs/c-bindgen.html)",
       "section": "AI",
       "kind": "content"
     }

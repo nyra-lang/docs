@@ -316,7 +316,7 @@ nyra pkg login --token nyra-dev-token
           <tr><td><code>ny-mysql</code></td><td><code>libmysqlclient</code></td><td><code>import "pkg/ny-mysql"</code></td></tr>
         </tbody>
       </table>
-      <p>Each ships <code>link-source rt/*.c</code> shims — Nyra app code calls <code>extern fn</code>; heavy work stays in the C library. See Sonic’s <a href="../../sonic/docs/native-interop.md">native interop guide</a>.</p>
+      <p>Each ships <code>link-source rt/*.c</code> shims — Nyra app code calls <code>extern fn</code>; heavy work stays in the C library. See <a href="c-bindgen.html">C Bindgen</a> and <a href="ffi-abi.html">FFI &amp; ABI</a>.</p>
 
       <h2>Bindings reference</h2>
       <p>Runtime <code>extern fn</code> map (ABI manifest + stdlib modules): <a href="bindings.html">bindings.html</a> · repo copy <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/bindings.md">docs/bindings.md</a> — regenerate with <code>python3 scripts/gen-bindings-doc.py</code>.</p>

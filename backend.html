@@ -155,7 +155,7 @@
         <li><strong>TLS / HTTPS</strong> — <code>stdlib/tls.ny</code> + OpenSSL; client auto-upgrades <code>https://</code> URLs</li>
         <li><strong>Env / config</strong> — <code>stdlib/env/mod.ny</code>, <code>stdlib/config/mod.ny</code></li>
         <li><strong>DB</strong> — <code>nyra pkg install ny-sqlite@^0.1.0</code> · <code>import "pkg/ny-sqlite"</code></li>
-        <li><strong>Production APIs</strong> — use <a href="../../sonic/README.md">Sonic</a> for middleware, auth, DB, and concurrent server</li>
+        <li><strong>Production APIs</strong> — compose <code>net/http</code> handler slots with <code>stdlib/db/*</code> or NyraPkg drivers; see <a href="packages.html">NyraPkg</a></li>
       </ol>
 
       <h2>Quick start — HTTP client</h2>
@@ -257,15 +257,7 @@ fn main() -&gt; void {
     let resp = get(&quot;https)
     print(resp)
 }</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->      <h2>When to use Sonic instead</h2>
-      <p>Nyra <code>net/http</code> is the stdlib layer: client verbs, path routing, CORS, keep-alive. For NestJS-style apps with controllers, validation, SQLite/Postgres/Redis, rate limits, threaded pool, and <strong>native Socket.io</strong>, use the <strong>Sonic</strong> framework (<code>sonic serve</code>).</p>
-      <ul>
-        <li><a href="../../sonic/webDocs/index.html">SonicNy docs</a> — overview</li>
-        <li><a href="../../sonic/webDocs/socketio.html">Socket.io &amp; realtime hub</a> — <code>Hub_use</code>, rooms, handshake auth</li>
-        <li><a href="../../sonic/webDocs/routing.html">Routing &amp; controllers</a></li>
-        <li><a href="../../sonic/webDocs/database.html">Database</a> — PostgreSQL, SQLite, MySQL</li>
-      </ul>
-
+</div><!-- NYRA_SNIPPET_END -->
       <h2>Contributor docs</h2>
       <ul>
         <li><a href="net-http.html">net/http reference</a> — full API tables and lifecycle</li>

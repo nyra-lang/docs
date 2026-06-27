@@ -116,7 +116,7 @@ Applied documentation — apps, HTTP, OS APIs, integration patterns.
 | `net-http.html` | `net/http` API reference |
 | `os-hardware.html` | Files, process, hardware-facing APIs |
 | `integration.html` | Embedding & interop patterns |
-| `enterprise.html` | Enterprise modules & workspaces |
+| `enterprise.html` | Workspaces & multi-module projects |
 
 ### Ecosystem
 
@@ -124,7 +124,7 @@ Toolchain, performance, FFI, packaging, project status.
 
 | Page | Topic |
 |------|-------|
-| `language-vs-ecosystem.html` | What is language vs NyraPkg / Sonic |
+| `language-vs-ecosystem.html` | What is language vs NyraPkg |
 | `tooling.html` | CLI, fmt, test, conformance (`CONF-*`) |
 | `performance.html` | Release builds, LTO, optimization |
 | `pgo.html` | Profile-guided optimization |

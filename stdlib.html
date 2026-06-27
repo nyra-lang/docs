@@ -248,14 +248,14 @@
       <p><strong>Partial MVP</strong> (expanding): <code>json/mod.ny</code> (multi-key <code>encode_object</code>; not full schema serde), <code>uuid/mod.ny</code>, minimal <code>url_encode</code>, <code>env_set</code>. NyraPkg can prototype features before they graduate into stdlib. See <a href="language-vs-ecosystem.html">Language vs Ecosystem</a>.</p>
 
       <h2 id="philosophy">Philosophy — strong stdlib, NyraPkg for extensions</h2>
-      <p>Nyra is a <strong>general-purpose</strong> language with a <strong>production-oriented</strong> standard library. Everyday domains ship with the compiler; frameworks (Sonic) and community libraries use NyraPkg:</p>
+      <p>Nyra is a <strong>general-purpose</strong> language with a <strong>production-oriented</strong> standard library. Everyday domains ship with the compiler; optional extensions use NyraPkg:</p>
       <table>
         <thead><tr><th>Need</th><th>Stdlib (target)</th><th>NyraPkg (optional)</th></tr></thead>
         <tbody>
           <tr><td>SHA-256, HMAC, AES</td><td><code>stdlib/crypto</code></td><td>Alternative crypto backends</td></tr>
           <tr><td>gzip / zip</td><td><code>stdlib/compress</code></td><td>Specialized codecs</td></tr>
           <tr><td>SQLite / Postgres / Redis</td><td><code>stdlib/db/*</code></td><td>ORMs, query builders</td></tr>
-          <tr><td>WebSocket</td><td><code>stdlib/net/websocket</code></td><td>Socket.io hubs (Sonic)</td></tr>
+          <tr><td>WebSocket</td><td><code>stdlib/net/websocket</code></td><td>Protocol adapters, hubs</td></tr>
           <tr><td>Full JSON / TOML / YAML</td><td><code>json/</code>, <code>serialize/</code></td><td>Custom schema tooling</td></tr>
         </tbody>
       </table>

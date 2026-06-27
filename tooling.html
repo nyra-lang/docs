@@ -445,7 +445,7 @@ nyra build . --release --lto-full    # full LTO (slower link)</code></pre>
 nyra fmt . --check
 nyra test .
 nyra build . --release</code></pre>
-      <p>Repository scripts: <code>scripts/test-all.sh</code> (includes <code>scripts/conformance-tests.sh</code> for CONF-LANG), <code>scripts/enterprise-check.sh</code>, <code>scripts/sanitizer-check.sh</code>. Workflow: <a href="https://github.com/hamdymohamedak/Nyra/blob/main/.github/workflows/ci.yml"><code>.github/workflows/ci.yml</code></a>.</p>
+      <p>Repository scripts: <code>make test-all</code> (includes <code>make test-conformance</code> for CONF-LANG), <code>make test-sanitizer</code>. Workflow: <a href="https://github.com/hamdymohamedak/Nyra/blob/main/.github/workflows/ci.yml"><code>.github/workflows/ci.yml</code></a>.</p>
 
       <h2 id="freestanding"><code>no_std</code> &amp; freestanding builds</h2>
       <p><strong>Job:</strong> Bare-metal firmware or kernels without the Nyra runtime.</p>

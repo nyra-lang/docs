@@ -146,6 +146,13 @@
       <h1 data-i18n="pages.changelog.h1">Changelog</h1>
       <p class="lead" data-i18n-html="pages.changelog.lead">Spec freeze history and release notes.</p>
 
+<h2>v1.36.12 (2026-06-27)</h2>
+<ul>
+<li><strong>Removed Sonic</strong> — <code>sonic/</code> tree, <code>import "sonic/..."</code> resolver, <code>make smoke-sonic</code>, and Sonic example projects</li>
+<li><strong>Tests</strong> — workspace patterns retained as <code>CONF-WS-*</code> in <code>conformance/workspace.rs</code></li>
+<li><strong>Examples</strong> — <code>examples/net_http_smoke.ny</code> uses stdlib <code>HttpRouter</code> only</li>
+</ul>
+
 <h2>v1.35.0 (2026-06-24)</h2>
 <ul>
 <li><strong>LSM flush fix</strong> — <code>LsmTree_put</code> memtable flush preserves <code>dir</code>; reads after SST flush via <code>LsmTree_lookup</code></li>
@@ -276,17 +283,6 @@
 <li><strong><code>nyra pkg init</code></strong> — scaffolds <code>src/ASCII.ny</code> (Nyra logo) imported from <code>main.ny</code></li>
 </ul>
 
-<h2>Sonic 0.2.0 (realtime — 2026-06-18)</h2>
-<ul>
-<li><strong>Socket.io / Engine.IO v4</strong> — native protocol in <code>rt/sonic_socketio.c</code>; polling + WebSocket; rooms, ACK</li>
-<li><strong>Realtime hub</strong> — <code>Hub_use</code>, <code>Hub_on_connection</code>, <code>Hub_on</code>, <code>HubContext</code> (<code>src/realtime/</code>)</li>
-<li><strong>Handshake auth</strong> — <code>Hub_use</code> middleware on connect; <code>CLIENT_PAIRING_TOKEN</code> in <code>.env</code></li>
-<li><strong>PATCH routing</strong> — <code>patch(app, path, slot)</code> in <code>src/routing/</code></li>
-<li><strong>PostgreSQL</strong> — <code>Manager_shared_connection()</code> keeps correct driver after boot</li>
-<li><strong>Docs</strong> — <a href="../../sonic/webDocs/socketio.html">Sonic Socket.io guide</a>; CyberHub backend reference app</li>
-<li><strong>Tests</strong> — <code>./sonic test</code> includes <code>socket.io-client</code> protocol smoke</li>
-</ul>
-
 <h2>v3.2.0 (char — 2026-06-15)</h2>
 <ul>
 <li><strong>char type</strong> — Unicode scalar, literals <code>'a'</code>, <code>'\n'</code>, <code>'\u{...}'</code>; disambiguated from lifetime <code>'a</code></li>
@@ -403,7 +399,7 @@
 <li><strong>Arrow functions</strong> — <code>(x: i32) =&gt; expr</code> and block bodies (Extended tier, <code>warning[W001]</code>); <code>examples/arrow_fn_smoke.ny</code></li>
 <li><strong>net/http handler dispatch</strong> — <code>Router_add_slot_get</code>, <code>listen_and_serve_handlers</code>, <code>RequestContext</code> → custom Nyra handlers; <code>examples/net_http_smoke.ny</code></li>
 <li><strong>Modular net/http</strong> — primary import <code>stdlib/net/http/mod.ny</code>; client verbs GET–DELETE, router, CORS, keep-alive (<a href="net-http.html">net/http reference</a>)</li>
-<li><strong>Native interop docs</strong> — C runtime + FFI shims pattern; Sonic framework uses Nyra for HTTP logic + thin C for pools/DB (<a href="backend.html">Backend guide</a>)</li>
+<li><strong>Native interop docs</strong> — C runtime + FFI shims pattern for DB and network drivers (<a href="backend.html">Backend guide</a>)</li>
 <li><strong>Reference packages</strong> — <code>ny-redis</code>, <code>ny-postgres</code>, <code>ny-mysql</code> under <code>examples/packages/</code> with <code>link-source</code> shims</li>
 <li><strong>AI skill</strong> — canonical <a href="nyra-skill.md">nyra-skill.md</a> updated to v1.2.x semantics</li>
 </ul>
