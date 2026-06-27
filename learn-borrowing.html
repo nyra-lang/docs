@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06090d">
+  <meta name="color-scheme" content="dark light">
+  <title>Nyra Borrowing — Learn</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/search.css">
+</head>
+<body data-page="learn-borrowing">
+  <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
+  <header class="site-header">
+    <a class="logo" href="index.html"><img src="../assets/Nyrabgremoved.png" alt="Nyra"><span>Nyra</span></a>
+    <div class="site-toolbar">
+      <div class="toolbar-group"><button type="button" class="toolbar-btn search-btn" id="search-open" title="Search"><span>⌕</span><kbd>Ctrl+K</kbd></button></div>
+      <div class="toolbar-group"><button type="button" class="toolbar-btn" id="theme-toggle" title="Theme"><span class="theme-icon theme-icon-sun">☀</span><span class="theme-icon theme-icon-moon">☽</span></button></div>
+      <div class="toolbar-group lang-switch"><button type="button" class="toolbar-btn lang-btn active" data-lang="en">EN</button><button type="button" class="toolbar-btn lang-btn" data-lang="ar">عربي</button></div>
+    </div>
+    <label for="nav-check" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
+    <span class="tagline">Fast · Safe · Minimal</span>
+  </header>
+  <label for="nav-check" class="sidebar-backdrop" aria-hidden="true"></label>
+  <div class="layout">
+    <aside class="sidebar">
+      <nav>
+  <section>
+    <div class="nav-label" data-i18n="nav.start">Start</div>
+    <ul>
+      <li><a href="index.html" data-i18n="nav.overview">Nyra HOME</a></li>
+      <li><a href="install.html" data-i18n="nav.install">Installation</a></li>
+      <li><a href="learning-path.html" data-i18n="nav.learningPath">Learning path</a></li>
+      <li><a href="ai-skill.html" data-i18n="nav.aiSkill">AI skill file</a></li>
+      <li><a href="#" id="sidebar-search" data-i18n="nav.search">Search</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.learnSection">Learn Nyra</div>
+    <ul>
+      <li><a href="learn-intro.html" data-i18n="nav.learnIntro">Nyra Intro</a></li>
+      <li><a href="learn-get-started.html" data-i18n="nav.learnGetStarted">Nyra Get Started</a></li>
+      <li><a href="learn-syntax.html" data-i18n="nav.learnSyntax">Nyra Syntax</a></li>
+      <li><a href="learn-output.html" data-i18n="nav.learnOutput">Nyra Output</a></li>
+      <li><a href="learn-comments.html" data-i18n="nav.learnComments">Nyra Comments</a></li>
+      <li><a href="learn-variables.html" data-i18n="nav.learnVariables">Nyra Variables</a></li>
+      <li><a href="learn-data-types.html" data-i18n="nav.learnDataTypes">Nyra Data Types</a></li>
+      <li><a href="learn-constants.html" data-i18n="nav.learnConstants">Nyra Constants</a></li>
+      <li><a href="learn-operators.html" data-i18n="nav.learnOperators">Nyra Operators</a></li>
+      <li><a href="learn-booleans.html" data-i18n="nav.learnBooleans">Nyra Booleans</a></li>
+      <li><a href="learn-if-else.html" data-i18n="nav.learnIfElse">Nyra If..Else</a></li>
+      <li><a href="learn-match.html" data-i18n="nav.learnMatch">Nyra Match</a></li>
+      <li><a href="learn-loops.html" data-i18n="nav.learnLoops">Nyra Loops</a></li>
+      <li><a href="learn-while.html" data-i18n="nav.learnWhile">Nyra While Loops</a></li>
+      <li><a href="learn-for.html" data-i18n="nav.learnFor">Nyra For Loops</a></li>
+      <li><a href="learn-functions.html" data-i18n="nav.learnFunctions">Nyra Functions</a></li>
+      <li><a href="learn-scope.html" data-i18n="nav.learnScope">Nyra Scope</a></li>
+      <li><a href="learn-strings.html" data-i18n="nav.learnStrings">Nyra Strings</a></li>
+      <li><a href="learn-ownership.html" data-i18n="nav.learnOwnership">Nyra Ownership</a></li>
+      <li><a class="active" href="learn-borrowing.html" data-i18n="nav.learnBorrowing">Nyra Borrowing</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.dataStructuresSection">Nyra Data Structures</div>
+    <ul>
+      <li><a href="learn-data-structures.html" data-i18n="nav.learnDataStructures">Nyra Data Structures</a></li>
+      <li><a href="learn-arrays.html" data-i18n="nav.learnArrays">Nyra Arrays</a></li>
+      <li><a href="learn-vectors.html" data-i18n="nav.learnVectors">Nyra Vectors</a></li>
+      <li><a href="learn-tuples.html" data-i18n="nav.learnTuples">Nyra Tuples</a></li>
+      <li><a href="learn-hashmap.html" data-i18n="nav.learnHashMap">Nyra HashMap</a></li>
+      <li><a href="learn-structs.html" data-i18n="nav.learnStructs">Nyra Structs</a></li>
+      <li><a href="learn-enums.html" data-i18n="nav.learnEnums">Nyra Enums</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.languageSection">Advanced</div>
+    <ul>
+      <li><a href="language-basics.html" data-i18n="nav.basics">Language basics</a></li>
+      <li><a href="language.html" data-i18n="nav.syntax">Syntax</a></li>
+      <li><a href="types.html" data-i18n="nav.types">Types &amp; data</a></li>
+      <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
+      <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
+      <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
+      <li><a href="match.html" data-i18n="nav.match">Match</a></li>
+      <li><a href="modules.html" data-i18n="nav.modules">Modules</a></li>
+      <li><a href="imports.html" data-i18n="nav.imports">Imports guide</a></li>
+      <li><a href="memory.html" data-i18n="nav.memory">Memory &amp; ownership</a></li>
+      <li><a href="async.html" data-i18n="nav.async">Async</a></li>
+      <li><a href="traits-macros.html" data-i18n="nav.traits">Traits &amp; macros</a></li>
+      <li><a href="stdlib.html" data-i18n="nav.stdlib">Standard library</a></li>
+      <li><a href="methods.html" data-i18n="nav.methods">Built-in methods</a></li>
+      <li><a href="concurrency.html" data-i18n="nav.concurrency">Concurrency</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.guides">Guides</div>
+    <ul>
+      <li><a href="examples.html" data-i18n="nav.examples">Example apps</a></li>
+      <li><a href="dungeon-steps.html" data-i18n="nav.dungeon">Dungeon Steps app</a></li>
+      <li><a href="backend.html" data-i18n="nav.backend">Backend &amp; HTTP</a></li>
+      <li><a href="net-http.html">net/http reference</a></li>
+      <li><a href="os-hardware.html" data-i18n="nav.osHardware">OS, files &amp; hardware</a></li>
+      <li><a href="integration.html" data-i18n="nav.integration">Integration</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.ecosystem">Ecosystem</div>
+    <ul>
+      <li><a href="tooling.html" data-i18n="nav.tooling">Toolchain</a></li>
+      <li><a href="performance.html" data-i18n="nav.performance">Performance</a></li>
+      <li><a href="pgo.html" data-i18n="nav.pgo">PGO</a></li>
+      <li><a href="escape-analysis.html" data-i18n="nav.escapeAnalysis">Escape analysis</a></li>
+      <li><a href="diagnostics.html" data-i18n="nav.diagnostics">Diagnostics</a></li>
+      <li><a href="ffi-abi.html" data-i18n="nav.ffi">FFI &amp; ABI</a></li>
+      <li><a href="c-bindgen.html">C Bindgen</a></li>
+      <li><a href="bindings.html" data-i18n="nav.bindings">Runtime bindings</a></li>
+      <li><a href="targets.html" data-i18n="nav.targets">Targets</a></li>
+      <li><a href="editor-setup.html" data-i18n="nav.editor">Editor setup</a></li>
+      <li><a href="packages.html" data-i18n="nav.packages">NyraPkg</a></li>
+      <li><a href="roadmap.html" data-i18n="nav.roadmap">Roadmap</a></li>
+      <li><a href="changelog.html" data-i18n="nav.changelog">Changelog</a></li>
+      <li><a href="sitemap.html" data-i18n="nav.sitemap">Sitemap</a></li>
+    </ul>
+  </section>
+</nav>
+    </aside>
+    <main class="content">
+      <h1>Nyra Borrowing</h1>
+      <p class="lead">Borrowing lets you use a value without taking ownership. References (<code>&amp;</code> and <code>&amp;mut</code>) are checked at compile time so you never get dangling pointers or data races.</p>
+
+      <h2>Auto-borrow at calls (v2.8)</h2>
+      <p>You usually do <strong>not</strong> need to write <code>&amp;</code> at every call. If the function expects a borrow, Nyra inserts it:</p>
+      <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn save(u) {
+    print(u.name)
+}
+
+fn main() {
+    let user = { name: &quot;Ada&quot;, age: 30 }
+    save(user)           // compiler rewrites to save(&amp;user)
+    print(user.name)     // OK — not moved
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>struct User {
+    name: string
+    age: i32
+}
+
+fn save(u: &amp;User) {
+    print(u.name)
+}
+
+fn main() -&gt; void {
+    let user: User = User { name: &quot;Ada&quot;, age: 30 }
+    save(user)           // compiler rewrites to save(&amp;user)
+    print(user.name)     // OK — not moved
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->      <p>Use <code>save(move user)</code> for an explicit move or <code>save(clone user)</code> to duplicate. See <a href="ownership-ux.html">Ownership UX</a>.</p>
+
+      <h2>Immutable borrow: <code>&amp;T</code></h2>
+      <p>Read-only access — many readers allowed, no writers:</p>
+      <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn len(s) {
+    return strlen(s)
+}
+
+fn main() {
+    let msg = &quot;hello&quot;
+    let n = len(&amp;msg)      // borrow — msg still owned by main
+    print(n)
+    print(msg)              // still valid
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn len(s: &amp;string) -&gt; i32 {
+    return strlen(s)
+}
+
+fn main() -&gt; void {
+    let msg: string = &quot;hello&quot;
+    let n = len(&amp;msg)      // borrow — msg still owned by main
+    print(n)
+    print(msg)              // still valid
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->      <h2>Mutable borrow: <code>&amp;mut T</code></h2>
+      <p>Exclusive write access — only one <code>&amp;mut</code> at a time:</p>
+      <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
+    let mut count = 0
+    let r = &amp;mut count
+    // cannot use count directly while r is active
+    count = count + 1       // through mut binding OK if no conflicting borrow
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn main() -&gt; void {
+    let mut count: i32 = 0
+    let r = &amp;mut count
+    // cannot use count directly while r is active
+    count = count + 1       // through mut binding OK if no conflicting borrow
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->      <h2>Non-lexical lifetimes (NLL)</h2>
+      <p>Borrows end at the <strong>last use</strong> of the reference, not at the closing <code>}</code>. This lets you write natural code:</p>
+      <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
+    let mut s = &quot;hello&quot;
+    let r = &amp;s
+    print(r)                 // last use of r — borrow ends HERE
+    s = &quot;world&quot;              // OK now
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn main() -&gt; void {
+    let mut s = &quot;hello&quot;
+    let r = &amp;s
+    print(r)                 // last use of r — borrow ends HERE
+    s = &quot;world&quot;              // OK now
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->      <p>Without NLL you would have to introduce extra blocks just to end borrows early.</p>
+
+      <h2>Rules (the borrow checker)</h2>
+      <ol>
+        <li>Any number of <code>&amp;T</code> OR exactly one <code>&amp;mut T</code> — never both at once.</li>
+        <li>References must not outlive the data they point to.</li>
+        <li>You cannot move a value while it is borrowed.</li>
+      </ol>
+      <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>// ERROR: cannot borrow as mutable while immutable borrow active
+fn bad() {
+    let mut s = &quot;x&quot;
+    let a = &amp;s
+    let b = &amp;mut s
+    print(a)
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>// ERROR: cannot borrow as mutable while immutable borrow active
+fn bad() {
+    let mut s = &quot;x&quot;
+    let a = &amp;s
+    let b = &amp;mut s
+    print(a)
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->      <h2>Borrowing vs moving</h2>
+      <table>
+        <thead><tr><th>Syntax</th><th>Ownership</th><th>When to use</th></tr></thead>
+        <tbody>
+          <tr><td><code>foo(s)</code></td><td>Move (for <code>string</code>)</td><td>Callee takes full ownership</td></tr>
+          <tr><td><code>foo(user)</code></td><td>Auto-borrow (if param is <code>&amp;User</code>)</td><td>Compiler inserts <code>&amp;</code> — binding kept</td></tr>
+          <tr><td><code>foo(&amp;s)</code></td><td>Borrow</td><td>Explicit borrow (same as auto-borrow)</td></tr>
+          <tr><td><code>foo(&amp;mut s)</code></td><td>Exclusive borrow</td><td>Callee may modify through the reference</td></tr>
+        </tbody>
+      </table>
+
+      <h2>References and auto-drop</h2>
+      <p>Borrowing does <strong>not</strong> delay cleanup forever. When the owner binding goes out of scope, the owned value is still dropped — but only if it wasn't moved. References themselves are Copy and hold no heap resources.</p>
+
+      <h2>Common errors</h2>
+      <table>
+        <thead><tr><th>Message</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>cannot borrow as mutable</code></td><td>Another borrow is still active</td></tr>
+          <tr><td><code>cannot return reference to local</code></td><td>Reference would outlive the data</td></tr>
+          <tr><td><code>use of moved value</code></td><td>Tried to use value after ownership transferred</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Next steps</h2>
+      <ul>
+        <li><a href="memory.html">Memory &amp; ownership</a> — Drop plan, leak prevention, lifetimes, Send/Sync</li>
+        <li><a href="concurrency.html">Concurrency</a> — <code>spawn</code> and thread-safe captures</li>
+        <li><a href="closures.html">Closures</a> — why references cannot be captured in lambdas</li>
+      </ul>
+
+      <nav class="lesson-nav">
+        <a class="lesson-nav-prev" href="learn-ownership.html">← Nyra Ownership</a>
+        <a class="lesson-nav-hub" href="learn-intro.html">Learn overview</a>
+        <a class="lesson-nav-next" href="memory.html">Memory &amp; ownership →</a>
+      </nav>
+    </main>
+  </div>
+  <script src="vendor/lunr.min.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/typed-transform.js"></script>
+    <script src="js/site.js"></script>
+</body>
+</html>

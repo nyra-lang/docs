@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06090d">
+  <meta name="color-scheme" content="dark light">
+  <title>Example applications — Nyra Docs</title>
+  <meta name="description" content="Small Nyra sample apps: hello, calculator, multi-file imports, enums, loops.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/search.css">
+</head>
+<body data-page="examples">
+  <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      <img src="../assets/Nyrabgremoved.png" alt="Nyra">
+      <span>Nyra</span>
+    </a>
+    <div class="site-toolbar">
+      <div class="toolbar-group" role="group" aria-label="Search">
+        <button type="button" class="toolbar-btn search-btn" id="search-open" data-i18n-title="ui.searchOpen" title="Search (Ctrl+K)">
+          <span aria-hidden="true">⌕</span>
+          <kbd>Ctrl+K</kbd>
+        </button>
+      </div>
+
+      <div class="toolbar-group" role="group" aria-label="Theme">
+        <button type="button" class="toolbar-btn" id="theme-toggle" data-i18n-title="ui.themeToggle" title="Toggle theme">
+          <span class="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
+          <span class="theme-icon theme-icon-moon" aria-hidden="true">☽</span>
+        </button>
+      </div>
+      <div class="toolbar-group lang-switch" role="group" aria-label="Language">
+        <button type="button" class="toolbar-btn lang-btn active" data-lang="en" id="lang-en">EN</button>
+        <button type="button" class="toolbar-btn lang-btn" data-lang="ar" id="lang-ar">عربي</button>
+      </div>
+    </div>
+    <label for="nav-check" class="nav-toggle" data-i18n-aria-label="ui.menuOpen" aria-label="Open navigation menu">
+      <span></span><span></span><span></span>
+    </label>
+    <span class="tagline" data-i18n="common.tagline">Fast · Safe · Minimal</span>
+  </header>
+  <label for="nav-check" class="sidebar-backdrop" aria-hidden="true"></label>
+  <div class="layout">
+    <aside class="sidebar">
+<nav>
+  <section>
+    <div class="nav-label" data-i18n="nav.start">Start</div>
+    <ul>
+      <li><a href="index.html" data-i18n="nav.overview">Nyra HOME</a></li>
+      <li><a href="install.html" data-i18n="nav.install">Installation</a></li>
+      <li><a href="learning-path.html" data-i18n="nav.learningPath">Learning path</a></li>
+      <li><a href="ai-skill.html" data-i18n="nav.aiSkill">AI skill file</a></li>
+      <li><a href="#" id="sidebar-search" data-i18n="nav.search">Search</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.learnSection">Learn Nyra</div>
+    <ul>
+      <li><a href="learn-intro.html" data-i18n="nav.learnIntro">Nyra Intro</a></li>
+      <li><a href="learn-get-started.html" data-i18n="nav.learnGetStarted">Nyra Get Started</a></li>
+      <li><a href="learn-syntax.html" data-i18n="nav.learnSyntax">Nyra Syntax</a></li>
+      <li><a href="learn-output.html" data-i18n="nav.learnOutput">Nyra Output</a></li>
+      <li><a href="learn-comments.html" data-i18n="nav.learnComments">Nyra Comments</a></li>
+      <li><a href="learn-variables.html" data-i18n="nav.learnVariables">Nyra Variables</a></li>
+      <li><a href="learn-data-types.html" data-i18n="nav.learnDataTypes">Nyra Data Types</a></li>
+      <li><a href="learn-constants.html" data-i18n="nav.learnConstants">Nyra Constants</a></li>
+      <li><a href="learn-operators.html" data-i18n="nav.learnOperators">Nyra Operators</a></li>
+      <li><a href="learn-booleans.html" data-i18n="nav.learnBooleans">Nyra Booleans</a></li>
+      <li><a href="learn-if-else.html" data-i18n="nav.learnIfElse">Nyra If..Else</a></li>
+      <li><a href="learn-match.html" data-i18n="nav.learnMatch">Nyra Match</a></li>
+      <li><a href="learn-loops.html" data-i18n="nav.learnLoops">Nyra Loops</a></li>
+      <li><a href="learn-while.html" data-i18n="nav.learnWhile">Nyra While Loops</a></li>
+      <li><a href="learn-for.html" data-i18n="nav.learnFor">Nyra For Loops</a></li>
+      <li><a href="learn-functions.html" data-i18n="nav.learnFunctions">Nyra Functions</a></li>
+      <li><a href="learn-scope.html" data-i18n="nav.learnScope">Nyra Scope</a></li>
+      <li><a href="learn-strings.html" data-i18n="nav.learnStrings">Nyra Strings</a></li>
+      <li><a href="learn-ownership.html" data-i18n="nav.learnOwnership">Nyra Ownership</a></li>
+      <li><a href="learn-borrowing.html" data-i18n="nav.learnBorrowing">Nyra Borrowing</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.dataStructuresSection">Nyra Data Structures</div>
+    <ul>
+      <li><a href="learn-data-structures.html" data-i18n="nav.learnDataStructures">Nyra Data Structures</a></li>
+      <li><a href="learn-arrays.html" data-i18n="nav.learnArrays">Nyra Arrays</a></li>
+      <li><a href="learn-vectors.html" data-i18n="nav.learnVectors">Nyra Vectors</a></li>
+      <li><a href="learn-tuples.html" data-i18n="nav.learnTuples">Nyra Tuples</a></li>
+      <li><a href="learn-hashmap.html" data-i18n="nav.learnHashMap">Nyra HashMap</a></li>
+      <li><a href="learn-structs.html" data-i18n="nav.learnStructs">Nyra Structs</a></li>
+      <li><a href="learn-enums.html" data-i18n="nav.learnEnums">Nyra Enums</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.languageSection">Advanced</div>
+    <ul>
+      <li><a href="language-basics.html" data-i18n="nav.basics">Language basics</a></li>
+      <li><a href="language.html" data-i18n="nav.syntax">Syntax</a></li>
+      <li><a href="types.html" data-i18n="nav.types">Types &amp; data</a></li>
+      <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
+      <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
+      <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
+      <li><a href="match.html" data-i18n="nav.match">Match</a></li>
+      <li><a href="modules.html" data-i18n="nav.modules">Modules</a></li>
+      <li><a href="imports.html" data-i18n="nav.imports">Imports guide</a></li>
+      <li><a href="memory.html" data-i18n="nav.memory">Memory &amp; ownership</a></li>
+      <li><a href="async.html" data-i18n="nav.async">Async</a></li>
+      <li><a href="traits-macros.html" data-i18n="nav.traits">Traits &amp; macros</a></li>
+      <li><a href="stdlib.html" data-i18n="nav.stdlib">Standard library</a></li>
+      <li><a href="methods.html" data-i18n="nav.methods">Built-in methods</a></li>
+      <li><a href="concurrency.html" data-i18n="nav.concurrency">Concurrency</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.guides">Guides</div>
+    <ul>
+      <li><a class="active" href="examples.html" data-i18n="nav.examples">Example apps</a></li>
+      <li><a href="dungeon-steps.html" data-i18n="nav.dungeon">Dungeon Steps app</a></li>
+      <li><a href="backend.html" data-i18n="nav.backend">Backend &amp; HTTP</a></li>
+      <li><a href="net-http.html">net/http reference</a></li>
+      <li><a href="os-hardware.html" data-i18n="nav.osHardware">OS, files &amp; hardware</a></li>
+      <li><a href="integration.html" data-i18n="nav.integration">Integration</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.ecosystem">Ecosystem</div>
+    <ul>
+      <li><a href="tooling.html" data-i18n="nav.tooling">Toolchain</a></li>
+      <li><a href="performance.html" data-i18n="nav.performance">Performance</a></li>
+      <li><a href="pgo.html" data-i18n="nav.pgo">PGO</a></li>
+      <li><a href="escape-analysis.html" data-i18n="nav.escapeAnalysis">Escape analysis</a></li>
+      <li><a href="diagnostics.html" data-i18n="nav.diagnostics">Diagnostics</a></li>
+      <li><a href="ffi-abi.html" data-i18n="nav.ffi">FFI &amp; ABI</a></li>
+      <li><a href="c-bindgen.html">C Bindgen</a></li>
+      <li><a href="bindings.html" data-i18n="nav.bindings">Runtime bindings</a></li>
+      <li><a href="targets.html" data-i18n="nav.targets">Targets</a></li>
+      <li><a href="editor-setup.html" data-i18n="nav.editor">Editor setup</a></li>
+      <li><a href="packages.html" data-i18n="nav.packages">NyraPkg</a></li>
+      <li><a href="roadmap.html" data-i18n="nav.roadmap">Roadmap</a></li>
+      <li><a href="changelog.html" data-i18n="nav.changelog">Changelog</a></li>
+      <li><a href="sitemap.html" data-i18n="nav.sitemap">Sitemap</a></li>
+    </ul>
+  </section>
+</nav>
+    </aside>
+    <main class="content">
+      <h1 data-i18n="pages.examples.h1">Example applications</h1>
+      <p class="lead" data-i18n-html="pages.examples.lead">
+        Copy-paste friendly mini apps that show how real Nyra projects are structured.
+        Each example lists files, code, and the command to run.
+      </p>
+
+      <nav class="toc">
+        <div class="toc-title">Examples</div>
+        <ul>
+          <li><a href="#hello">1. Hello World (single file)</a></li>
+          <li><a href="#pkg-init">2. Project scaffold (<code>pkg init</code>)</a></li>
+          <li><a href="#greet-app">3. Multi-file greet app</a></li>
+          <li><a href="#sum-loop">4. Sum loop (arithmetic)</a></li>
+          <li><a href="#calculator">5. Calculator (structs + imports)</a></li>
+          <li><a href="#http-hello">6. Library return value</a></li>
+          <li><a href="#enum-match">7. Enum &amp; match</a></li>
+          <li><a href="#dungeon-steps">8. Dungeon Steps (reference app)</a></li>
+          <li><a href="#timing">9. Timing &amp; memory builtins</a></li>
+          <li><a href="#read-file">10. Read file (auto-drop)</a></li>
+          <li><a href="#stdlib-demos">11. Stdlib demos</a></li>
+          <li><a href="#c-zlib">12. C library: zlib (C Bindgen)</a></li>
+          <li><a href="#c-raylib">13. Raylib graphics (C Bindgen)</a></li>
+          <li><a href="#repo">Examples in the repository</a></li>
+        </ul>
+      </nav>
+
+      <!-- 1 -->
+      <article class="example-block" id="hello">
+        <h2>1. Hello World <span class="badge live">beginner</span></h2>
+        <p class="example-meta">One file · no imports · ~5 lines</p>
+        <div class="file-tree">hello/
+  <span class="hl">main.ny</span></div>
+        <pre><code><span class="file-label">main.ny</span>fn main() {
+    print("Hello, world!")
+}</code></pre>
+        <ol class="steps">
+          <li>Create folder <code>hello</code> and save <code>main.ny</code>.</li>
+          <li>Run: <code>nyra run main.ny</code> (single file is OK here).</li>
+        </ol>
+        <p><strong>Output:</strong> <code>Hello, world!</code></p>
+      </article>
+
+      <!-- 2 -->
+      <article class="example-block" id="pkg-init">
+        <h2>2. Project scaffold <span class="badge">tooling</span></h2>
+        <p class="example-meta">NyraPkg · auto <code>main.ny</code></p>
+        <pre><code>mkdir myapp &amp;&amp; cd myapp
+nyra pkg init
+nyra run .</code></pre>
+        <p>Creates <code>nyra.mod</code>, <code>nyra.lock</code>, <code>nyra.sum</code>, and <code>main.ny</code> (Hello World).</p>
+      </article>
+
+      <!-- 3 -->
+      <article class="example-block" id="greet-app">
+        <h2>3. Multi-file greet app <span class="badge live">imports</span></h2>
+        <p class="example-meta">Import functions from <code>src/</code> · must use <code>nyra run .</code></p>
+        <div class="file-tree">greet-app/
+  <span class="hl">main.ny</span>
+  nyra.mod
+  src/
+    <span class="hl">hello.ny</span></div>
+
+        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>src/hello.ny
+fn hello() {
+    print(&quot;Hello from src/hello.ny&quot;)
+}
+
+fn hello_twice() {
+    hello()
+    hello()
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>src/hello.ny
+fn hello() {
+    print(&quot;Hello from src/hello.ny&quot;)
+}
+
+fn hello_twice() {
+    hello()
+    hello()
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>main.ny
+import &quot;src/hello.ny&quot;
+
+fn main() {
+    hello()
+    hello_twice()
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>main.ny
+import &quot;src/hello.ny&quot;
+
+fn main() -&gt; void {
+    hello()
+    hello_twice()
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <ol class="steps">
+          <li><code>nyra pkg init</code> in <code>greet-app</code> (or create files manually).</li>
+          <li>Add <code>src/hello.ny</code> and update <code>main.ny</code> as above.</li>
+          <li>From project root: <code>nyra run .</code></li>
+        </ol>
+        <div class="callout">
+          <strong>Imports guide</strong>
+          See <a href="imports.html">Imports guide</a> for functions, structs, and constants.
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="example-block" id="sum-loop">
+        <h2>4. Sum loop <span class="badge">loops</span></h2>
+        <p class="example-meta"><code>for ..</code> range · prints 30</p>
+        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>main.ny
+fn main() {
+    let mut sum = 0
+    for i in 0..10 {
+        sum = sum + i
+    }
+    print(sum)
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>main.ny
+fn main() -&gt; void {
+    let mut sum: i32 = 0
+    for i in 0..10 {
+        sum = sum + i
+    }
+    print(sum)
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <pre><code>nyra run main.ny</code></pre>
+        <p><strong>Output:</strong> <code>30</code> (sum of 0..9)</p>
+      </article>
+
+      <!-- 5 -->
+      <article class="example-block" id="calculator">
+        <h2>5. Calculator <span class="badge live">structs + imports</span></h2>
+        <p class="example-meta">Official repo example · three files</p>
+        <div class="file-tree">calculator/
+  <span class="hl">main.ny</span>
+  <span class="hl">types.ny</span>
+  <span class="hl">ops.ny</span></div>
+
+        <pre><code><span class="file-label">types.ny</span>struct Calculator {
+    value: i32
+}</code></pre>
+
+        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>ops.ny
+import &quot;types.ny&quot;
+
+fn add_calc(c, n) {
+    return Calculator { value: c.value + n }
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>ops.ny
+import &quot;types.ny&quot;
+
+fn add_calc(c: Calculator, n: i32) -&gt; Calculator {
+    return Calculator { value: c.value + n }
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>main.ny
+import &quot;types.ny&quot;
+import &quot;ops.ny&quot;
+
+fn main() {
+    let c = Calculator { value: 0 }
+    let c2 = add_calc(c, 10)
+    print(c2.value)
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>main.ny
+import &quot;types.ny&quot;
+import &quot;ops.ny&quot;
+
+fn main() -&gt; void {
+    let c = Calculator { value: 0 }
+    let c2 = add_calc(c, 10)
+    print(c2.value)
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <pre><code>git clone https://github.com/hamdymohamedak/Nyra.git
+cd Nyra
+nyra run examples/projects/calculator</code></pre>
+        <p><strong>Output:</strong> <code>10</code></p>
+      </article>
+
+      <!-- 6 -->
+      <article class="example-block" id="http-hello">
+        <h2>6. Library with return value <span class="badge">imports</span></h2>
+        <p class="example-meta">Function returning <code>i32</code> from a lib file</p>
+        <div class="file-tree">http-hello/
+  <span class="hl">main.ny</span>
+  lib/
+    <span class="hl">greet.ny</span></div>
+
+        <pre><code><span class="file-label">lib/greet.ny</span>fn greet() -> i32 {
+    return 42
+}</code></pre>
+
+        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>main.ny
+import &quot;lib/greet.ny&quot;
+
+fn main() {
+    print(greet())
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>main.ny
+import &quot;lib/greet.ny&quot;
+
+fn main() -&gt; void {
+    print(greet())
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <pre><code>nyra run examples/projects/http_hello</code></pre>
+        <p><strong>Output:</strong> <code>42</code></p>
+      </article>
+
+      <!-- 7 -->
+      <article class="example-block" id="enum-match">
+        <h2>7. Enum &amp; match <span class="badge">pattern matching</span></h2>
+        <p class="example-meta">Single file · tagged enums</p>
+        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>main.ny
+enum Color {
+    Red
+    Green
+    Blue
+}
+
+fn main() {
+    let c = Color.Red
+    let n = match c {
+        Color.Red =&gt; 1
+        Color.Green =&gt; 2
+        Color.Blue =&gt; 3
+    }
+    print(n)
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>main.ny
+enum Color {
+    Red
+    Green
+    Blue
+}
+
+fn main() -&gt; void {
+    let c = Color.Red
+    let n = match c {
+        Color.Red =&gt; 1
+        Color.Green =&gt; 2
+        Color.Blue =&gt; 3
+    }
+    print(n)
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <pre><code>nyra run examples/language_features/demo.ny</code></pre>
+        <p><strong>Output:</strong> <code>1</code></p>
+      </article>
+
+      <!-- 8 -->
+      <article class="example-block" id="dungeon-steps">
+        <h2>8. Dungeon Steps <span class="badge live">reference app</span></h2>
+        <p class="example-meta">
+          Official app at <code>App/NyraApp/</code> · multi-file · const, enum, match, <code>&amp;&amp;</code>, <code>%</code>
+        </p>
+        <p>
+          The largest beginner-friendly sample in the repo: a small dungeon simulation split across
+          <code>config</code>, <code>types</code>, <code>world</code>, and <code>engine</code> modules.
+          Ideal after you understand single-file examples and the calculator project.
+        </p>
+        <div class="file-tree">App/NyraApp/
+  <span class="hl">main.ny</span>
+  src/
+    <span class="hl">config.ny</span>
+    <span class="hl">types.ny</span>
+    <span class="hl">world.ny</span>
+    <span class="hl">engine.ny</span></div>
+        <pre><code>cd App/NyraApp
+nyra run .</code></pre>
+        <p><strong>Output (first lines):</strong> <code>Dungeon Steps</code>, then <code>65</code>, <code>0</code>, <code>3</code></p>
+        <p>
+          <a href="dungeon-steps.html"><strong>Full walkthrough →</strong></a>
+          Architecture, module-by-module notes, feature map, tests, and learning path.
+        </p>
+      </article>
+
+      <!-- 9 -->
+      <article class="example-block" id="timing">
+        <h2>9. Timing &amp; memory builtins <span class="badge">stdlib</span></h2>
+        <p class="example-meta">No import · green terminal output</p>
+                        <pre><code>nyra run examples/syntax/time.ny
+nyra run examples/syntax/mem.ny</code></pre>
+        <p>API details: <a href="stdlib.html#builtins">Standard library</a>.</p>
+      </article>
+
+      <!-- 10 -->
+      <article class="example-block" id="read-file">
+        <h2>10. Read file (auto-drop) <span class="badge">ownership</span></h2>
+        <p class="example-meta">Heap string without manual <code>free</code></p>
+        <pre><code>nyra run examples/projects/read_file/main.ny</code></pre>
+        <p>See <a href="memory.html">Memory &amp; ownership</a>, <a href="stdlib.html#fs">fs.ny</a>, and the <a href="os-hardware.html">OS, files &amp; hardware guide</a>.</p>
+      </article>
+
+      <article class="example-block" id="stdlib-demos">
+        <h2>11. Stdlib demos <span class="badge live">stdlib</span></h2>
+        <p class="example-meta">Vec, HashMap, strings, JSON, UUID, regex, iter — modular <code>stdlib/</code></p>
+        <pre><code>NYRA_HOME= nyra run examples/stdlib/demo/main.ny
+NYRA_HOME= nyra run examples/stdlib/extended/main.ny</code></pre>
+        <p>Full API map: <a href="stdlib.html">Standard library</a> · repo: <code>stdlib/README.md</code></p>
+      </article>
+
+      <article class="example-block" id="c-zlib">
+        <h2>12. C library: zlib (C Bindgen) <span class="badge live">FFI</span></h2>
+        <p class="example-meta">System C library · auto <code>extern fn</code> · no hand-written FFI</p>
+        <p>Nyra calls real native code (zlib, SQLite, OpenSSL, …) with one bind command. Full walkthrough: <a href="c-bindgen.html#tutorial-zlib">C Bindgen → zlib tutorial</a>.</p>
+
+        <h3>Commands</h3>
+        <pre><code>nyra pkg init &amp;&amp; cd myapp
+nyra pkg c add zlib
+nyra run .</code></pre>
+
+        <div class="file-tree">myapp/
+  <span class="hl">main.ny</span>
+  nyra.mod
+  vendor/bindings/
+    <span class="hl">zlib.ny</span></div>
+
+        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>import &quot;vendor/bindings/zlib.ny&quot;
+
+fn main() {
+    print(&quot;Hello, World!&quot;)
+    print(zlibVersion())
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>import &quot;vendor/bindings/zlib.ny&quot;
+
+fn main() -&gt; void {
+    print(&quot;Hello, World!&quot;)
+    print(zlibVersion())
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <p><strong>Output:</strong></p>
+        <pre><code>Hello, World!
+1.3.2</code></pre>
+        <p>See also: <a href="c-bindgen.html#tutorial-sqlite">SQLite tutorial</a> · <a href="c-bindgen.html#troubleshooting">Troubleshooting</a> · <code>examples/c_bindgen/</code> (custom C + <code>link-source</code>)</p>
+      </article>
+
+      <article class="example-block" id="c-raylib">
+        <h2>13. Raylib graphics (C Bindgen) <span class="badge live">FFI</span></h2>
+        <p class="example-meta">Game window · draw loop · shapes &amp; text · native GPU speed</p>
+        <p>Full walkthrough: <a href="c-bindgen.html#tutorial-raylib">C Bindgen → Raylib</a>. The header is at <code>/opt/homebrew/opt/raylib/include/raylib.h</code> (not <code>/opt/homebrew/include/</code>).</p>
+
+        <h3>Commands</h3>
+        <pre><code>nyra pkg c add raylib
+nyra run .</code></pre>
+        <p>Or: <code>cd examples/c_raylib &amp;&amp; nyra run .</code></p>
+        <p>Or run the bundled example (after <code>brew install raylib</code>):</p>
+        <pre><code>cd examples/c_raylib
+nyra run .</code></pre>
+        <p>Opens an 800×450 window with white background, red text, and a red circle at 60 FPS.</p>
+      </article>
+
+      <!-- repo -->
+      <article class="example-block" id="builtins-catalog">
+        <h2>Built-in methods catalog <span class="badge live">builtins</span></h2>
+        <p class="example-meta">One runnable file per API — mirrors <a href="stdlib.html#builtins">stdlib → Built-ins</a></p>
+        <table>
+          <thead><tr><th>Category</th><th>Path</th><th>API</th></tr></thead>
+          <tbody>
+            <tr><td>I/O</td><td><code>examples/builtins/io/</code></td><td><code>print</code>, <code>write</code>, <code>println</code>, <code>flush</code>, <code>input</code></td></tr>
+            <tr><td>Date</td><td><code>examples/builtins/date/date.ny</code></td><td><code>date()</code> fields</td></tr>
+            <tr><td>Strings</td><td><code>examples/builtins/strings/</code></td><td><code>.length</code>, <code>.split</code>, <code>.trim</code>, …</td></tr>
+            <tr><td>Arrays</td><td><code>examples/builtins/arrays/</code></td><td><code>.length</code>, <code>.sort</code>, <code>for-in</code></td></tr>
+            <tr><td>Split lists</td><td><code>examples/builtins/split_list/</code></td><td><code>.length</code>, <code>for-in</code></td></tr>
+            <tr><td>For-in</td><td><code>examples/builtins/for_in/</code></td><td>range, string chars</td></tr>
+            <tr><td>Timing</td><td><code>examples/builtins/timing/</code></td><td><code>time_*</code>, <code>mem_*</code></td></tr>
+            <tr><td>Spawn</td><td><code>examples/builtins/spawn/spawn.ny</code></td><td><code>spawn { }</code></td></tr>
+            <tr><td>Stdlib helpers</td><td><code>examples/builtins/stdlib/</code></td><td><code>Array_*</code>, <code>String_*</code>, <code>Math_*</code>, <code>JSON_*</code></td></tr>
+          </tbody>
+        </table>
+        <pre><code>nyra run examples/builtins/strings/split.ny
+nyra run examples/builtins/arrays/sort.ny
+nyra run examples/builtins/stdlib/array_map.ny</code></pre>
+      </article>
+
+      <article class="example-block" id="repo">
+        <h2>Examples in the repository</h2>
+        <table>
+          <thead><tr><th>Path</th><th>Teaches</th></tr></thead>
+          <tbody>
+            <tr><td><code>examples/builtins/</code></td><td>One file per built-in method (see catalog above)</td></tr>
+            <tr><td><code>examples/stdlib/demo/</code></td><td>Vec, map, strings, time, json</td></tr>
+            <tr><td><code>examples/stdlib/extended/</code></td><td>UUID, regex, url, crypto, iter</td></tr>
+            <tr><td><code>examples/syntax/vectors.ny</code></td><td>Low-level <code>nyra_vec_*</code></td></tr>
+            <tr><td><code>examples/syntax/for_in.ny</code></td><td><code>for x in arr</code>, strings, split lists, <code>.length()</code></td></tr>
+            <tr><td><code>examples/syntax/string_methods.ny</code></td><td>String built-ins: <code>.split</code>, <code>.trim</code>, …</td></tr>
+            <tr><td><code>examples/syntax/date_basics.ny</code></td><td><code>date()</code> and <code>Date</code> fields</td></tr>
+            <tr><td><code>examples/syntax/array_sort.ny</code></td><td><code>.sort()</code> on fixed arrays</td></tr>
+            <tr><td><code>examples/syntax/math.ny</code></td><td>Variables &amp; arithmetic</td></tr>
+            <tr><td><code>examples/syntax/time.ny</code></td><td><code>time_start</code> / <code>time_end</code></td></tr>
+            <tr><td><code>examples/syntax/mem.ny</code></td><td><code>mem_start</code> / <code>mem_end</code></td></tr>
+            <tr><td><code>examples/projects/read_file/</code></td><td>File I/O + auto-drop</td></tr>
+            <tr><td><code>examples/projects/calculator/</code></td><td>Structs + multi-import</td></tr>
+            <tr><td><code>examples/projects/http_hello/</code></td><td>Lib folder import</td></tr>
+            <tr><td><code>examples/language_features/demo.ny</code></td><td>Enum + match</td></tr>
+            <tr><td><code>examples/unsafe/raw_memory/</code></td><td><code>unsafe</code>, <code>*T</code>, raw deref/store</td></tr>
+            <tr><td><code>examples/os/battery/</code></td><td><code>battery_percent()</code>, <code>platform_name()</code></td></tr>
+            <tr><td><code>examples/os/hw/</code></td><td>CPU, storage, netif, display, power (<code>rt_hw.c</code>)</td></tr>
+            <tr><td><code>examples/os/adv/</code></td><td>Affinity, clocks, USB, signals, mqueue, hw_crypto, permissions</td></tr>
+            <tr><td><code>examples/os/platform/</code></td><td>OS APIs: env, pid, page size</td></tr>
+            <tr><td><code>examples/os/asm/</code></td><td><code>asm "nop"</code> inline assembly</td></tr>
+            <tr><td><code>App/NyraApp/</code></td><td>Full reference app (Dungeon Steps) — <a href="dungeon-steps.html">guide</a></td></tr>
+            <tr><td><code>examples/comparison/</code></td><td>Benchmarks vs C/C++/Go/Rust/Java</td></tr>
+            <tr><td><code>examples/c_raylib/</code></td><td>Raylib window + game loop — <a href="c-bindgen.html#tutorial-raylib">guide</a></td></tr>
+            <tr><td><code>examples/c_bindgen/</code></td><td>C Bindgen + <code>link-source</code> — <a href="c-bindgen.html">guide</a></td></tr>
+            <tr><td><code>examples/ffi/call_libc/</code></td><td>Manual <code>extern fn</code> to libc</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <footer class="site-footer">
+        <a href="imports.html">← Imports guide</a> ·
+        <a href="getting-started.html">Getting started</a>
+      </footer>
+    </main>
+  </div>
+    <script src="vendor/lunr.min.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/typed-transform.js"></script>
+    <script src="js/site.js"></script>
+</body>
+</html>

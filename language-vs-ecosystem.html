@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06090d">
+  <meta name="color-scheme" content="dark light">
+  <title>Language vs Ecosystem — Nyra Docs</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/search.css">
+</head>
+<body data-page="language-vs-ecosystem">
+  <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      <img src="../assets/Nyrabgremoved.png" alt="Nyra">
+      <span>Nyra</span>
+    </a>
+    <div class="site-toolbar">
+      <div class="toolbar-group" role="group" aria-label="Search">
+        <button type="button" class="toolbar-btn search-btn" id="search-open" data-i18n-title="ui.searchOpen" title="Search (Ctrl+K)">
+          <span aria-hidden="true">⌕</span>
+          <kbd>Ctrl+K</kbd>
+        </button>
+      </div>
+
+      <div class="toolbar-group" role="group" aria-label="Theme">
+        <button type="button" class="toolbar-btn" id="theme-toggle" data-i18n-title="ui.themeToggle" title="Toggle theme">
+          <span class="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
+          <span class="theme-icon theme-icon-moon" aria-hidden="true">☽</span>
+        </button>
+      </div>
+      <div class="toolbar-group lang-switch" role="group" aria-label="Language">
+        <button type="button" class="toolbar-btn lang-btn active" data-lang="en" id="lang-en">EN</button>
+        <button type="button" class="toolbar-btn lang-btn" data-lang="ar" id="lang-ar">عربي</button>
+      </div>
+    </div>
+    <label for="nav-check" class="nav-toggle" data-i18n-aria-label="ui.menuOpen" aria-label="Open navigation menu">
+      <span></span><span></span><span></span>
+    </label>
+    <span class="tagline" data-i18n="common.tagline">Fast · Safe · Minimal</span>
+  </header>
+  <label for="nav-check" class="sidebar-backdrop" aria-hidden="true"></label>
+  <div class="layout">
+    <aside class="sidebar">
+<nav>
+  <section>
+    <div class="nav-label" data-i18n="nav.start">Start</div>
+    <ul>
+      <li><a href="index.html" data-i18n="nav.overview">Nyra HOME</a></li>
+      <li><a href="install.html" data-i18n="nav.install">Installation</a></li>
+      <li><a href="learning-path.html" data-i18n="nav.learningPath">Learning path</a></li>
+      <li><a href="ai-skill.html" data-i18n="nav.aiSkill">AI skill file</a></li>
+      <li><a href="#" id="sidebar-search" data-i18n="nav.search">Search</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.learnSection">Learn Nyra</div>
+    <ul>
+      <li><a href="learn-intro.html" data-i18n="nav.learnIntro">Nyra Intro</a></li>
+      <li><a href="learn-get-started.html" data-i18n="nav.learnGetStarted">Nyra Get Started</a></li>
+      <li><a href="learn-syntax.html" data-i18n="nav.learnSyntax">Nyra Syntax</a></li>
+      <li><a href="learn-output.html" data-i18n="nav.learnOutput">Nyra Output</a></li>
+      <li><a href="learn-comments.html" data-i18n="nav.learnComments">Nyra Comments</a></li>
+      <li><a href="learn-variables.html" data-i18n="nav.learnVariables">Nyra Variables</a></li>
+      <li><a href="learn-data-types.html" data-i18n="nav.learnDataTypes">Nyra Data Types</a></li>
+      <li><a href="learn-constants.html" data-i18n="nav.learnConstants">Nyra Constants</a></li>
+      <li><a href="learn-operators.html" data-i18n="nav.learnOperators">Nyra Operators</a></li>
+      <li><a href="learn-booleans.html" data-i18n="nav.learnBooleans">Nyra Booleans</a></li>
+      <li><a href="learn-if-else.html" data-i18n="nav.learnIfElse">Nyra If..Else</a></li>
+      <li><a href="learn-match.html" data-i18n="nav.learnMatch">Nyra Match</a></li>
+      <li><a href="learn-loops.html" data-i18n="nav.learnLoops">Nyra Loops</a></li>
+      <li><a href="learn-while.html" data-i18n="nav.learnWhile">Nyra While Loops</a></li>
+      <li><a href="learn-for.html" data-i18n="nav.learnFor">Nyra For Loops</a></li>
+      <li><a href="learn-functions.html" data-i18n="nav.learnFunctions">Nyra Functions</a></li>
+      <li><a href="learn-scope.html" data-i18n="nav.learnScope">Nyra Scope</a></li>
+      <li><a href="learn-strings.html" data-i18n="nav.learnStrings">Nyra Strings</a></li>
+      <li><a href="learn-ownership.html" data-i18n="nav.learnOwnership">Nyra Ownership</a></li>
+      <li><a href="learn-borrowing.html" data-i18n="nav.learnBorrowing">Nyra Borrowing</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.dataStructuresSection">Nyra Data Structures</div>
+    <ul>
+      <li><a href="learn-data-structures.html" data-i18n="nav.learnDataStructures">Nyra Data Structures</a></li>
+      <li><a href="learn-arrays.html" data-i18n="nav.learnArrays">Nyra Arrays</a></li>
+      <li><a href="learn-vectors.html" data-i18n="nav.learnVectors">Nyra Vectors</a></li>
+      <li><a href="learn-tuples.html" data-i18n="nav.learnTuples">Nyra Tuples</a></li>
+      <li><a href="learn-hashmap.html" data-i18n="nav.learnHashMap">Nyra HashMap</a></li>
+      <li><a href="learn-structs.html" data-i18n="nav.learnStructs">Nyra Structs</a></li>
+      <li><a href="learn-enums.html" data-i18n="nav.learnEnums">Nyra Enums</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.languageSection">Advanced</div>
+    <ul>
+      <li><a href="language-basics.html" data-i18n="nav.basics">Language basics</a></li>
+      <li><a href="language.html" data-i18n="nav.syntax">Syntax</a></li>
+      <li><a href="types.html" data-i18n="nav.types">Types &amp; data</a></li>
+      <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
+      <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
+      <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
+      <li><a href="match.html" data-i18n="nav.match">Match</a></li>
+      <li><a href="modules.html" data-i18n="nav.modules">Modules</a></li>
+      <li><a href="imports.html" data-i18n="nav.imports">Imports guide</a></li>
+      <li><a href="memory.html" data-i18n="nav.memory">Memory &amp; ownership</a></li>
+      <li><a href="async.html" data-i18n="nav.async">Async</a></li>
+      <li><a href="traits-macros.html" data-i18n="nav.traits">Traits &amp; macros</a></li>
+      <li><a href="stdlib.html" data-i18n="nav.stdlib">Standard library</a></li>
+      <li><a href="methods.html" data-i18n="nav.methods">Built-in methods</a></li>
+      <li><a href="concurrency.html" data-i18n="nav.concurrency">Concurrency</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.guides">Guides</div>
+    <ul>
+      <li><a href="examples.html" data-i18n="nav.examples">Example apps</a></li>
+      <li><a href="dungeon-steps.html" data-i18n="nav.dungeon">Dungeon Steps app</a></li>
+      <li><a href="backend.html" data-i18n="nav.backend">Backend &amp; HTTP</a></li>
+      <li><a href="net-http.html">net/http reference</a></li>
+      <li><a href="os-hardware.html" data-i18n="nav.osHardware">OS, files &amp; hardware</a></li>
+      <li><a href="integration.html" data-i18n="nav.integration">Integration</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.ecosystem">Ecosystem</div>
+    <ul>
+      <li><a href="tooling.html" data-i18n="nav.tooling">Toolchain</a></li>
+      <li><a href="performance.html" data-i18n="nav.performance">Performance</a></li>
+      <li><a href="pgo.html" data-i18n="nav.pgo">PGO</a></li>
+      <li><a href="escape-analysis.html" data-i18n="nav.escapeAnalysis">Escape analysis</a></li>
+      <li><a href="diagnostics.html" data-i18n="nav.diagnostics">Diagnostics</a></li>
+      <li><a href="ffi-abi.html" data-i18n="nav.ffi">FFI &amp; ABI</a></li>
+      <li><a href="c-bindgen.html">C Bindgen</a></li>
+      <li><a href="bindings.html" data-i18n="nav.bindings">Runtime bindings</a></li>
+      <li><a href="targets.html" data-i18n="nav.targets">Targets</a></li>
+      <li><a href="editor-setup.html" data-i18n="nav.editor">Editor setup</a></li>
+      <li><a href="packages.html" data-i18n="nav.packages">NyraPkg</a></li>
+      <li><a href="roadmap.html" data-i18n="nav.roadmap">Roadmap</a></li>
+      <li><a href="changelog.html" data-i18n="nav.changelog">Changelog</a></li>
+      <li><a href="sitemap.html" data-i18n="nav.sitemap">Sitemap</a></li>
+    </ul>
+  </section>
+</nav>
+    </aside>
+    <main class="content">
+      <h1 data-i18n="pages.languageVsEcosystem.h1">Language vs Ecosystem</h1>
+      <p class="lead" data-i18n-html="pages.languageVsEcosystem.lead">Nyra is a <strong>general-purpose language</strong>. Frameworks and packages complete it for each domain — the compiler does not bake in backend-only stacks.</p>
+
+      <h2>Three layers</h2>
+      <pre><code>┌─────────────────────────────────────────────────────────┐
+│  Layer 3 — Community / NyraPkg                          │
+│  ny-sqlite, ny-redis, game engines, CLI libs, …         │
+├─────────────────────────────────────────────────────────┤
+│  Layer 2 — Sonic (backend / microservices framework)    │
+│  sonic/core/microservice.ny, sonic/net/http (router)    │
+├─────────────────────────────────────────────────────────┤
+│  Layer 1 — Nyra language + strong stdlib (Core)           │
+│  ownership, Result/Option/?, crypto, db, serde, net       │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+      <h2>Layer 1 — Language + stdlib</h2>
+      <p>What ships with the compiler and belongs in every project:</p>
+      <div class="callout" role="note">
+        <strong>Strong batteries-included stdlib</strong>
+        <p>Crypto, SQLite, WebSocket, compression, and full serialization are <strong>stdlib domains</strong> — native code in <code>stdlib/rt/</code>. Some modules are still stubs while implementations land; import paths stay stable. See <a href="stdlib.html#status">stdlib → Implementation status</a> · <code>stdlib/README.md</code>.</p>
+      </div>
+      <ul>
+        <li><strong>Core language:</strong> ownership, borrow check, enums, <code>Option&lt;T&gt;</code> / <code>Result&lt;T,E&gt;</code> (with import), monomorph generics</li>
+        <li><strong>Stdlib (shipped):</strong> collections, strings, FS, TCP, <code>net/http</code> client + server, <code>random_bytes</code>, builtins (<code>print</code>, …)</li>
+        <li><strong>Stdlib (in progress):</strong> SHA/AES, SQLite, WebSocket, gzip, full serde — stable paths, native implementations landing in-tree</li>
+        <li><strong>Toolchain (batteries-included):</strong> <code>nyra build/run/check/test/fmt/pkg</code> — see <a href="tooling.html">Toolchain</a></li>
+      </ul>
+      <p>CI gate: <code>bash scripts/test-all.sh</code> — includes <strong>CONF-LANG</strong> (<code>scripts/conformance-tests.sh</code>), Rust <code>CONF-*</code>, compiletest suite (~1.6k fast profile), and <code>tests/nyra/</code> smoke. See <a href="tooling.html#test-layers">Toolchain → Testing layers</a>.</p>
+
+      <h2>Layer 2 — Sonic</h2>
+      <p>Backend-oriented patterns moved out of stdlib (v3.x boundary):</p>
+      <table>
+        <thead><tr><th>Was (stdlib)</th><th>Now (Sonic)</th></tr></thead>
+        <tbody>
+          <tr><td><code>stdlib/microservice.ny</code></td><td><code>sonic/core/microservice.ny</code></td></tr>
+          <tr><td><code>stdlib/enterprise/</code></td><td><code>sonic/core/enterprise/</code></td></tr>
+          <tr><td>HTTP router, CORS, handler slots</td><td><code>sonic/src/http/</code>, <code>sonic/src/routing/</code></td></tr>
+          <tr><td>—</td><td><strong>Socket.io / Engine.IO v4</strong> — <code>sonic/src/realtime/</code>, <code>rt/sonic_socketio.c</code></td></tr>
+        </tbody>
+      </table>
+      <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>import &quot;sonic/src/realtime/mod.ny&quot;
+import &quot;sonic/src/sonic.ny&quot;</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>import &quot;sonic/src/realtime/mod.ny&quot;
+import &quot;sonic/src/sonic.ny&quot;</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->      <p>Docs: <a href="../../sonic/webDocs/index.html">SonicNy webDocs</a> · <a href="../../sonic/webDocs/socketio.html">Socket.io hub</a> · <a href="enterprise.html">Enterprise workspaces</a></p>
+      <p>CI gate: <code>bash scripts/sonic-check.sh</code> (CONF-ENT-*, CONF-MSVC-*) — separate from language tests.</p>
+
+      <h2>Layer 3 — NyraPkg &amp; community</h2>
+      <p>Database drivers, crypto, compression, domain SDKs — published via <code>nyra pkg</code>, not the compiler:</p>
+      <pre><code>nyra pkg install ny-sqlite@^0.1.0
+import "pkg/ny-sqlite"</code></pre>
+      <p>See <a href="packages.html">NyraPkg</a>. Anyone can publish; the language stays neutral.</p>
+
+      <h2>net/http boundaries</h2>
+      <table>
+        <thead><tr><th>In stdlib (Core)</th><th>In Sonic</th></tr></thead>
+        <tbody>
+          <tr><td><code>HttpClient</code>, GET/POST/…</td><td><code>Router</code>, route tables, <code>patch()</code></td></tr>
+          <tr><td><code>RequestContext</code>, parse/build response</td><td>CORS + request logging middleware</td></tr>
+          <tr><td><code>Server_listen_once</code> (one-shot)</td><td><code>serve()</code>, handler slots, Socket.io hub</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Who enters a domain?</h2>
+      <p>The language is <strong>ready for any field</strong> (systems, web, embedded, games, data). <strong>Teams and community</strong> bring Nyra into a domain via Sonic + packages — not by growing the compiler/stdlib for one vertical.</p>
+
+      <footer class="site-footer"><a href="stdlib.html">Standard library →</a></footer>
+    </main>
+  </div>
+    <script src="vendor/lunr.min.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/typed-transform.js"></script>
+    <script src="js/site.js"></script>
+</body>
+</html>

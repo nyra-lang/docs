@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06090d">
+  <meta name="color-scheme" content="dark light">
+  <title>Concurrency — Nyra Docs</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/search.css">
+</head>
+<body data-page="concurrency">
+  <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      <img src="../assets/Nyrabgremoved.png" alt="Nyra">
+      <span>Nyra</span>
+    </a>
+    <div class="site-toolbar">
+      <div class="toolbar-group" role="group" aria-label="Search">
+        <button type="button" class="toolbar-btn search-btn" id="search-open" data-i18n-title="ui.searchOpen" title="Search (Ctrl+K)">
+          <span aria-hidden="true">⌕</span>
+          <kbd>Ctrl+K</kbd>
+        </button>
+      </div>
+
+      <div class="toolbar-group" role="group" aria-label="Theme">
+        <button type="button" class="toolbar-btn" id="theme-toggle" data-i18n-title="ui.themeToggle" title="Toggle theme">
+          <span class="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
+          <span class="theme-icon theme-icon-moon" aria-hidden="true">☽</span>
+        </button>
+      </div>
+      <div class="toolbar-group lang-switch" role="group" aria-label="Language">
+        <button type="button" class="toolbar-btn lang-btn active" data-lang="en" id="lang-en">EN</button>
+        <button type="button" class="toolbar-btn lang-btn" data-lang="ar" id="lang-ar">عربي</button>
+      </div>
+    </div>
+    <label for="nav-check" class="nav-toggle" data-i18n-aria-label="ui.menuOpen" aria-label="Open navigation menu">
+      <span></span><span></span><span></span>
+    </label>
+    <span class="tagline" data-i18n="common.tagline">Fast · Safe · Minimal</span>
+  </header>
+  <label for="nav-check" class="sidebar-backdrop" aria-hidden="true"></label>
+  <div class="layout">
+    <aside class="sidebar">
+<nav>
+  <section>
+    <div class="nav-label" data-i18n="nav.start">Start</div>
+    <ul>
+      <li><a href="index.html" data-i18n="nav.overview">Nyra HOME</a></li>
+      <li><a href="install.html" data-i18n="nav.install">Installation</a></li>
+      <li><a href="learning-path.html" data-i18n="nav.learningPath">Learning path</a></li>
+      <li><a href="ai-skill.html" data-i18n="nav.aiSkill">AI skill file</a></li>
+      <li><a href="#" id="sidebar-search" data-i18n="nav.search">Search</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.learnSection">Learn Nyra</div>
+    <ul>
+      <li><a href="learn-intro.html" data-i18n="nav.learnIntro">Nyra Intro</a></li>
+      <li><a href="learn-get-started.html" data-i18n="nav.learnGetStarted">Nyra Get Started</a></li>
+      <li><a href="learn-syntax.html" data-i18n="nav.learnSyntax">Nyra Syntax</a></li>
+      <li><a href="learn-output.html" data-i18n="nav.learnOutput">Nyra Output</a></li>
+      <li><a href="learn-comments.html" data-i18n="nav.learnComments">Nyra Comments</a></li>
+      <li><a href="learn-variables.html" data-i18n="nav.learnVariables">Nyra Variables</a></li>
+      <li><a href="learn-data-types.html" data-i18n="nav.learnDataTypes">Nyra Data Types</a></li>
+      <li><a href="learn-constants.html" data-i18n="nav.learnConstants">Nyra Constants</a></li>
+      <li><a href="learn-operators.html" data-i18n="nav.learnOperators">Nyra Operators</a></li>
+      <li><a href="learn-booleans.html" data-i18n="nav.learnBooleans">Nyra Booleans</a></li>
+      <li><a href="learn-if-else.html" data-i18n="nav.learnIfElse">Nyra If..Else</a></li>
+      <li><a href="learn-match.html" data-i18n="nav.learnMatch">Nyra Match</a></li>
+      <li><a href="learn-loops.html" data-i18n="nav.learnLoops">Nyra Loops</a></li>
+      <li><a href="learn-while.html" data-i18n="nav.learnWhile">Nyra While Loops</a></li>
+      <li><a href="learn-for.html" data-i18n="nav.learnFor">Nyra For Loops</a></li>
+      <li><a href="learn-functions.html" data-i18n="nav.learnFunctions">Nyra Functions</a></li>
+      <li><a href="learn-scope.html" data-i18n="nav.learnScope">Nyra Scope</a></li>
+      <li><a href="learn-strings.html" data-i18n="nav.learnStrings">Nyra Strings</a></li>
+      <li><a href="learn-ownership.html" data-i18n="nav.learnOwnership">Nyra Ownership</a></li>
+      <li><a href="learn-borrowing.html" data-i18n="nav.learnBorrowing">Nyra Borrowing</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.dataStructuresSection">Nyra Data Structures</div>
+    <ul>
+      <li><a href="learn-data-structures.html" data-i18n="nav.learnDataStructures">Nyra Data Structures</a></li>
+      <li><a href="learn-arrays.html" data-i18n="nav.learnArrays">Nyra Arrays</a></li>
+      <li><a href="learn-vectors.html" data-i18n="nav.learnVectors">Nyra Vectors</a></li>
+      <li><a href="learn-tuples.html" data-i18n="nav.learnTuples">Nyra Tuples</a></li>
+      <li><a href="learn-hashmap.html" data-i18n="nav.learnHashMap">Nyra HashMap</a></li>
+      <li><a href="learn-structs.html" data-i18n="nav.learnStructs">Nyra Structs</a></li>
+      <li><a href="learn-enums.html" data-i18n="nav.learnEnums">Nyra Enums</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.languageSection">Advanced</div>
+    <ul>
+      <li><a href="language-basics.html" data-i18n="nav.basics">Language basics</a></li>
+      <li><a href="language.html" data-i18n="nav.syntax">Syntax</a></li>
+      <li><a href="types.html" data-i18n="nav.types">Types &amp; data</a></li>
+      <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
+      <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
+      <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
+      <li><a href="match.html" data-i18n="nav.match">Match</a></li>
+      <li><a href="modules.html" data-i18n="nav.modules">Modules</a></li>
+      <li><a href="imports.html" data-i18n="nav.imports">Imports guide</a></li>
+      <li><a href="memory.html" data-i18n="nav.memory">Memory &amp; ownership</a></li>
+      <li><a href="async.html" data-i18n="nav.async">Async</a></li>
+      <li><a href="traits-macros.html" data-i18n="nav.traits">Traits &amp; macros</a></li>
+      <li><a href="stdlib.html" data-i18n="nav.stdlib">Standard library</a></li>
+      <li><a href="methods.html" data-i18n="nav.methods">Built-in methods</a></li>
+      <li><a class="active" href="concurrency.html" data-i18n="nav.concurrency">Concurrency</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.guides">Guides</div>
+    <ul>
+      <li><a href="examples.html" data-i18n="nav.examples">Example apps</a></li>
+      <li><a href="dungeon-steps.html" data-i18n="nav.dungeon">Dungeon Steps app</a></li>
+      <li><a href="backend.html" data-i18n="nav.backend">Backend &amp; HTTP</a></li>
+      <li><a href="net-http.html">net/http reference</a></li>
+      <li><a href="os-hardware.html" data-i18n="nav.osHardware">OS, files &amp; hardware</a></li>
+      <li><a href="integration.html" data-i18n="nav.integration">Integration</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.ecosystem">Ecosystem</div>
+    <ul>
+      <li><a href="tooling.html" data-i18n="nav.tooling">Toolchain</a></li>
+      <li><a href="performance.html" data-i18n="nav.performance">Performance</a></li>
+      <li><a href="pgo.html" data-i18n="nav.pgo">PGO</a></li>
+      <li><a href="escape-analysis.html" data-i18n="nav.escapeAnalysis">Escape analysis</a></li>
+      <li><a href="diagnostics.html" data-i18n="nav.diagnostics">Diagnostics</a></li>
+      <li><a href="ffi-abi.html" data-i18n="nav.ffi">FFI &amp; ABI</a></li>
+      <li><a href="c-bindgen.html">C Bindgen</a></li>
+      <li><a href="bindings.html" data-i18n="nav.bindings">Runtime bindings</a></li>
+      <li><a href="targets.html" data-i18n="nav.targets">Targets</a></li>
+      <li><a href="editor-setup.html" data-i18n="nav.editor">Editor setup</a></li>
+      <li><a href="packages.html" data-i18n="nav.packages">NyraPkg</a></li>
+      <li><a href="roadmap.html" data-i18n="nav.roadmap">Roadmap</a></li>
+      <li><a href="changelog.html" data-i18n="nav.changelog">Changelog</a></li>
+      <li><a href="sitemap.html" data-i18n="nav.sitemap">Sitemap</a></li>
+    </ul>
+  </section>
+</nav>
+    </aside>
+    <main class="content">
+      <h1 data-i18n="pages.concurrency.h1">Concurrency</h1>
+      <p class="lead" data-i18n-html="pages.concurrency.lead"><code>spawn</code> with capture lowering, <code>Send</code>/<code>Sync</code> checks, and pthread-backed channels.</p>
+
+      <nav class="toc">
+        <div class="toc-title">On this page</div>
+        <ul>
+          <li><a href="#spawn">spawn</a></li>
+          <li><a href="#parallel-for">parallel for</a></li>
+          <li><a href="#progress-for">progress for</a></li>
+          <li><a href="#captures">Captures &amp; ownership</a></li>
+          <li><a href="#runtime">Runtime API</a></li>
+          <li><a href="#channels">Channels</a></li>
+          <li><a href="#scope">Spec scope</a></li>
+        </ul>
+      </nav>
+
+      <h2 id="spawn">spawn</h2>
+      <pre><code>spawn {
+    print("runs concurrently")
+}</code></pre>
+      <p>The compiler lowers each <code>spawn</code> to a thread entry function plus a call to <code>spawn_capture</code>. Captured outer variables are packed into a struct, copied to the heap, and passed to a new thread (<code>pthread</code> on Unix; <code>CreateThread</code> on Windows).</p>
+
+      <h2 id="parallel-for">parallel for</h2>
+      <p>Use <code>parallel for</code> when iterations are <strong>independent</strong>. Nyra schedules <strong>worker threads</strong>; the OS maps them to CPU cores (P-cores, E-cores, etc.).</p>
+
+      <h3>Three levels of control</h3>
+      <pre><code>// 1. Auto (recommended)
+parallel for i in 0..1000 {
+    work(i)
+}
+
+// 2. Cap workers (up to N; fewer if iteration count is small)
+parallel(max_threads = 4) for i in 0..1000 {
+    work(i)
+}
+
+// 3. Exact worker count
+parallel(threads = 4) for i in 0..1000 {
+    work(i)
+}</code></pre>
+
+      <h3>More options</h3>
+      <pre><code>parallel(cpu = 80%) for i in 0..n { work(i) }          // 80% of logical CPUs
+parallel(threads = cpu_count() - 1) for i in 0..n { } // leave one for the OS
+
+parallel(mode = auto) for i in 0..n { }            // default
+parallel(mode = balanced) for i in 0..n { }         // performance + responsiveness
+parallel(mode = max_performance) for i in 0..n { }  // use all logical CPUs
+parallel(mode = background) for i in 0..n { }      // lighter load</code></pre>
+      <p>Prefer <code>threads</code> / <code>max_threads</code> over <code>cores</code> — Nyra creates workers; the OS schedules them. <code>cores = N</code> is accepted as an alias for <code>max_threads</code> with a parser note.</p>
+      <p>Built-in <code>cpu_count()</code> returns logical CPU count (prelude). See also <code>stdlib/os/cpu.ny</code>.</p>
+      <table>
+        <thead><tr><th>Rule</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>No <code>break</code></td><td>Iterations run concurrently; there is no ordered early exit</td></tr>
+          <tr><td>No mutation of outer variables</td><td>Would be a data race without explicit locks</td></tr>
+          <tr><td>Captures must be <code>Send</code></td><td>Same thread-safety rules as <code>spawn</code></td></tr>
+          <tr><td>Range or fixed array / string / <code>vec_str</code></td><td>Iterable length must be known before workers start</td></tr>
+        </tbody>
+      </table>
+      <p>On <code>wasm32-wasi</code>, <code>parallel for</code> runs sequentially (no pthreads).</p>
+
+      <h2 id="progress-for">progress for</h2>
+      <p>Sequential loops with a built-in progress bar and status line — no manual <code>print</code> or formatting.</p>
+      <pre><code>progress(label = "parser tests") for item in tests {
+    run(item)
+}
+
+progress for i in 0..100 {
+    step(i)
+}</code></pre>
+      <p>Each iteration prints:</p>
+      <pre><code>[#####-------] 43%
+Running parser tests...</code></pre>
+      <p>Without <code>label</code>, the status line defaults to <code>Running &lt;iterable&gt;...</code> (e.g. <code>Running tests...</code>) or <code>Processing...</code> for ranges. Implemented in <code>stdlib/rt/rt_progress.c</code>; cannot combine with <code>parallel for</code>.</p>
+
+      <h2 id="captures">Captures &amp; ownership</h2>
+      <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
+    let n = 42
+    spawn {
+        print(n)   // n captured by value (Copy)
+    }
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn main() -&gt; void {
+    let n: i32 = 42
+    spawn {
+        print(n)   // n captured by value (Copy)
+    }
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->      <table>
+        <thead><tr><th>Capture kind</th><th>Compiler rule</th></tr></thead>
+        <tbody>
+          <tr><td><code>Copy</code> (<code>i32</code>, <code>bool</code>)</td><td>Copied into capture struct</td></tr>
+          <tr><td><code>Move</code> (<code>string</code>, structs)</td><td>Must be <code>Send</code>; marked moved in parent scope</td></tr>
+          <tr><td>Active <code>&amp;</code> / <code>&amp;mut</code></td><td>Compile error</td></tr>
+        </tbody>
+      </table>
+      <p>Full Send/Sync rules: <a href="memory.html#send-sync">Memory → Send / Sync</a>.</p>
+
+      <h2 id="runtime">Runtime API</h2>
+      <table>
+        <thead><tr><th>Symbol</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><code>spawn_capture(body, data, nbytes)</code></td><td>Spawn thread; <code>body(void*)</code> receives heap copy of captures</td></tr>
+          <tr><td><code>parallel_for_range(...)</code></td><td>Fork-join parallel loop</td></tr>
+          <tr><td><code>progress_update(cur, total, label)</code></td><td>Draw progress bar + status line</td></tr>
+          <tr><td><code>progress_finish()</code></td><td>Final newline after <code>progress for</code></td></tr>
+          <tr><td><code>spawn()</code></td><td>Legacy no-arg stub (empty spawn)</td></tr>
+        </tbody>
+      </table>
+      <p>Declared in LLVM IR by codegen; implemented in <code>stdlib/nyra_rt.c</code>. Not available on <code>wasm32-wasi</code> (stub only).</p>
+
+      <h2 id="channels">Channels</h2>
+      <p>Implemented in <code>stdlib/rt/rt_channel.c</code> (and typed wrappers in <code>stdlib/sync/channel.ny</code>) using <code>pthread</code> mutex and condition variables.</p>
+      <p>Stdlib wrappers: <a href="stdlib.html#sync">stdlib → Sync, context &amp; async channels</a> (<code>Channel_i32</code>, <code>Mutex</code>, <code>Context_with_timeout</code>).</p>
+      <table>
+        <thead><tr><th>Runtime symbol</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><code>channel_new()</code></td><td>Create channel; returns handle</td></tr>
+          <tr><td><code>channel_send(ch, value)</code></td><td>Send <code>i32</code></td></tr>
+          <tr><td><code>channel_recv(ch)</code></td><td>Blocking receive</td></tr>
+          <tr><td><code>channel_free(ch)</code></td><td>Release channel memory</td></tr>
+        </tbody>
+      </table>
+      <p>Declare <code>extern</code> in your module or see <a href="stdlib.html#channels">Standard library → Channels</a>.</p>
+
+      <h2 id="scope">Spec 1.0 scope</h2>
+      <table>
+        <thead><tr><th>In 1.0</th><th>Deferred</th></tr></thead>
+        <tbody>
+          <tr><td><code>spawn { }</code> + C channels</td><td><code>async</code> / <code>await</code></td></tr>
+          <tr><td><code>parallel for</code> (fork-join pool)</td><td>Full goroutine scheduler RFC</td></tr>
+          <tr><td>Blocking I/O via runtime</td><td>Full goroutine scheduler RFC</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>Send / Sync</strong>
+        The compiler checks <code>spawn</code> captures: values must be <code>Send</code>, shared references need <code>Sync</code> inner types, and active borrows are rejected. See <a href="memory.html#send-sync">Memory → Send / Sync</a>.
+      </div>
+
+      <footer class="site-footer"><a href="stdlib.html">Standard library →</a></footer>
+    </main>
+  </div>
+    <script src="vendor/lunr.min.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/typed-transform.js"></script>
+    <script src="js/site.js"></script>
+</body>
+</html>

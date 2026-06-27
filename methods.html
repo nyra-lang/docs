@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06090d">
+  <meta name="color-scheme" content="dark light">
+  <title>Built-in methods — Nyra Docs</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/search.css">
+</head>
+<body data-page="methods">
+  <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      <img src="../assets/Nyrabgremoved.png" alt="Nyra">
+      <span>Nyra</span>
+    </a>
+    <div class="site-toolbar">
+      <div class="toolbar-group" role="group" aria-label="Search">
+        <button type="button" class="toolbar-btn search-btn" id="search-open" data-i18n-title="ui.searchOpen" title="Search (Ctrl+K)">
+          <span aria-hidden="true">⌕</span>
+          <kbd>Ctrl+K</kbd>
+        </button>
+      </div>
+      <div class="toolbar-group" role="group" aria-label="Theme">
+        <button type="button" class="toolbar-btn" id="theme-toggle" data-i18n-title="ui.themeToggle" title="Toggle theme">
+          <span class="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
+          <span class="theme-icon theme-icon-moon" aria-hidden="true">☽</span>
+        </button>
+      </div>
+      <div class="toolbar-group lang-switch" role="group" aria-label="Language">
+        <button type="button" class="toolbar-btn lang-btn active" data-lang="en" id="lang-en">EN</button>
+        <button type="button" class="toolbar-btn lang-btn" data-lang="ar" id="lang-ar">عربي</button>
+      </div>
+    </div>
+    <label for="nav-check" class="nav-toggle" data-i18n-aria-label="ui.menuOpen" aria-label="Open navigation menu">
+      <span></span><span></span><span></span>
+    </label>
+    <span class="tagline" data-i18n="common.tagline">Fast · Safe · Minimal</span>
+  </header>
+  <label for="nav-check" class="sidebar-backdrop" aria-hidden="true"></label>
+  <div class="layout">
+    <aside class="sidebar">
+<nav>
+  <section>
+    <div class="nav-label" data-i18n="nav.start">Start</div>
+    <ul>
+      <li><a href="index.html" data-i18n="nav.overview">Nyra HOME</a></li>
+      <li><a href="install.html" data-i18n="nav.install">Installation</a></li>
+      <li><a href="learning-path.html" data-i18n="nav.learningPath">Learning path</a></li>
+      <li><a href="ai-skill.html" data-i18n="nav.aiSkill">AI skill file</a></li>
+      <li><a href="#" id="sidebar-search" data-i18n="nav.search">Search</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.learnSection">Learn Nyra</div>
+    <ul>
+      <li><a href="learn-intro.html" data-i18n="nav.learnIntro">Nyra Intro</a></li>
+      <li><a href="learn-get-started.html" data-i18n="nav.learnGetStarted">Nyra Get Started</a></li>
+      <li><a href="learn-syntax.html" data-i18n="nav.learnSyntax">Nyra Syntax</a></li>
+      <li><a href="learn-output.html" data-i18n="nav.learnOutput">Nyra Output</a></li>
+      <li><a href="learn-comments.html" data-i18n="nav.learnComments">Nyra Comments</a></li>
+      <li><a href="learn-variables.html" data-i18n="nav.learnVariables">Nyra Variables</a></li>
+      <li><a href="learn-data-types.html" data-i18n="nav.learnDataTypes">Nyra Data Types</a></li>
+      <li><a href="learn-constants.html" data-i18n="nav.learnConstants">Nyra Constants</a></li>
+      <li><a href="learn-operators.html" data-i18n="nav.learnOperators">Nyra Operators</a></li>
+      <li><a href="learn-booleans.html" data-i18n="nav.learnBooleans">Nyra Booleans</a></li>
+      <li><a href="learn-if-else.html" data-i18n="nav.learnIfElse">Nyra If..Else</a></li>
+      <li><a href="learn-match.html" data-i18n="nav.learnMatch">Nyra Match</a></li>
+      <li><a href="learn-loops.html" data-i18n="nav.learnLoops">Nyra Loops</a></li>
+      <li><a href="learn-while.html" data-i18n="nav.learnWhile">Nyra While Loops</a></li>
+      <li><a href="learn-for.html" data-i18n="nav.learnFor">Nyra For Loops</a></li>
+      <li><a href="learn-functions.html" data-i18n="nav.learnFunctions">Nyra Functions</a></li>
+      <li><a href="learn-scope.html" data-i18n="nav.learnScope">Nyra Scope</a></li>
+      <li><a href="learn-strings.html" data-i18n="nav.learnStrings">Nyra Strings</a></li>
+      <li><a href="learn-ownership.html" data-i18n="nav.learnOwnership">Nyra Ownership</a></li>
+      <li><a href="learn-borrowing.html" data-i18n="nav.learnBorrowing">Nyra Borrowing</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.dataStructuresSection">Nyra Data Structures</div>
+    <ul>
+      <li><a href="learn-data-structures.html" data-i18n="nav.learnDataStructures">Nyra Data Structures</a></li>
+      <li><a href="learn-arrays.html" data-i18n="nav.learnArrays">Nyra Arrays</a></li>
+      <li><a href="learn-vectors.html" data-i18n="nav.learnVectors">Nyra Vectors</a></li>
+      <li><a href="learn-tuples.html" data-i18n="nav.learnTuples">Nyra Tuples</a></li>
+      <li><a href="learn-hashmap.html" data-i18n="nav.learnHashMap">Nyra HashMap</a></li>
+      <li><a href="learn-structs.html" data-i18n="nav.learnStructs">Nyra Structs</a></li>
+      <li><a href="learn-enums.html" data-i18n="nav.learnEnums">Nyra Enums</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.languageSection">Advanced</div>
+    <ul>
+      <li><a href="language-basics.html" data-i18n="nav.basics">Language basics</a></li>
+      <li><a href="language.html" data-i18n="nav.syntax">Syntax</a></li>
+      <li><a href="types.html" data-i18n="nav.types">Types &amp; data</a></li>
+      <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
+      <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
+      <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
+      <li><a href="match.html" data-i18n="nav.match">Match</a></li>
+      <li><a href="modules.html" data-i18n="nav.modules">Modules</a></li>
+      <li><a href="imports.html" data-i18n="nav.imports">Imports guide</a></li>
+      <li><a href="memory.html" data-i18n="nav.memory">Memory &amp; ownership</a></li>
+      <li><a href="async.html" data-i18n="nav.async">Async</a></li>
+      <li><a href="traits-macros.html" data-i18n="nav.traits">Traits &amp; macros</a></li>
+      <li><a href="stdlib.html" data-i18n="nav.stdlib">Standard library</a></li>
+      <li><a class="active" href="methods.html" data-i18n="nav.methods">Built-in methods</a></li>
+      <li><a href="concurrency.html" data-i18n="nav.concurrency">Concurrency</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.guides">Guides</div>
+    <ul>
+      <li><a href="examples.html" data-i18n="nav.examples">Example apps</a></li>
+      <li><a href="dungeon-steps.html" data-i18n="nav.dungeon">Dungeon Steps app</a></li>
+      <li><a href="backend.html" data-i18n="nav.backend">Backend &amp; HTTP</a></li>
+      <li><a href="net-http.html">net/http reference</a></li>
+      <li><a href="os-hardware.html" data-i18n="nav.osHardware">OS, files &amp; hardware</a></li>
+      <li><a href="integration.html" data-i18n="nav.integration">Integration</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.ecosystem">Ecosystem</div>
+    <ul>
+      <li><a href="tooling.html" data-i18n="nav.tooling">Toolchain</a></li>
+      <li><a href="performance.html" data-i18n="nav.performance">Performance</a></li>
+      <li><a href="pgo.html" data-i18n="nav.pgo">PGO</a></li>
+      <li><a href="escape-analysis.html" data-i18n="nav.escapeAnalysis">Escape analysis</a></li>
+      <li><a href="diagnostics.html" data-i18n="nav.diagnostics">Diagnostics</a></li>
+      <li><a href="ffi-abi.html" data-i18n="nav.ffi">FFI &amp; ABI</a></li>
+      <li><a href="c-bindgen.html">C Bindgen</a></li>
+      <li><a href="bindings.html" data-i18n="nav.bindings">Runtime bindings</a></li>
+      <li><a href="targets.html" data-i18n="nav.targets">Targets</a></li>
+      <li><a href="editor-setup.html" data-i18n="nav.editor">Editor setup</a></li>
+      <li><a href="packages.html" data-i18n="nav.packages">NyraPkg</a></li>
+      <li><a href="roadmap.html" data-i18n="nav.roadmap">Roadmap</a></li>
+      <li><a href="changelog.html" data-i18n="nav.changelog">Changelog</a></li>
+      <li><a href="sitemap.html" data-i18n="nav.sitemap">Sitemap</a></li>
+    </ul>
+  </section>
+</nav>
+    </aside>
+    <main class="content">
+      <h1 data-i18n="pages.methods.h1">Built-in methods</h1>
+      <p class="lead" data-i18n-html="pages.methods.lead">One-page lookup for <strong>compiler builtins</strong> and <strong>stdlib method syntax</strong> on strings, numbers, arrays, vectors, maps, and objects. No import required for language builtins; import paths shown where needed.</p>
+
+      <div class="callout" role="note">
+        <strong>Quick tip</strong>
+        <p>Press <kbd>Ctrl+K</kbd> and type a method name (e.g. <code>split</code>, <code>push</code>, <code>abs</code>). For full module APIs (HTTP, crypto, FS), see <a href="stdlib.html">Standard library</a>.</p>
+      </div>
+
+      <nav class="toc">
+        <div class="toc-title">On this page</div>
+        <ul>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#io">I/O</a></li>
+          <li><a href="#strings">String methods</a></li>
+          <li><a href="#numbers">Number &amp; math</a></li>
+          <li><a href="#booleans">Booleans</a></li>
+          <li><a href="#arrays">Fixed arrays</a></li>
+          <li><a href="#vectors">Vectors &amp; lists</a></li>
+          <li><a href="#maps">Maps (objects)</a></li>
+          <li><a href="#split-lists">Split lists</a></li>
+          <li><a href="#timing">Timing &amp; memory</a></li>
+          <li><a href="#other-builtins">Other builtins</a></li>
+          <li><a href="#js-helpers">JS-style helpers (import)</a></li>
+        </ul>
+      </nav>
+
+      <h2 id="overview">Overview</h2>
+      <table>
+        <thead><tr><th>Category</th><th>Import?</th><th>Receiver / type</th></tr></thead>
+        <tbody>
+          <tr><td><a href="#io">I/O</a>, <a href="#timing">timing</a>, <a href="#other-builtins">date</a>, <a href="#numbers">math intrinsics</a></td><td><strong>No</strong></td><td>Global functions</td></tr>
+          <tr><td><a href="#strings">String methods</a></td><td><strong>No</strong></td><td><code>string</code> — borrows receiver</td></tr>
+          <tr><td><a href="#arrays">Array methods</a></td><td><strong>No</strong></td><td><code>[T; N]</code> fixed arrays</td></tr>
+          <tr><td><a href="#vectors">Vec / StrVec</a></td><td><code>stdlib/vec.ny</code> or <code>stdlib/vec_str.ny</code></td><td><code>ptr</code> handles or <code>StrVec</code> struct</td></tr>
+          <tr><td><a href="#maps">HashMap</a></td><td><code>stdlib/map.ny</code></td><td><code>HashMap_str_i32</code>, <code>HashMap_str_str</code></td></tr>
+          <tr><td><a href="#js-helpers">Array_/String_/Math_/JSON_</a></td><td><code>stdlib/builtins_*.ny</code></td><td>Function-style wrappers</td></tr>
+        </tbody>
+      </table>
+      <p>Runnable gallery: <code>examples/builtins/</code> · detailed stdlib modules: <a href="stdlib.html#builtins">stdlib → Built-ins</a></p>
+
+      <h2 id="io">I/O <span class="badge">no import</span></h2>
+      <table>
+        <thead><tr><th>Call</th><th>Args</th><th>Returns</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr id="print"><td><code>print(expr)</code></td><td>value</td><td><code>void</code></td><td>Stdout + newline (<code>string</code>, <code>i32</code>, <code>bool</code>, <code>char</code>, <code>f64</code>)</td></tr>
+          <tr id="print-color"><td><code>print(expr, color: spec)</code></td><td>value + color</td><td><code>void</code></td><td>ANSI color: <code>red</code>, <code>"#RGB"</code>, <code>"#RRGGBB"</code>, <code>rgb(r,g,b)</code></td></tr>
+          <tr id="write"><td><code>write(expr)</code></td><td>value</td><td><code>void</code></td><td>Buffered stdout, no newline</td></tr>
+          <tr id="println"><td><code>println(expr)</code></td><td>value</td><td><code>void</code></td><td>Buffered stdout + newline</td></tr>
+          <tr id="flush"><td><code>flush()</code></td><td>—</td><td><code>void</code></td><td>Flush stdout buffer</td></tr>
+          <tr id="input"><td><code>input()</code></td><td>—</td><td><code>string</code></td><td>Read one stdin line</td></tr>
+          <tr id="input-prompt"><td><code>input(prompt)</code></td><td><code>string</code></td><td><code>string</code></td><td>Print prompt, then read line</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="strings">String methods <span class="badge">no import</span></h2>
+      <p>Method syntax on <code>string</code> — borrows the receiver (does not move). Heap copy: <code>clone s</code> keyword.</p>
+      <table>
+        <thead><tr><th>Method</th><th>Args</th><th>Returns</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr id="str-length"><td><code>.length()</code> / <code>.len()</code></td><td>—</td><td><code>i32</code></td><td>Byte length</td></tr>
+          <tr id="str-split"><td><code>.split(sep)</code></td><td><code>string</code></td><td>split list</td><td>Split on separator; iterate with <code>for part in parts</code></td></tr>
+          <tr id="str-trim"><td><code>.trim()</code></td><td>—</td><td><code>string</code></td><td>Strip leading/trailing whitespace</td></tr>
+          <tr id="str-contains"><td><code>.contains(needle)</code></td><td><code>string</code></td><td><code>i32</code></td><td><code>1</code> if found, else <code>0</code></td></tr>
+          <tr id="str-starts-with"><td><code>.starts_with(prefix)</code></td><td><code>string</code></td><td><code>i32</code></td><td>Prefix test</td></tr>
+          <tr id="str-ends-with"><td><code>.ends_with(suffix)</code></td><td><code>string</code></td><td><code>i32</code></td><td>Suffix test</td></tr>
+          <tr id="str-replace"><td><code>.replace(from, to)</code></td><td>2 × <code>string</code></td><td><code>string</code></td><td>Replace all occurrences (Rust-style)</td></tr>
+          <tr id="str-replacen"><td><code>.replacen(from, to, count)</code></td><td>2 × <code>string</code>, <code>i32</code></td><td><code>string</code></td><td>Replace at most <code>count</code> occurrences (<code>1</code> = first only)</td></tr>
+          <tr id="str-to-upper"><td><code>.to_upper()</code></td><td>—</td><td><code>string</code></td><td>ASCII upper-case</td></tr>
+          <tr id="str-to-lower"><td><code>.to_lower()</code></td><td>—</td><td><code>string</code></td><td>ASCII lower-case</td></tr>
+          <tr id="str-clone"><td><code>clone s</code></td><td>—</td><td><code>string</code></td><td>Heap copy (keyword, not a method)</td></tr>
+        </tbody>
+      </table>
+      <p>Iterate characters: <code>for c in str</code> yields <code>char</code> per byte. Lesson: <a href="learn-strings.html">Nyra Strings</a></p>
+
+      <h2 id="numbers">Number &amp; math <span class="badge">no import</span></h2>
+      <p>Compiler math intrinsics — lowered to LLVM, no call overhead. Type overload on <code>abs</code>.</p>
+      <table>
+        <thead><tr><th>Call</th><th>Args</th><th>Returns</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr id="abs"><td><code>abs(x)</code></td><td><code>i32</code> or <code>f64</code></td><td>same as arg</td><td>Absolute value</td></tr>
+          <tr id="abs-i32"><td><code>abs_i32(x)</code> / <code>abs_f64(x)</code></td><td>1 numeric</td><td><code>i32</code> / <code>f64</code></td><td>Explicit typed variants</td></tr>
+          <tr id="min-max-i32"><td><code>min_i32(a, b)</code> / <code>max_i32(a, b)</code></td><td>2 × <code>i32</code></td><td><code>i32</code></td><td>Min / max</td></tr>
+          <tr id="min-max-f64"><td><code>min_f64(a, b)</code> / <code>max_f64(a, b)</code></td><td>2 × <code>f64</code></td><td><code>f64</code></td><td>Min / max</td></tr>
+          <tr id="clamp"><td><code>clamp_i32(x, lo, hi)</code></td><td>3 × <code>i32</code></td><td><code>i32</code></td><td>Clamp to range</td></tr>
+          <tr id="cpu-count"><td><code>cpu_count()</code></td><td>—</td><td><code>i32</code></td><td>Logical CPU count (for <code>parallel for</code>)</td></tr>
+        </tbody>
+      </table>
+      <p>See also <a href="#js-math">Math_* helpers</a> (import) and <code>stdlib/math.ny</code> for <code>pow_i32</code>, <code>sqrt_i32</code>.</p>
+
+      <h2 id="booleans">Booleans <span class="badge">no import</span></h2>
+      <p>Booleans have <strong>no methods</strong> — use operators and <code>print</code>:</p>
+      <table>
+        <thead><tr><th>Syntax</th><th>Result</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>a &amp;&amp; b</code> / <code>a || b</code></td><td><code>bool</code></td><td>Logical and / or</td></tr>
+          <tr><td><code>!a</code></td><td><code>bool</code></td><td>Logical not</td></tr>
+          <tr><td><code>a == b</code>, <code>a != b</code></td><td><code>bool</code></td><td>Equality</td></tr>
+          <tr><td><code>print(flag)</code></td><td><code>void</code></td><td>Prints <code>true</code> / <code>false</code></td></tr>
+        </tbody>
+      </table>
+      <p>Lesson: <a href="learn-booleans.html">Nyra Booleans</a></p>
+
+      <h2 id="arrays">Fixed arrays <span class="badge">no import</span></h2>
+      <p>Syntax <code>[T; N]</code> — size known at compile time.</p>
+      <table>
+        <thead><tr><th>Syntax / method</th><th>On</th><th>Returns</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr id="arr-index"><td><code>arr[i]</code></td><td>fixed array</td><td><code>T</code></td><td>Zero-based index</td></tr>
+          <tr id="arr-length"><td><code>.length()</code> / <code>.len()</code></td><td>fixed array</td><td><code>i32</code></td><td>Element count</td></tr>
+          <tr id="arr-sort"><td><code>.sort()</code></td><td><code>[i32; N]</code> or <code>[f64; N]</code></td><td>new sorted array</td><td>Original unchanged; numeric sort</td></tr>
+          <tr id="arr-sort-by"><td><code>.sort_by(cmp)</code></td><td><code>fn(T, T) -&gt; i32</code></td><td>new sorted array</td><td>Comparator: negative / zero / positive; works on any fixed array element type (including structs)</td></tr>
+          <tr id="arr-for-in"><td><code>for x in arr</code></td><td>fixed array</td><td>—</td><td>Iterate elements</td></tr>
+          <tr id="range-for"><td><code>for i in 0..n</code></td><td>range</td><td>—</td><td>Half-open integer range</td></tr>
+        </tbody>
+      </table>
+      <p>Lesson: <a href="learn-arrays.html">Nyra Arrays</a></p>
+
+      <h2 id="vectors">Vectors &amp; dynamic lists</h2>
+      <h3 id="vec-i32"><code>Vec_i32</code> — <code>import "stdlib/vec.ny"</code></h3>
+      <p>Growable <code>i32</code> vector backed by a <code>ptr</code> handle. Use free functions (method sugar on <code>ptr</code> is not supported).</p>
+      <table>
+        <thead><tr><th>Function</th><th>Args</th><th>Returns</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr id="vec-new"><td><code>Vec_i32_new()</code></td><td>—</td><td><code>ptr</code></td><td>Create empty vector</td></tr>
+          <tr id="vec-push"><td><code>Vec_i32_push(v, x)</code> / <code>vec_push(v, x)</code></td><td><code>ptr</code>, <code>i32</code></td><td><code>void</code> / <code>ptr</code></td><td>Append element</td></tr>
+          <tr id="vec-get"><td><code>Vec_i32_get(v, i)</code> / <code>vec_get(v, i)</code></td><td><code>ptr</code>, <code>i32</code></td><td><code>i32</code></td><td>Index (0-based)</td></tr>
+          <tr id="vec-len"><td><code>Vec_i32_len(v)</code> / <code>vec_len(v)</code></td><td><code>ptr</code></td><td><code>i32</code></td><td>Length</td></tr>
+          <tr id="vec-pop"><td><code>Vec_i32_pop(v)</code></td><td><code>ptr</code></td><td><code>i32</code></td><td>Pop last</td></tr>
+          <tr id="vec-from-range"><td><code>Vec_i32_from_range(start, end)</code></td><td>2 × <code>i32</code></td><td><code>ptr</code></td><td>Half-open range fill</td></tr>
+        </tbody>
+      </table>
+
+      <h3 id="str-vec"><code>StrVec</code> — <code>import "stdlib/vec_str.ny"</code></h3>
+      <p>String vector with <strong>method syntax</strong> on the struct.</p>
+      <table>
+        <thead><tr><th>Method / function</th><th>Args</th><th>Returns</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr id="strvec-new"><td><code>StrVec_new()</code></td><td>—</td><td><code>StrVec</code></td><td>Empty string list</td></tr>
+          <tr id="strvec-push"><td><code>.push(value)</code></td><td><code>string</code></td><td><code>StrVec</code></td><td>Append string</td></tr>
+          <tr id="strvec-get"><td><code>.get(index)</code></td><td><code>i32</code></td><td><code>string</code></td><td>Indexed access</td></tr>
+          <tr id="strvec-len"><td><code>.len()</code></td><td>—</td><td><code>i32</code></td><td>Element count</td></tr>
+          <tr id="strvec-from-lines"><td><code>StrVec_from_lines(text)</code></td><td><code>string</code></td><td><code>StrVec</code></td><td>Split on newlines</td></tr>
+          <tr id="strvec-join"><td><code>StrVec_join_lines(vec)</code></td><td><code>StrVec</code></td><td><code>string</code></td><td>Join with <code>\n</code></td></tr>
+        </tbody>
+      </table>
+      <p>Lesson: <a href="learn-vectors.html">Nyra Vectors</a></p>
+
+      <h2 id="maps">Maps (key-value objects) — <code>import "stdlib/map.ny"</code></h2>
+      <p>String-keyed hash maps with method syntax. Values are <code>i32</code> or <code>string</code>.</p>
+      <table>
+        <thead><tr><th>Method</th><th>Args</th><th>Returns</th><th>On type</th></tr></thead>
+        <tbody>
+          <tr id="map-insert"><td><code>.insert(key, value)</code></td><td><code>string</code>, value</td><td>same map type</td><td><code>HashMap_str_i32</code>, <code>HashMap_str_str</code></td></tr>
+          <tr id="map-get"><td><code>.get(key)</code></td><td><code>string</code></td><td><code>i32</code> / <code>string</code></td><td>Lookup value</td></tr>
+          <tr id="map-contains"><td><code>.contains(key)</code></td><td><code>string</code></td><td><code>i32</code></td><td><code>1</code> / <code>0</code></td></tr>
+        </tbody>
+      </table>
+      <p>Constructors: <code>HashMap_str_i32_new()</code>, <code>HashMap_str_str_new()</code>. Lesson: <a href="learn-hashmap.html">Nyra HashMap</a></p>
+
+      <h2 id="split-lists">Split lists <span class="badge">no import</span></h2>
+      <p>Result of <code>string.split(sep)</code> — iterable string parts.</p>
+      <table>
+        <thead><tr><th>Syntax / method</th><th>Returns</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr id="split-len"><td><code>.length()</code> / <code>.len()</code></td><td><code>i32</code></td><td>Part count</td></tr>
+          <tr id="split-for"><td><code>for s in parts</code></td><td>each <code>string</code></td><td>Iterate parts</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="timing">Timing &amp; memory <span class="badge">no import</span></h2>
+      <table>
+        <thead><tr><th>Call</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr id="time-start"><td><code>time_start(label)</code> / <code>time_end(label)</code></td><td>Wall-clock timing (colored terminal output)</td></tr>
+          <tr id="mem-start"><td><code>mem_start(label)</code> / <code>mem_end(label)</code></td><td>RSS delta (platform-dependent)</td></tr>
+          <tr id="benchmark"><td><code>benchmark { ... }</code></td><td>Time + memory + CPU% for a block</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="other-builtins">Other builtins <span class="badge">no import</span></h2>
+      <table>
+        <thead><tr><th>Call</th><th>Returns / effect</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr id="date"><td><code>date()</code></td><td><code>Date</code> struct</td><td>Local clock — fields: <code>year</code>, <code>month</code> (1–12), <code>day</code>, <code>hour</code>, <code>minute</code>, <code>second</code>, <code>week</code>, <code>millisecond</code></td></tr>
+          <tr id="spawn"><td><code>spawn { ... }</code></td><td>new thread</td><td>Captures must be <code>Send</code></td></tr>
+          <tr id="parallel-for"><td><code>parallel for i in 0..n { ... }</code></td><td>parallel loop</td><td>Options: <code>max_threads</code>, <code>threads</code>, <code>cpu = N%</code>, <code>mode</code></td></tr>
+          <tr id="progress-for"><td><code>progress for x in items { ... }</code></td><td>loop + progress bar</td><td>Optional <code>label = "..."</code></td></tr>
+        </tbody>
+      </table>
+      <p>Concurrency details: <a href="concurrency.html">Concurrency</a></p>
+
+      <h2 id="js-helpers">JS-style helpers <span class="badge">import required</span></h2>
+      <p>Ergonomic wrappers with familiar names — import when you want function-style APIs over <code>ptr</code> handles.</p>
+
+      <h3 id="js-array"><code>stdlib/builtins_array.ny</code></h3>
+      <table>
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr id="array-push"><td><code>Array_push(v, x)</code></td><td>Append <code>i32</code></td></tr>
+          <tr id="array-pop"><td><code>Array_pop(v)</code></td><td>Pop last <code>i32</code></td></tr>
+          <tr id="array-map"><td><code>Array_map(v, f)</code></td><td>Map with <code>fn(i32) -&gt; i32</code></td></tr>
+          <tr id="array-filter"><td><code>Array_filter(v, pred)</code></td><td>Filter (<code>pred</code> returns 1/0)</td></tr>
+          <tr id="array-reduce"><td><code>Array_reduce(v, init, f)</code></td><td>Fold left</td></tr>
+          <tr id="array-find"><td><code>Array_find(v, pred, fallback)</code></td><td>First match or fallback</td></tr>
+        </tbody>
+      </table>
+
+      <h3 id="js-string"><code>stdlib/builtins_string.ny</code></h3>
+      <table>
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr id="string-toupper"><td><code>String_toUpperCase(s)</code></td><td>Upper-case</td></tr>
+          <tr id="string-tolower"><td><code>String_toLowerCase(s)</code></td><td>Lower-case</td></tr>
+          <tr id="string-includes"><td><code>String_includes(s, needle)</code></td><td>Substring test</td></tr>
+          <tr id="string-split"><td><code>String_split(s, sep)</code></td><td>Split to string vector</td></tr>
+          <tr id="string-replace"><td><code>String_replace(s, from, to)</code></td><td>Replace all matches</td></tr>
+          <tr id="string-replacen"><td><code>String_replacen(s, from, to, count)</code></td><td>Replace at most <code>count</code> matches</td></tr>
+          <tr id="string-trim"><td><code>trim(s)</code></td><td>Trim whitespace</td></tr>
+        </tbody>
+      </table>
+
+      <h3 id="js-math"><code>stdlib/builtins_math.ny</code></h3>
+      <table>
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr id="math-max"><td><code>Math_max(a, b)</code> / <code>Math_min(a, b)</code></td><td>Min / max (<code>i32</code>)</td></tr>
+          <tr id="math-round"><td><code>Math_round(x)</code> / <code>Math_floor(x)</code> / <code>Math_ceil(x)</code></td><td>Rounding (MVP on <code>i32</code>)</td></tr>
+          <tr id="math-random"><td><code>Math_random()</code></td><td>Random <code>f64</code> in [0, 1)</td></tr>
+        </tbody>
+      </table>
+
+      <h3 id="js-json"><code>stdlib/builtins_json.ny</code></h3>
+      <table>
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr id="json-stringify"><td><code>JSON_stringify(key, value)</code></td><td>Single-field JSON object string</td></tr>
+          <tr id="json-parse"><td><code>JSON_parse(json, key)</code></td><td>Read string field from JSON</td></tr>
+        </tbody>
+      </table>
+
+      <p>Full runnable examples: <code>examples/builtins/</code> · module reference: <a href="stdlib.html">Standard library</a></p>
+
+      <footer class="site-footer"><a href="stdlib.html">Standard library →</a> · <a href="reference.html">Language reference →</a></footer>
+    </main>
+  </div>
+    <script src="vendor/lunr.min.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/site.js"></script>
+</body>
+</html>

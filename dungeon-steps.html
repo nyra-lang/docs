@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06090d">
+  <meta name="color-scheme" content="dark light">
+  <title>Dungeon Steps — Nyra reference app</title>
+  <meta name="description" content="Walkthrough of the NyraApp Dungeon Steps project: imports, const, enum, match, while, &&, %, and tests.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/search.css">
+</head>
+<body data-page="dungeon-steps">
+  <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      <img src="../assets/Nyrabgremoved.png" alt="Nyra">
+      <span>Nyra</span>
+    </a>
+    <div class="site-toolbar">
+      <div class="toolbar-group" role="group" aria-label="Search">
+        <button type="button" class="toolbar-btn search-btn" id="search-open" data-i18n-title="ui.searchOpen" title="Search (Ctrl+K)">
+          <span aria-hidden="true">⌕</span>
+          <kbd>Ctrl+K</kbd>
+        </button>
+      </div>
+
+      <div class="toolbar-group" role="group" aria-label="Theme">
+        <button type="button" class="toolbar-btn" id="theme-toggle" data-i18n-title="ui.themeToggle" title="Toggle theme">
+          <span class="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
+          <span class="theme-icon theme-icon-moon" aria-hidden="true">☽</span>
+        </button>
+      </div>
+      <div class="toolbar-group lang-switch" role="group" aria-label="Language">
+        <button type="button" class="toolbar-btn lang-btn active" data-lang="en" id="lang-en">EN</button>
+        <button type="button" class="toolbar-btn lang-btn" data-lang="ar" id="lang-ar">عربي</button>
+      </div>
+    </div>
+    <label for="nav-check" class="nav-toggle" data-i18n-aria-label="ui.menuOpen" aria-label="Open navigation menu">
+      <span></span><span></span><span></span>
+    </label>
+    <span class="tagline" data-i18n="common.tagline">Fast · Safe · Minimal</span>
+  </header>
+  <label for="nav-check" class="sidebar-backdrop" aria-hidden="true"></label>
+  <div class="layout">
+    <aside class="sidebar">
+<nav>
+  <section>
+    <div class="nav-label" data-i18n="nav.start">Start</div>
+    <ul>
+      <li><a href="index.html" data-i18n="nav.overview">Nyra HOME</a></li>
+      <li><a href="install.html" data-i18n="nav.install">Installation</a></li>
+      <li><a href="learning-path.html" data-i18n="nav.learningPath">Learning path</a></li>
+      <li><a href="ai-skill.html" data-i18n="nav.aiSkill">AI skill file</a></li>
+      <li><a href="#" id="sidebar-search" data-i18n="nav.search">Search</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.learnSection">Learn Nyra</div>
+    <ul>
+      <li><a href="learn-intro.html" data-i18n="nav.learnIntro">Nyra Intro</a></li>
+      <li><a href="learn-get-started.html" data-i18n="nav.learnGetStarted">Nyra Get Started</a></li>
+      <li><a href="learn-syntax.html" data-i18n="nav.learnSyntax">Nyra Syntax</a></li>
+      <li><a href="learn-output.html" data-i18n="nav.learnOutput">Nyra Output</a></li>
+      <li><a href="learn-comments.html" data-i18n="nav.learnComments">Nyra Comments</a></li>
+      <li><a href="learn-variables.html" data-i18n="nav.learnVariables">Nyra Variables</a></li>
+      <li><a href="learn-data-types.html" data-i18n="nav.learnDataTypes">Nyra Data Types</a></li>
+      <li><a href="learn-constants.html" data-i18n="nav.learnConstants">Nyra Constants</a></li>
+      <li><a href="learn-operators.html" data-i18n="nav.learnOperators">Nyra Operators</a></li>
+      <li><a href="learn-booleans.html" data-i18n="nav.learnBooleans">Nyra Booleans</a></li>
+      <li><a href="learn-if-else.html" data-i18n="nav.learnIfElse">Nyra If..Else</a></li>
+      <li><a href="learn-match.html" data-i18n="nav.learnMatch">Nyra Match</a></li>
+      <li><a href="learn-loops.html" data-i18n="nav.learnLoops">Nyra Loops</a></li>
+      <li><a href="learn-while.html" data-i18n="nav.learnWhile">Nyra While Loops</a></li>
+      <li><a href="learn-for.html" data-i18n="nav.learnFor">Nyra For Loops</a></li>
+      <li><a href="learn-functions.html" data-i18n="nav.learnFunctions">Nyra Functions</a></li>
+      <li><a href="learn-scope.html" data-i18n="nav.learnScope">Nyra Scope</a></li>
+      <li><a href="learn-strings.html" data-i18n="nav.learnStrings">Nyra Strings</a></li>
+      <li><a href="learn-ownership.html" data-i18n="nav.learnOwnership">Nyra Ownership</a></li>
+      <li><a href="learn-borrowing.html" data-i18n="nav.learnBorrowing">Nyra Borrowing</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.dataStructuresSection">Nyra Data Structures</div>
+    <ul>
+      <li><a href="learn-data-structures.html" data-i18n="nav.learnDataStructures">Nyra Data Structures</a></li>
+      <li><a href="learn-arrays.html" data-i18n="nav.learnArrays">Nyra Arrays</a></li>
+      <li><a href="learn-vectors.html" data-i18n="nav.learnVectors">Nyra Vectors</a></li>
+      <li><a href="learn-tuples.html" data-i18n="nav.learnTuples">Nyra Tuples</a></li>
+      <li><a href="learn-hashmap.html" data-i18n="nav.learnHashMap">Nyra HashMap</a></li>
+      <li><a href="learn-structs.html" data-i18n="nav.learnStructs">Nyra Structs</a></li>
+      <li><a href="learn-enums.html" data-i18n="nav.learnEnums">Nyra Enums</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.languageSection">Advanced</div>
+    <ul>
+      <li><a href="language-basics.html" data-i18n="nav.basics">Language basics</a></li>
+      <li><a href="language.html" data-i18n="nav.syntax">Syntax</a></li>
+      <li><a href="types.html" data-i18n="nav.types">Types &amp; data</a></li>
+      <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
+      <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
+      <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
+      <li><a href="match.html" data-i18n="nav.match">Match</a></li>
+      <li><a href="modules.html" data-i18n="nav.modules">Modules</a></li>
+      <li><a href="imports.html" data-i18n="nav.imports">Imports guide</a></li>
+      <li><a href="memory.html" data-i18n="nav.memory">Memory &amp; ownership</a></li>
+      <li><a href="async.html" data-i18n="nav.async">Async</a></li>
+      <li><a href="traits-macros.html" data-i18n="nav.traits">Traits &amp; macros</a></li>
+      <li><a href="stdlib.html" data-i18n="nav.stdlib">Standard library</a></li>
+      <li><a href="methods.html" data-i18n="nav.methods">Built-in methods</a></li>
+      <li><a href="concurrency.html" data-i18n="nav.concurrency">Concurrency</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.guides">Guides</div>
+    <ul>
+      <li><a href="examples.html" data-i18n="nav.examples">Example apps</a></li>
+      <li><a class="active" href="dungeon-steps.html" data-i18n="nav.dungeon">Dungeon Steps app</a></li>
+      <li><a href="backend.html" data-i18n="nav.backend">Backend &amp; HTTP</a></li>
+      <li><a href="net-http.html">net/http reference</a></li>
+      <li><a href="os-hardware.html" data-i18n="nav.osHardware">OS, files &amp; hardware</a></li>
+      <li><a href="integration.html" data-i18n="nav.integration">Integration</a></li>
+    </ul>
+  </section>
+  <section>
+    <div class="nav-label" data-i18n="nav.ecosystem">Ecosystem</div>
+    <ul>
+      <li><a href="tooling.html" data-i18n="nav.tooling">Toolchain</a></li>
+      <li><a href="performance.html" data-i18n="nav.performance">Performance</a></li>
+      <li><a href="pgo.html" data-i18n="nav.pgo">PGO</a></li>
+      <li><a href="escape-analysis.html" data-i18n="nav.escapeAnalysis">Escape analysis</a></li>
+      <li><a href="diagnostics.html" data-i18n="nav.diagnostics">Diagnostics</a></li>
+      <li><a href="ffi-abi.html" data-i18n="nav.ffi">FFI &amp; ABI</a></li>
+      <li><a href="c-bindgen.html">C Bindgen</a></li>
+      <li><a href="bindings.html" data-i18n="nav.bindings">Runtime bindings</a></li>
+      <li><a href="targets.html" data-i18n="nav.targets">Targets</a></li>
+      <li><a href="editor-setup.html" data-i18n="nav.editor">Editor setup</a></li>
+      <li><a href="packages.html" data-i18n="nav.packages">NyraPkg</a></li>
+      <li><a href="roadmap.html" data-i18n="nav.roadmap">Roadmap</a></li>
+      <li><a href="changelog.html" data-i18n="nav.changelog">Changelog</a></li>
+      <li><a href="sitemap.html" data-i18n="nav.sitemap">Sitemap</a></li>
+    </ul>
+  </section>
+</nav>
+    </aside>
+    <main class="content">
+      <h1 data-i18n="pages.dungeon-steps.h1">Dungeon Steps</h1>
+      <p class="lead" data-i18n-html="pages.dungeon-steps.lead">
+        A small but <strong>complete multi-file app</strong> in the Nyra repository.
+        Use it as a map from “I read the syntax page” to “I can structure a real project.”
+      </p>
+
+      <nav class="toc">
+        <div class="toc-title">On this page</div>
+        <ul>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#run">Run the app</a></li>
+          <li><a href="#output">Expected output</a></li>
+          <li><a href="#layout">Project layout</a></li>
+          <li><a href="#architecture">How the pieces connect</a></li>
+          <li><a href="#modules">Module walkthrough</a></li>
+          <li><a href="#features">Language features map</a></li>
+          <li><a href="#tests">Built-in tests</a></li>
+          <li><a href="#learn">Suggested learning path</a></li>
+        </ul>
+      </nav>
+
+      <article class="example-block" id="overview">
+        <h2>Overview <span class="badge live">reference app</span></h2>
+        <p>
+          <strong>Dungeon Steps</strong> is a deterministic grid mini-game: the player moves on a 4×4 map,
+          collects gold, avoids traps, and can win by reaching the goal tile.
+          The simulation runs automatically in <code>run_dungeon()</code>; <code>main.ny</code> prints a few
+          demo values so you can see the engine without playing interactively.
+        </p>
+        <p>
+          Source lives at <code>App/NyraApp/</code> in the
+          <a href="https://github.com/hamdymohamedak/Nyra">Nyra repository</a>.
+          It is intentionally larger than the calculator example so you can study
+          <strong>imports</strong>, <strong>shared types</strong>, and <strong>game logic split by concern</strong>.
+        </p>
+      </article>
+
+      <article class="example-block" id="run">
+        <h2>Run the app</h2>
+        <pre><code>git clone https://github.com/hamdymohamedak/Nyra.git
+cd Nyra/App/NyraApp
+nyra run .</code></pre>
+        <div class="callout warning">
+          <strong>Project root only</strong>
+          Run from the directory that contains <code>main.ny</code>.
+          Use <code>nyra run .</code> — not <code>nyra run main.ny</code> — so imports resolve.
+          See <a href="modules.html">Modules</a> and <a href="imports.html">Imports guide</a>.
+        </div>
+        <p>After building Nyra from source locally:</p>
+        <pre><code>./scripts/dev-install.sh   # from repo root
+cd App/NyraApp
+nyra run .</code></pre>
+      </article>
+
+      <article class="example-block" id="output">
+        <h2>Expected output</h2>
+        <pre><code>Dungeon Steps
+65
+0
+3</code></pre>
+        <table>
+          <thead><tr><th>Line</th><th>From</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><code>Dungeon Steps</code></td><td><code>APP_TITLE</code> const</td><td>App title string</td></tr>
+            <tr><td><code>65</code></td><td><code>run_dungeon()</code></td><td>Final score after auto-play (e.g. one gold +15 and goal +50)</td></tr>
+            <tr><td><code>0</code></td><td><code>outcome_code(g1)</code></td><td><code>STATUS_PLAYING</code> after one eastward move from a fresh game</td></tr>
+            <tr><td><code>3</code></td><td><code>for i in 0..3</code></td><td>Sum <code>0 + 1 + 2</code> in the demo loop</td></tr>
+          </tbody>
+        </table>
+        <p>
+          Scores can change if you edit the map or <code>MAX_TURNS</code>; the last two lines stay
+          <code>0</code> and <code>3</code> unless you change <code>main.ny</code>.
+        </p>
+      </article>
+
+      <article class="example-block" id="layout">
+        <h2>Project layout</h2>
+        <div class="file-tree">App/NyraApp/
+  <span class="hl">main.ny</span>          ← entry, prints demo output
+  nyra.mod
+  src/
+    <span class="hl">config.ny</span>      ← file-level const
+    <span class="hl">types.ny</span>       ← enum Tile, Dir; struct GameState
+    <span class="hl">world.ny</span>       ← map, clamp, turn % 4, directions
+    <span class="hl">engine.ny</span>      ← rules, simulation, tests</div>
+        <p>
+          <code>main.ny</code> only imports what it needs for the demo.
+          <code>engine.ny</code> imports <code>world.ny</code>, which imports <code>types.ny</code> and <code>config.ny</code> —
+          a typical layered dependency tree.
+        </p>
+      </article>
+
+      <article class="example-block" id="architecture">
+        <h2>How the pieces connect</h2>
+        <pre class="pipeline">  main.ny
+     │  import config, engine, types
+     ▼
+  engine.ny ──► world.ny ──► types.ny
+     │              │            config.ny
+     │              └── tile_at, clamp_axis, dir_for_turn
+     └── new_game, step_turn, run_dungeon, match on Tile/Dir</pre>
+        <p>
+          <strong>config</strong> holds tuning constants (grid size, damage, status codes).
+          <strong>types</strong> defines shared data shapes used everywhere.
+          <strong>world</strong> is pure geography and movement helpers.
+          <strong>engine</strong> applies tile effects and runs the turn loop.
+        </p>
+      </article>
+
+      <article class="example-block" id="modules">
+        <h2>Module walkthrough</h2>
+
+        <h3>Entry — <code>main.ny</code></h3>
+        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>main.ny
+import &quot;src/config.ny&quot;
+import &quot;src/engine.ny&quot;
+import &quot;src/types.ny&quot;
+
+fn main() {
+    print(APP_TITLE)
+    print(run_dungeon())
+    let g0 = new_game()
+    let g1 = move_player(g0, Dir.East)
+    print(outcome_code(g1))
+    let mut banner = 0
+    for i in 0..3 {
+        banner = banner + i
+    }
+    print(banner)
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>main.ny
+import &quot;src/config.ny&quot;
+import &quot;src/engine.ny&quot;
+import &quot;src/types.ny&quot;
+
+fn main() -&gt; void {
+    print(APP_TITLE)
+    print(run_dungeon())
+    let g0 = new_game()
+    let g1 = move_player(g0, Dir.East)
+    print(outcome_code(g1))
+    let mut banner: i32 = 0
+    for i in 0..3 {
+        banner = banner + i
+    }
+    print(banner)
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <p>Shows: imports, <code>void</code> main, calling functions from other files, enum variant <code>Dir.East</code>, mutable <code>let mut</code>, and <code>for ..</code>.</p>
+
+        <h3>Constants — <code>src/config.ny</code></h3>
+        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>src/config.nyconst GRID = 4
+const MAX_TURNS = 24
+const GOLD_VALUE = 15
+const GOAL_BONUS = 50
+const APP_TITLE = &quot;Dungeon Steps&quot;
+const STATUS_PLAYING = 0
+const STATUS_WON = 1
+const STATUS_LOST = 2</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>src/config.nyconst GRID = 4
+const MAX_TURNS = 24
+const GOLD_VALUE = 15
+const GOAL_BONUS = 50
+const APP_TITLE = &quot;Dungeon Steps&quot;
+const STATUS_PLAYING = 0
+const STATUS_WON = 1
+const STATUS_LOST = 2</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <p>Imported constants are visible in every file that imports <code>config.ny</code>. Use them in conditions like <code>game.turn &lt; MAX_TURNS</code>.</p>
+
+        <h3>Types — <code>src/types.ny</code></h3>
+        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>src/types.ny
+enum Tile { Floor Trap Gold Goal }
+enum Dir { North East South West }
+
+struct GameState {
+    x: i32
+    y: i32
+    hp: i32
+    score: i32
+    turn: i32
+    status: i32
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>src/types.ny
+enum Tile { Floor Trap Gold Goal }
+enum Dir { North East South West }
+
+struct GameState {
+    x: i32
+    y: i32
+    hp: i32
+    score: i32
+    turn: i32
+    status: i32
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <p>Enums model tile and direction tags; the struct bundles simulation state. See <a href="types.html">Types &amp; data</a>.</p>
+
+        <h3>World — <code>src/world.ny</code></h3>
+        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>src/world.ny (excerpt)fn tile_at(x, y) {
+    if x == 3 {
+        if y == 3 { return Tile.Goal }
+    }
+    if x == 2 {
+        if y == 1 { return Tile.Gold }
+    }
+    return Tile.Floor
+}
+
+fn clamp_axis(v) {
+    if v &lt; 0 { return 0 }
+    if v &gt;= GRID { return GRID - 1 }
+    return v
+}
+
+fn turn_phase(turn) {
+    return turn % 4
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>src/world.ny (excerpt)fn tile_at(x, y) -&gt; i32 {
+    if x == 3 {
+        if y == 3 { return Tile.Goal }
+    }
+    if x == 2 {
+        if y == 1 { return Tile.Gold }
+    }
+    return Tile.Floor
+}
+
+fn clamp_axis(v: i32) -&gt; i32 {
+    if v &lt; 0 { return 0 }
+    if v &gt;= GRID { return GRID - 1 }
+    return v
+}
+
+fn turn_phase(turn: i32) -&gt; i32 {
+    return turn % 4
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <p>Shows: functions returning enums across files, comparisons with imported <code>GRID</code>, and modulo <code>%</code>.</p>
+
+        <h3>Engine — <code>src/engine.ny</code></h3>
+        <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>src/engine.ny (excerpt)fn apply_tile_at(..., tile) {
+    return match tile {
+        Tile.Floor =&gt; copy_game(...)
+        Tile.Gold =&gt; copy_game(..., sscore + GOLD_VALUE, ...)
+        Tile.Goal =&gt; copy_game(..., sscore + GOAL_BONUS, ..., STATUS_WON)
+        Tile.Trap =&gt; copy_game(..., trap_hp(shp), ..., trap_status(...))
+    }
+}
+
+fn run_dungeon() {
+    let mut game = new_game()
+    while is_playing(game) != 0 &amp;&amp; game.turn &lt; MAX_TURNS {
+        game = step_turn(game)
+    }
+    ...
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>src/engine.ny (excerpt)fn apply_tile_at(..., tile) -&gt; i32 {
+    return match tile {
+        Tile.Floor =&gt; copy_game(...)
+        Tile.Gold =&gt; copy_game(..., sscore + GOLD_VALUE, ...)
+        Tile.Goal =&gt; copy_game(..., sscore + GOAL_BONUS, ..., STATUS_WON)
+        Tile.Trap =&gt; copy_game(..., trap_hp(shp), ..., trap_status(...))
+    }
+}
+
+fn run_dungeon() {
+    let mut game = new_game()
+    while is_playing(game) != 0 &amp;&amp; game.turn &lt; MAX_TURNS {
+        game = step_turn(game)
+    }
+    ...
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->        <p>Shows: <code>match</code> on enums, struct field access (<code>game.turn</code>), and logical <code>&amp;&amp;</code> in a <code>while</code> loop. Full source is in the repo — read it file-by-file after this overview.</p>
+      </article>
+
+      <article class="example-block" id="features">
+        <h2>Language features map</h2>
+        <table>
+          <thead><tr><th>Feature</th><th>Where in NyraApp</th><th>Docs</th></tr></thead>
+          <tbody>
+            <tr><td><code>import "path.ny"</code></td><td>All modules</td><td><a href="imports.html">Imports guide</a></td></tr>
+            <tr><td><code>const</code></td><td><code>config.ny</code></td><td><a href="language.html">Syntax</a></td></tr>
+            <tr><td><code>struct</code> / <code>enum</code></td><td><code>types.ny</code></td><td><a href="types.html">Types &amp; data</a></td></tr>
+            <tr><td><code>match</code></td><td><code>engine.ny</code></td><td><a href="language.html">Syntax</a></td></tr>
+            <tr><td><code>while</code> / <code>for</code></td><td><code>engine.ny</code>, <code>main.ny</code></td><td><a href="language.html">Syntax</a></td></tr>
+            <tr><td><code>&amp;&amp;</code></td><td><code>run_dungeon</code> loop</td><td><a href="language.html">Syntax</a></td></tr>
+            <tr><td><code>%</code></td><td><code>turn_phase</code></td><td><a href="language.html">Syntax</a></td></tr>
+            <tr><td><code>test fn</code></td><td>Bottom of <code>engine.ny</code></td><td><a href="tooling.html">Toolchain</a></td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="example-block" id="tests">
+        <h2>Built-in tests</h2>
+        <p><code>engine.ny</code> includes small tests you can run from the project root:</p>
+        <pre><code>nyra test .</code></pre>
+        <p>Examples: <code>map_has_gold_tile</code>, <code>fresh_game_is_playing</code>, <code>turn_phase_uses_mod</code>.</p>
+        <p>Use tests as a template when you add your own modules — keep checks next to the logic they verify.</p>
+      </article>
+
+      <article class="example-block" id="learn">
+        <h2>Suggested learning path</h2>
+        <ol class="steps">
+          <li>Run <code>nyra run .</code> and match each output line to <code>main.ny</code> (see <a href="#output">Expected output</a>).</li>
+          <li>Read <code>src/config.ny</code> and <code>src/types.ny</code> — no imports to untangle yet.</li>
+          <li>Trace one move: <code>move_player</code> → <code>advance_parts</code> → <code>tile_at</code> in <code>world.ny</code>.</li>
+          <li>Read <code>run_dungeon</code> and follow <code>step_turn</code> / <code>dir_for_turn</code> for auto-play.</li>
+          <li>Change <code>GOLD_VALUE</code> or trap position in <code>world.ny</code>, rebuild, and compare the printed score.</li>
+          <li>Run <code>nyra test .</code> and add a <code>test fn</code> for a rule you care about.</li>
+        </ol>
+        <div class="callout">
+          <strong>Smaller steps first?</strong>
+          Start with <a href="examples.html#greet-app">Multi-file greet</a> and
+          <a href="examples.html#calculator">Calculator</a>, then come back here for a full app shape.
+        </div>
+      </article>
+
+      <footer class="site-footer">
+        <a href="examples.html">← Example apps</a> ·
+        <a href="imports.html">Imports guide</a> ·
+        <a href="getting-started.html">Getting started</a>
+      </footer>
+    </main>
+  </div>
+    <script src="vendor/lunr.min.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/typed-transform.js"></script>
+    <script src="js/site.js"></script>
+</body>
+</html>
