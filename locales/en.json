@@ -181,7 +181,7 @@
       "resultProdP": "Documented and conformance-tested for evaluation — not recommended for production error-heavy apps until ? ships.",
       "resultExampleLink": "Result reference & example →",
       "statusTitle": "Project status",
-      "statusBody": "Nyra is <strong>MVP / pre-production</strong>. Core tier is semver-stable for learning; Extended features, async, and <code>?</code> error propagation are experimental or missing. <strong>Not ready for mission-critical production use.</strong> See <a href=\"roadmap.html\">Roadmap</a> and <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md\">stability policy</a>."
+      "statusBody": "Nyra is <strong>MVP / pre-production</strong>. Core tier is semver-stable for learning; Extended features, async, and <code>?</code> error propagation are experimental or missing. <strong>Not ready for mission-critical production use.</strong> See <a href=\"roadmap.html\">Roadmap</a> and <a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/stability-v1.md\">stability policy</a>."
     },
     "getting-started": {
       "metaTitle": "Getting started — Nyra Docs",
@@ -249,7 +249,7 @@
       "td_clang_why": "Links your <code>.ny</code> programs with the Nyra C runtime (<code>nyra_rt.c</code>)",
       "td_tar_why": "Extract release archives (macOS/Linux)",
       "h2_tag": "2. Pick a release tag",
-      "li_tag_1": "Open <a href=\"https://github.com/hamdymohamedak/Nyra/releases\">Releases</a>.",
+      "li_tag_1": "Open <a href=\"https://github.com/nyra-lang/nyra/releases\">Releases</a>.",
       "li_tag_2": "Choose a version (e.g. <strong>v1.0.0</strong> — includes <code>nyra pkg init</code> + <code>main.ny</code> scaffold).",
       "li_tag_3": "Under <strong>Assets</strong>, download the file that matches your <strong>CPU</strong> and <strong>OS</strong> (see table).",
       "th_machine": "Your machine",
@@ -294,7 +294,7 @@
       "h2_qr": "Quick reference",
       "th_step": "Step",
       "th_cmd": "Command",
-      "p_canonical": "Canonical source: <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/install.md\"><code>install.md</code></a> in the repository.",
+      "p_canonical": "Canonical source: <a href=\"https://github.com/nyra-lang/nyra/blob/main/install.md\"><code>install.md</code></a> in the repository.",
       "footer_next": "Getting started →"
     },
     "language": {

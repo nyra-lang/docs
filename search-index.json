@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-26T23:09:54.051Z",
+  "generated": "2026-06-27T06:06:45.692Z",
   "docs": [
     {
       "pageTitle": "AI skill file",
@@ -349,7 +349,7 @@
       "id": "bindings.html#intro",
       "title": "Runtime bindings",
       "heading": "Runtime bindings",
-      "body": "Runtime bindings C runtime symbols mapped to Nyra extern fn in stdlib and NyraPkg packages. Generated from docs/abi-manifest.toml + stdlib scan. Regenerate: python3 scripts/gen-bindings-doc.py . C header: stdlib/nyra_rt.h ."
+      "body": "Runtime bindings C runtime symbols mapped to Nyra extern fn in stdlib and NyraPkg packages. Generated from docs/abi-manifest.toml + stdlib scan. Regenerate: make gen-bindings-doc . C header: stdlib/nyra_rt.h ."
     },
     {
       "pageTitle": "Runtime bindings",
@@ -2399,7 +2399,7 @@
       "id": "install.html#intro",
       "title": "Install Nyra",
       "heading": "Install Nyra",
-      "body": "Install Nyra Install the Nyra toolchain from a GitHub release tag , set up your environment, and run your first project on macOS , Linux , or Windows . Repository: github.com/hamdymohamedak/Nyra Releases (tags): github.com/hamdymohamedak/Nyra/releases Public repository required for the one-line installer The repo must be public (or you must be logged in) to download release assets and to use the curl | sh installer. Private repos require manual download from the Releases page while signed in, or building from source. On this page 1. Requirements 2. Pick a release tag 3. Install layout 4. macOS 5. Linux 6. Windows 7. First project 8. Upgrade 9. Build from source 10. Uninstall 11. Troubleshooting Quick reference"
+      "body": "Install Nyra Install the Nyra toolchain from a GitHub release tag , set up your environment, and run your first project on macOS , Linux , or Windows . Repository: github.com/nyra-lang/nyra Releases (tags): github.com/nyra-lang/nyra/releases Public repository required for the one-line installer The repo must be public (or you must be logged in) to download release assets and to use the curl | sh installer. Private repos require manual download from the Releases page while signed in, or building from source. On this page 1. Requirements 2. Pick a release tag 3. Install layout 4. macOS 5. Linux 6. Windows 7. First project 8. Upgrade 9. Build from source 10. Uninstall 11. Troubleshooting Quick reference"
     },
     {
       "pageTitle": "Install Nyra",
@@ -2469,7 +2469,7 @@
       "id": "install.html#option-a-one-line-installer-easiest",
       "title": "Install Nyra",
       "heading": "Option A — One-line installer (easiest)",
-      "body": "Option A — One-line installer (easiest) Requires a public repo and curl : curl -fsSL https://raw.githubusercontent.com/hamdymohamedak/Nyra/main/scripts/install.sh | sh Pin a specific tag: curl -fsSL https://raw.githubusercontent.com/hamdymohamedak/Nyra/main/scripts/install.sh | sh -s -- --version 1.0.0 Reload shell: source ~/.zshrc # or ~/.bashrc nyra --version"
+      "body": "Option A — One-line installer (easiest) Requires a public repo and curl : curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh Pin a specific tag: curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh -s -- --version 1.0.0 Reload shell: source ~/.zshrc # or ~/.bashrc nyra --version"
     },
     {
       "pageTitle": "Install Nyra",
@@ -2499,7 +2499,7 @@
       "id": "install.html#option-a-one-line-installer",
       "title": "Install Nyra",
       "heading": "Option A — One-line installer",
-      "body": "Option A — One-line installer curl -fsSL https://raw.githubusercontent.com/hamdymohamedak/Nyra/main/scripts/install.sh | sh # or pin version: curl -fsSL https://raw.githubusercontent.com/hamdymohamedak/Nyra/main/scripts/install.sh | sh -s -- --version 1.0.0 source ~/.bashrc # or ~/.zshrc nyra --version"
+      "body": "Option A — One-line installer curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh # or pin version: curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh -s -- --version 1.0.0 source ~/.bashrc # or ~/.zshrc nyra --version"
     },
     {
       "pageTitle": "Install Nyra",
@@ -2519,7 +2519,7 @@
       "id": "install.html#option-a-powershell-installer-recommended",
       "title": "Install Nyra",
       "heading": "Option A — PowerShell installer (recommended)",
-      "body": "Option A — PowerShell installer (recommended) irm https://raw.githubusercontent.com/hamdymohamedak/Nyra/main/scripts/install.ps1 | iex # or pin version: .\\scripts\\install.ps1 -Version 1.1.0 nyra --version Requires clang (LLVM for Windows) on PATH to link .ny programs."
+      "body": "Option A — PowerShell installer (recommended) irm https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.ps1 | iex # or pin version: .\\scripts\\install.ps1 -Version 1.1.0 nyra --version Requires clang (LLVM for Windows) on PATH to link .ny programs."
     },
     {
       "pageTitle": "Install Nyra",
@@ -2549,7 +2549,7 @@
       "id": "install.html#alternative-build-from-source-native-windows",
       "title": "Install Nyra",
       "heading": "Alternative — Build from source (native Windows)",
-      "body": "Alternative — Build from source (native Windows) Install Rust and clang (LLVM) on Windows. Clone the repo (same tag you want, e.g. v1.0.0 ): git clone https://github.com/hamdymohamedak/Nyra.git cd Nyra git checkout v1.0.0 cargo build --release -p nyra-cli Use the built CLI and point runtime at the repo stdlib : $env:PATH = \"$PWD\\target\\release;$env:PATH\" $env:NYRA_HOME = \"$PWD\" .\\target\\release\\nyra.exe --version Run examples from the repo root: .\\target\\release\\nyra.exe run examples\\syntax\\hello.ny Native Windows support is evolving; WSL2 matches the Linux release workflow today."
+      "body": "Alternative — Build from source (native Windows) Install Rust and clang (LLVM) on Windows. Clone the repo (same tag you want, e.g. v1.0.0 ): git clone https://github.com/nyra-lang/nyra.git cd nyra git checkout v1.0.0 cargo build --release -p nyra-cli Use the built CLI and point runtime at the repo stdlib : $env:PATH = \"$PWD\\target\\release;$env:PATH\" $env:NYRA_HOME = \"$PWD\" .\\target\\release\\nyra.exe --version Run examples from the repo root: .\\target\\release\\nyra.exe run examples\\syntax\\hello.ny Native Windows support is evolving; WSL2 matches the Linux release workflow today."
     },
     {
       "pageTitle": "Install Nyra",
@@ -2579,7 +2579,7 @@
       "id": "install.html#source",
       "title": "Install Nyra",
       "heading": "9. Build from source (contributors)",
-      "body": "9. Build from source (contributors) If you work on the compiler itself: git clone https://github.com/hamdymohamedak/Nyra.git cd Nyra cargo build --release -p nyra-cli export PATH=\"$PWD/target/release:$PATH\" nyra run examples/syntax/hello.ny Or: cargo install --path cli Local iteration: ./scripts/dev-install.sh from the repo root."
+      "body": "9. Build from source (contributors) If you work on the compiler itself: git clone https://github.com/nyra-lang/nyra.git cd nyra cargo build --release -p nyra-cli export PATH=\"$PWD/target/release:$PATH\" nyra run examples/syntax/hello.ny Or: cargo install --path cli Local iteration: ./scripts/dev-install.sh from the repo root."
     },
     {
       "pageTitle": "Install Nyra",
@@ -2609,7 +2609,7 @@
       "id": "install.html#quick-ref",
       "title": "Install Nyra",
       "heading": "Quick reference",
-      "body": "Quick reference Step Command Latest install (mac/Linux, public repo) curl -fsSL https://raw.githubusercontent.com/hamdymohamedak/Nyra/main/scripts/install.sh | sh Pin version ... | sh -s -- --version 1.0.0 New project nyra pkg init && nyra run main.ny Releases page github.com/hamdymohamedak/Nyra/releases Canonical source: install.md in the repository. Getting started → · Overview"
+      "body": "Quick reference Step Command Latest install (mac/Linux, public repo) curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh Pin version ... | sh -s -- --version 1.0.0 New project nyra pkg init && nyra run main.ny Releases page github.com/nyra-lang/nyra/releases Canonical source: install.md in the repository. Getting started → · Overview"
     },
     {
       "pageTitle": "Integration guides",

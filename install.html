@@ -152,9 +152,9 @@
       </p>
       <p>
         <strong data-i18n="pages.install.repoLabel">Repository:</strong>
-        <a href="https://github.com/hamdymohamedak/Nyra">github.com/hamdymohamedak/Nyra</a><br>
+        <a href="https://github.com/nyra-lang/nyra">github.com/nyra-lang/nyra</a><br>
         <strong data-i18n="pages.install.releasesLabel">Releases (tags):</strong>
-        <a href="https://github.com/hamdymohamedak/Nyra/releases">github.com/hamdymohamedak/Nyra/releases</a>
+        <a href="https://github.com/nyra-lang/nyra/releases">github.com/nyra-lang/nyra/releases</a>
       </p>
 
       <div class="callout warning">
@@ -217,7 +217,7 @@
 
       <h2 id="release-tag" data-i18n="pages.install.h2_tag">2. Pick a release tag</h2>
       <ol>
-        <li>Open <a href="https://github.com/hamdymohamedak/Nyra/releases">Releases</a>.</li>
+        <li>Open <a href="https://github.com/nyra-lang/nyra/releases">Releases</a>.</li>
         <li>Choose a version (e.g. <strong>v1.0.0</strong> — includes <code>nyra pkg init</code> + <code>main.ny</code> scaffold).</li>
         <li>Under <strong>Assets</strong>, download the file that matches your <strong>CPU</strong> and <strong>OS</strong> (see table).</li>
       </ol>
@@ -246,16 +246,16 @@ export PATH="$NYRA_HOME/bin:$PATH"</code></pre>
       <h2 id="macos" data-i18n="pages.install.h2_macos">4. macOS</h2>
       <h3>Option A — One-line installer (easiest)</h3>
       <p>Requires a <strong>public</strong> repo and <code>curl</code>:</p>
-      <pre><code>curl -fsSL https://raw.githubusercontent.com/hamdymohamedak/Nyra/main/scripts/install.sh | sh</code></pre>
+      <pre><code>curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh</code></pre>
       <p>Pin a specific tag:</p>
-      <pre><code>curl -fsSL https://raw.githubusercontent.com/hamdymohamedak/Nyra/main/scripts/install.sh | sh -s -- --version 1.0.0</code></pre>
+      <pre><code>curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh -s -- --version 1.0.0</code></pre>
       <p>Reload shell:</p>
       <pre><code>source ~/.zshrc    # or ~/.bashrc
 nyra --version</code></pre>
 
       <h3>Option B — Manual install from a release tag</h3>
       <ol class="steps">
-        <li>Download <code>nyra-aarch64-darwin.tar.gz</code> or <code>nyra-x86_64-darwin.tar.gz</code> from <a href="https://github.com/hamdymohamedak/Nyra/releases">Releases</a>.</li>
+        <li>Download <code>nyra-aarch64-darwin.tar.gz</code> or <code>nyra-x86_64-darwin.tar.gz</code> from <a href="https://github.com/nyra-lang/nyra/releases">Releases</a>.</li>
         <li>Extract:</li>
       </ol>
       <pre><code>mkdir -p ~/.nyra
@@ -277,16 +277,16 @@ nyra --version</code></pre>
 
       <h2 id="linux" data-i18n="pages.install.h2_linux">5. Linux</h2>
       <h3>Option A — One-line installer</h3>
-      <pre><code>curl -fsSL https://raw.githubusercontent.com/hamdymohamedak/Nyra/main/scripts/install.sh | sh
+      <pre><code>curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh
 # or pin version:
-curl -fsSL https://raw.githubusercontent.com/hamdymohamedak/Nyra/main/scripts/install.sh | sh -s -- --version 1.0.0
+curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh -s -- --version 1.0.0
 source ~/.bashrc   # or ~/.zshrc
 nyra --version</code></pre>
 
       <h3>Option B — Manual install from a release tag</h3>
       <ol class="steps">
         <li>Install clang: <code>sudo apt install clang</code> (or your distro equivalent).</li>
-        <li>Download <code>nyra-x86_64-linux.tar.gz</code> or <code>nyra-aarch64-linux.tar.gz</code> from <a href="https://github.com/hamdymohamedak/Nyra/releases">Releases</a>.</li>
+        <li>Download <code>nyra-x86_64-linux.tar.gz</code> or <code>nyra-aarch64-linux.tar.gz</code> from <a href="https://github.com/nyra-lang/nyra/releases">Releases</a>.</li>
         <li>Extract and configure:</li>
       </ol>
       <pre><code>mkdir -p ~/.nyra
@@ -300,7 +300,7 @@ nyra --version</code></pre>
       <p>Prebuilt Windows binaries ship on every release tag as <code>nyra-x86_64-windows.zip</code>.</p>
 
       <h3>Option A — PowerShell installer (recommended)</h3>
-      <pre><code>irm https://raw.githubusercontent.com/hamdymohamedak/Nyra/main/scripts/install.ps1 | iex
+      <pre><code>irm https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.ps1 | iex
 # or pin version:
 .\scripts\install.ps1 -Version 1.1.0
 nyra --version</code></pre>
@@ -308,7 +308,7 @@ nyra --version</code></pre>
 
       <h3>Option B — Manual zip from Releases</h3>
       <ol class="steps">
-        <li>Download <code>nyra-x86_64-windows.zip</code> from <a href="https://github.com/hamdymohamedak/Nyra/releases">Releases</a>.</li>
+        <li>Download <code>nyra-x86_64-windows.zip</code> from <a href="https://github.com/nyra-lang/nyra/releases">Releases</a>.</li>
         <li>Extract to e.g. <code>%USERPROFILE%\.nyra</code>.</li>
         <li>Add <code>%USERPROFILE%\.nyra\bin</code> to <code>PATH</code> and set <code>NYRA_HOME</code>.</li>
         <li>Dot-source <code>env.ps1</code> in the zip or open a new terminal after the installer updated user PATH.</li>
@@ -327,8 +327,8 @@ nyra --version</code></pre>
         <li>Install <a href="https://rustup.rs/">Rust</a> and <strong>clang</strong> (LLVM) on Windows.</li>
         <li>Clone the repo (same tag you want, e.g. <code>v1.0.0</code>):</li>
       </ol>
-      <pre><code>git clone https://github.com/hamdymohamedak/Nyra.git
-cd Nyra
+      <pre><code>git clone https://github.com/nyra-lang/nyra.git
+cd nyra
 git checkout v1.0.0
 cargo build --release -p nyra-cli</code></pre>
       <ol class="steps" start="3">
@@ -372,15 +372,15 @@ nyra fmt --write main.ny</code></pre>
 
       <h2 id="upgrade" data-i18n="pages.install.h2_up">8. Upgrade to a newer tag</h2>
       <ol>
-        <li>Open <a href="https://github.com/hamdymohamedak/Nyra/releases">Releases</a> and pick a newer tag (e.g. <code>v0.1.2</code>).</li>
+        <li>Open <a href="https://github.com/nyra-lang/nyra/releases">Releases</a> and pick a newer tag (e.g. <code>v0.1.2</code>).</li>
         <li><strong>macOS/Linux:</strong> re-run the install script with <code>--version</code>, or download the new <code>.tar.gz</code> and extract over <code>~/.nyra</code>.</li>
         <li>Confirm: <code>nyra --version</code>.</li>
       </ol>
 
       <h2 id="source" data-i18n="pages.install.h2_src">9. Build from source (contributors)</h2>
       <p>If you work on the compiler itself:</p>
-      <pre><code>git clone https://github.com/hamdymohamedak/Nyra.git
-cd Nyra
+      <pre><code>git clone https://github.com/nyra-lang/nyra.git
+cd nyra
 cargo build --release -p nyra-cli
 export PATH="$PWD/target/release:$PATH"
 nyra run examples/syntax/hello.ny</code></pre>
@@ -409,15 +409,15 @@ nyra run examples/syntax/hello.ny</code></pre>
       <table>
         <thead><tr><th>Step</th><th>Command</th></tr></thead>
         <tbody>
-          <tr><td>Latest install (mac/Linux, public repo)</td><td><code>curl -fsSL https://raw.githubusercontent.com/hamdymohamedak/Nyra/main/scripts/install.sh | sh</code></td></tr>
+          <tr><td>Latest install (mac/Linux, public repo)</td><td><code>curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh</code></td></tr>
           <tr><td>Pin version</td><td><code>... | sh -s -- --version 1.0.0</code></td></tr>
           <tr><td>New project</td><td><code>nyra pkg init &amp;&amp; nyra run main.ny</code></td></tr>
-          <tr><td>Releases page</td><td><a href="https://github.com/hamdymohamedak/Nyra/releases">github.com/hamdymohamedak/Nyra/releases</a></td></tr>
+          <tr><td>Releases page</td><td><a href="https://github.com/nyra-lang/nyra/releases">github.com/nyra-lang/nyra/releases</a></td></tr>
         </tbody>
       </table>
 
       <p class="text-muted" style="color: var(--text-muted); font-size: 0.9rem;">
-        Canonical source: <a href="https://github.com/hamdymohamedak/Nyra/blob/main/install.md"><code>install.md</code></a> in the repository.
+        Canonical source: <a href="https://github.com/nyra-lang/nyra/blob/main/install.md"><code>install.md</code></a> in the repository.
       </p>
 
       <footer class="site-footer">

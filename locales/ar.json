@@ -163,7 +163,7 @@
       "cardSpecP": "Spec 1.0 المعياري (تجميد v0.2)",
       "cardLearningPathP": "من الصفر إلى تطبيق كامل — خطوة بخطوة",
       "statusTitle": "حالة المشروع",
-      "statusBody": "Nyra في مرحلة <strong>MVP / ما قبل الإنتاج</strong>. طبقة Core مستقرة للتعلم؛ الميزات الموسّعة وasync و<code>?</code> تجريبية أو مفقودة. <strong>غير جاهز للاستخدام الإنتاجي الحرج.</strong> راجع <a href=\"roadmap.html\">خارطة الطريق</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md\">سياسة الاستقرار</a>.",
+      "statusBody": "Nyra في مرحلة <strong>MVP / ما قبل الإنتاج</strong>. طبقة Core مستقرة للتعلم؛ الميزات الموسّعة وasync و<code>?</code> تجريبية أو مفقودة. <strong>غير جاهز للاستخدام الإنتاجي الحرج.</strong> راجع <a href=\"roadmap.html\">خارطة الطريق</a> و<a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/stability-v1.md\">سياسة الاستقرار</a>.",
       "aiSkillTitle": "للمساعدين الذكاء الاصطناعي",
       "aiSkillDesc": "حمّل المرجع الرسمي لـ Nyra لـ Cursor وChatGPT وClaude وغيرها.",
       "aiSkillBody": "ملف واحد <code>nyra-skill.md</code> — الصياغة، الملكية، stdlib، PGO، escape analysis، قواعد Result/MVP، ومنع الهلوسة (v1.2.x).",
@@ -242,7 +242,7 @@
       "td_clang_why": "يربط برامج <code>.ny</code> مع وقت التشغيل C لـ Nyra (<code>nyra_rt.c</code>)",
       "td_tar_why": "فك أرشيفات الإصدار (macOS/Linux)",
       "h2_tag": "2. اختيار وسم إصدار",
-      "li_tag_1": "افتح <a href=\"https://github.com/hamdymohamedak/Nyra/releases\">Releases</a>.",
+      "li_tag_1": "افتح <a href=\"https://github.com/nyra-lang/nyra/releases\">Releases</a>.",
       "li_tag_2": "اختر إصداراً (مثل <strong>v1.0.0</strong> — يتضمن <code>nyra pkg init</code> + هيكل <code>main.ny</code>).",
       "li_tag_3": "تحت <strong>Assets</strong>، نزّل الملف المطابق لـ <strong>المعالج</strong> و<strong>النظام</strong> (انظر الجدول).",
       "th_machine": "جهازك",
@@ -287,7 +287,7 @@
       "h2_qr": "مرجع سريع",
       "th_step": "الخطوة",
       "th_cmd": "الأمر",
-      "p_canonical": "المصدر الرسمي: <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/install.md\"><code>install.md</code></a> في المستودع.",
+      "p_canonical": "المصدر الرسمي: <a href=\"https://github.com/nyra-lang/nyra/blob/main/install.md\"><code>install.md</code></a> في المستودع.",
       "footer_next": "البدء السريع ←"
     },
     "language": {
