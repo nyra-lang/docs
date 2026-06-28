@@ -100,12 +100,12 @@
   "pages": {
     "index": {
       "metaTitle": "Nyra — Programming Language Documentation",
-      "pill": "Documentation v1.2.x",
+      "pill": "Documentation v1.36.x",
       "titleSub": "Programming Language",
       "tagline": "Fast like a panther. Sharp by design.",
       "lead": "Go’s simplicity. Rust’s safety. C++’s speed — one toolchain, LLVM under the hood.",
-      "mvpBannerTitle": "MVP — not production-ready",
-      "mvpBannerBody": "Nyra is in active development. Core tier is stable for learning and evaluation; Extended features, async, and error propagation (<code>?</code>) are MVP or missing. <strong>Do not use for mission-critical deployments.</strong> <a href=\"roadmap.html\">Roadmap →</a>",
+      "mvpBannerTitle": "Production-ready — Core + Stable Extended",
+      "mvpBannerBody": "<strong>Core</strong> and <strong>Stable Extended</strong> are semver-stable: async/await, <code>?</code>, spawn, traits, serde, and enum payloads ship without W001. Prebuilt Linux, macOS, and Windows releases. A few advanced areas (multi-trait <code>dyn</code>, exotic generic serde) are still maturing — see <a href=\"roadmap.html\">Roadmap</a> and <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a>.",
       "chipFast": "Fast",
       "chipSafe": "Safe",
       "chipMinimal": "Minimal",
@@ -115,7 +115,7 @@
       "btnReference": "Reference app",
       "ariaGithub": "GitHub repository",
       "aboutTitle": "What is Nyra?",
-      "aboutDesc": "Systems-oriented language in active development — readable surface, strict core.",
+      "aboutDesc": "Production-ready systems language — readable surface, strict core, LLVM-native speed.",
       "aboutSourceH": "Source",
       "aboutSourceP": "Programs live in <code>.ny</code> files. A Nyra frontend emits <strong>LLVM IR</strong>, then <strong>clang</strong> links with <code>nyra_rt.c</code> for I/O and runtime helpers.",
       "aboutPhilH": "Philosophy",
@@ -168,20 +168,20 @@
       "cardLearningPathP": "Zero to full app — step by step",
       "aiSkillTitle": "For AI assistants",
       "aiSkillDesc": "Download the canonical Nyra reference for Cursor, ChatGPT, Claude, and other LLMs.",
-      "aiSkillBody": "Single file <code>nyra-skill.md</code> — syntax, ownership, stdlib, PGO, escape analysis, Result/error-handling MVP rules, and anti-hallucination guardrails (v1.2.x).",
+      "aiSkillBody": "Single file <code>nyra-skill.md</code> — syntax, ownership, stdlib, PGO, escape analysis, stability tiers, and anti-hallucination guardrails (v1.36.x).",
       "aiSkillDownload": "Download nyra-skill.md",
       "aiSkillGuide": "Usage guide",
-      "resultTitle": "Result & error handling (MVP)",
-      "resultDesc": "Real Result payloads work — but without ?, every fallible step needs explicit match.",
-      "resultTodayH": "What works today",
-      "resultTodayP": "<code>enum Result_i32_i32 { Ok(i32), Err(i32) }</code> and <code>import \"stdlib/option.ny\"</code> for generic payloads. Tests: <code>tests/nyra/result_propagate_test.ny</code>.",
-      "resultMissingH": "What is missing",
-      "resultMissingP": "No <code>?</code> operator — pipelines need repeated <code>match</code> or helper wrappers. Early <code>return</code> inside match arms is not supported yet.",
+      "resultTitle": "Result & error handling",
+      "resultDesc": "Stable Extended <code>Result</code> payloads with <code>?</code> propagation for fallible pipelines.",
+      "resultTodayH": "Shipped (Stable Extended)",
+      "resultTodayP": "The <code>?</code> operator, generic <code>Result&lt;T,E&gt;</code> via <code>import \"stdlib/option.ny\"</code>, and tests such as <code>tests/nyra/result_propagate_test.ny</code>.",
+      "resultMissingH": "Still maturing",
+      "resultMissingP": "Multi-trait <code>dyn A + B</code> objects and some exotic generic serde cases — see roadmap production gates.",
       "resultProdH": "Production readiness",
-      "resultProdP": "Documented and conformance-tested for evaluation — not recommended for production error-heavy apps until ? ships.",
+      "resultProdP": "Ready for production error-handling in CLI tools and servers on Core + Stable Extended.",
       "resultExampleLink": "Result reference & example →",
       "statusTitle": "Project status",
-      "statusBody": "Nyra is <strong>MVP / pre-production</strong>. Core tier is semver-stable for learning; Extended features, async, and <code>?</code> error propagation are experimental or missing. <strong>Not ready for mission-critical production use.</strong> See <a href=\"roadmap.html\">Roadmap</a> and <a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/stability-v1.md\">stability policy</a>."
+      "statusBody": "Nyra is <strong>production-ready</strong> on Core + Stable Extended (async, <code>?</code>, spawn, traits, serde). Prebuilt releases for Linux, macOS, and Windows. See <a href=\"roadmap.html\">Roadmap</a>, <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a>, and <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md\">stability policy</a>."
     },
     "getting-started": {
       "metaTitle": "Getting started — Nyra Docs",
@@ -372,7 +372,7 @@
     "spec": { "metaTitle": "Language specification — Nyra Docs", "h1": "Language specification", "lead": "Normative Spec 1.0 freeze (v0.3.0)." },
     "generics": { "metaTitle": "Generics — Nyra Docs", "h1": "Generics", "lead": "Type parameters and monomorphization." },
     "match": { "metaTitle": "Match — Nyra Docs", "h1": "Match expressions", "lead": "Exhaustiveness, guards, tag-only enums." },
-    "async": { "metaTitle": "Async — Nyra Docs", "h1": "Async & await", "lead": "Async functions and await (MVP)." },
+    "async": { "metaTitle": "Async — Nyra Docs", "h1": "Async & await", "lead": "Async functions and await (Stable Extended)." },
     "traits-macros": { "metaTitle": "Traits & macros — Nyra Docs", "h1": "Traits & macros", "lead": "Trait definitions, <code>impl Drop for Type</code>, and macro expansion." },
     "performance": { "metaTitle": "Performance — Nyra Docs", "h1": "Performance toolchain", "lead": "LLVM opt, release flags, LTO, benchmarks." },
     "pgo": {
@@ -412,7 +412,7 @@
     "roadmap": {
       "metaTitle": "Roadmap & status — Nyra Docs",
       "h1": "Roadmap & status",
-      "lead": "Nyra 1.0 — Core tier is semver-stable; Extended features are experimental."
+      "lead": "Nyra 1.x — Core and Stable Extended are semver-stable. See <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a> and <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md\">stability-v1.md</a>."
     }
   }
 }

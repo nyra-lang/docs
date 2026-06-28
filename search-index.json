@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-27T08:17:20.066Z",
+  "generated": "2026-06-28T01:47:43.105Z",
   "docs": [
     {
       "pageTitle": "AI skill file",
@@ -9,7 +9,7 @@
       "id": "ai-skill.html#intro",
       "title": "AI skill file",
       "heading": "AI skill file",
-      "body": "AI skill file Download nyra-skill.md — the complete Nyra reference for AI assistants: syntax, all built-in methods, ownership, PGO, escape analysis, FFI, Result/error-handling MVP rules, and toolchain. MVP — not production-ready Nyra is in active development. This skill file is the authoritative reference for AI-assisted coding , but the language itself is not ready for mission-critical production deployments . Core tier is stable for learning; Extended features, async, and ? error propagation are MVP or missing. See Roadmap . Download nyra-skill.md Copy to clipboard"
+      "body": "AI skill file Download nyra-skill.md — the complete Nyra reference for AI assistants: syntax, all built-in methods, ownership, PGO, escape analysis, FFI, Result/error-handling MVP rules, and toolchain. Production-ready — Core + Stable Extended This skill file is the authoritative reference for AI-assisted coding . Nyra ships async/await, ? , spawn, traits, and serde on Core + Stable Extended — prebuilt Linux, macOS, and Windows releases. Advanced gates (multi-trait dyn , exotic generic serde) are still maturing. See Roadmap and status.md . Download nyra-skill.md Copy to clipboard"
     },
     {
       "pageTitle": "AI skill file",
@@ -19,7 +19,7 @@
       "id": "ai-skill.html#whats-inside-nyra-skillmd",
       "title": "AI skill file",
       "heading": "What’s inside nyra-skill.md",
-      "body": "What’s inside nyra-skill.md Single markdown file with fenced ```ny code blocks. Use it as the sole Nyra reference — do not invent syntax. Sections Language reference — keywords, operators, literals, statements Built-in API — print , date() , string methods, arrays, for … in , timing Ownership — Copy/Move, borrow, auto-drop, NLL, move / clone PGO — nyra build --pgo . , training, cache, LLVM profiles Escape analysis — NoEscape, LocalChannel, SROA, #[no_escape] C Bindgen — nyra pkg c add zlib , FFI out-parameters NyraPkg — nyra.mod , semver, link-source , nyra pkg prune (W002/W003 auto-fix) Result & errors (MVP) — no ? ; explicit match per step Toolchain — run , build --release , cross-compile, check"
+      "body": "What’s inside nyra-skill.md Single markdown file with fenced ```ny code blocks. Use it as the sole Nyra reference — do not invent syntax. Sections Language reference — keywords, operators, literals, statements Built-in API — print , date() , string methods, arrays, for … in , timing Ownership — Copy/Move, borrow, auto-drop, NLL, move / clone PGO — nyra build --pgo . , training, cache, LLVM profiles Escape analysis — NoEscape, LocalChannel, SROA, #[no_escape] C Bindgen — nyra pkg c add zlib , FFI out-parameters NyraPkg — nyra.mod , semver, link-source , nyra pkg prune (W002/W003 auto-fix) Result & errors — ? propagation and explicit match Toolchain — run , build --release , cross-compile, check"
     },
     {
       "pageTitle": "AI skill file",
@@ -58,8 +58,8 @@
       "kind": "content",
       "id": "ai-skill.html#result-errors",
       "title": "AI skill file",
-      "heading": "Result & error handling (MVP)",
-      "body": "Result & error handling (MVP) With real Result payloads ( enum Result_i32_i32 { Ok(i32), Err(i32) } or import \"stdlib/option.ny\" ), every fallible step needs its own match . There is no ? operator yet — error-heavy apps accumulate boilerplate until it ships. enum Result_i32_i32 { Ok(i32), Err(i32) } fn main() { let v1 = match Result_i32_i32.Ok(1) { Result_i32_i32.Ok(x) => x Result_i32_i32.Err(_e) => 0 } let v2 = match Result_i32_i32.Ok(v1 + 1) { Result_i32_i32.Ok(x) => x Result_i32_i32.Err(_e) => 0 } print(v2) } Shipped (MVP) Not yet Payload Ok / Err , explicit match ? operator, return inside match arms tests/nyra/result_propagate_test.ny (3 tests) Production-grade error ergonomics nyra run examples/result_propagate_verbose.ny Mission-critical deployment readiness Production use: documented and conformance-tested for evaluation only — not recommended for production error-heavy workloads. Full rules in nyra-skill.md § Enums & payloads · Conformance CONF-ADT-003 ."
+      "heading": "Result & error handling",
+      "body": "Result & error handling With real Result payloads ( enum Result_i32_i32 { Ok(i32), Err(i32) } or import \"stdlib/option.ny\" ), use the ? operator for fallible steps or explicit match when you need custom control flow. enum Result_i32_i32 { Ok(i32), Err(i32) } fn main() { let v1 = match Result_i32_i32.Ok(1) { Result_i32_i32.Ok(x) => x Result_i32_i32.Err(_e) => 0 } let v2 = match Result_i32_i32.Ok(v1 + 1) { Result_i32_i32.Ok(x) => x Result_i32_i32.Err(_e) => 0 } print(v2) } Shipped (Stable Extended) Still maturing Payload Ok / Err , ? operator, explicit match Multi-trait dyn A + B objects tests/nyra/result_propagate_test.ny Exotic generic serde edge cases nyra run examples/result_propagate_verbose.ny See status.md production gates Production use: ready for CLI tools and servers on Core + Stable Extended. Full rules in nyra-skill.md § Enums & payloads · Conformance CONF-ADT-003 ."
     },
     {
       "pageTitle": "AI skill file",
@@ -99,7 +99,7 @@
       "id": "ai-skill.html#system-prompt",
       "title": "AI skill file",
       "heading": "System prompt",
-      "body": "System prompt Without types With types Follow nyra-skill.md as the sole Nyra reference. Use ```ny fenced blocks for Nyra code. Do not invent syntax, enum payloads, GC, or ? operator. Nyra is MVP — not production-ready for mission-critical apps. Follow nyra-skill.md as the sole Nyra reference. Use ```ny fenced blocks for Nyra code. Do not invent syntax, enum payloads, GC, or ? operator. Nyra is MVP — not production-ready for mission-critical apps. Overview →"
+      "body": "System prompt Without types With types Follow nyra-skill.md as the sole Nyra reference. Use ```ny fenced blocks for Nyra code. Do not invent syntax, enum payloads, or GC. Nyra is production-ready on Core + Stable Extended (async, ?, spawn, traits, serde). Follow nyra-skill.md as the sole Nyra reference. Use ```ny fenced blocks for Nyra code. Do not invent syntax, enum payloads, or GC. Nyra is production-ready on Core + Stable Extended (async, ?, spawn, traits, serde). Overview →"
     },
     {
       "pageTitle": "Async & await",
@@ -109,7 +109,7 @@
       "id": "async.html#intro",
       "title": "Async & await",
       "heading": "Async & await",
-      "body": "Async & await Async functions and await expressions (MVP). Without types With types async fn fetch() { return await handle } async fn fetch() -> i32 { return await handle } Runtime: promises ( async_promise_new , async_promise_complete ), await (pumps the executor while waiting), and IO ( io_register / kqueue/epoll/select)."
+      "body": "Async & await Async functions and await expressions — Stable Extended (not on wasm32). Without types With types async fn fetch() { return await handle } async fn fetch() -> i32 { return await handle } Runtime: promises ( async_promise_new , async_promise_complete ), await (pumps the executor while waiting), and IO ( io_register / kqueue/epoll/select)."
     },
     {
       "pageTitle": "Async & await",
@@ -700,6 +700,16 @@
       "title": "Changelog",
       "heading": "Changelog",
       "body": "Changelog Spec freeze history and release notes."
+    },
+    {
+      "pageTitle": "Changelog",
+      "url": "changelog.html#v13618-2026-06-28",
+      "section": "Project",
+      "kind": "content",
+      "id": "changelog.html#v13618-2026-06-28",
+      "title": "Changelog",
+      "heading": "v1.36.18 (2026-06-28)",
+      "body": "v1.36.18 (2026-06-28) Production-ready status — home banner, footer, Result section, and roadmap callout aligned with compiler docs/status.md (Core + Stable Extended; async, ? , spawn, traits, serde) Removed MVP messaging — ai-skill.html , learn-enums.html , async.html , reference.html Locales — EN/AR strings for banner, status, Result, roadmap nyra-skill.md — v1.36 stability tier; traits marked Stable Extended Site — CHANGELOG.md (standalone docs repo changelog); search index regenerated"
     },
     {
       "pageTitle": "Changelog",
@@ -2079,7 +2089,7 @@
       "id": "index.html#intro",
       "title": "Nyra Programming Language",
       "heading": "Nyra Programming Language",
-      "body": "Documentation v1.2.x Nyra Programming Language Fast like a panther. Sharp by design. Go’s simplicity. Rust’s safety. C++’s speed — one toolchain, LLVM under the hood. MVP — not production-ready Nyra is in active development. Core tier is stable for learning and evaluation; Extended features, async, and error propagation ( ? ) are MVP or missing. Do not use for mission-critical deployments. Roadmap → Fast Safe Minimal LLVM native Get started Install Reference app"
+      "body": "Documentation v1.36.x Nyra Programming Language Fast like a panther. Sharp by design. Go’s simplicity. Rust’s safety. C++’s speed — one toolchain, LLVM under the hood. Production-ready — Core + Stable Extended Core and Stable Extended are semver-stable: async/await, ? , spawn, traits, serde, and enum payloads ship without W001. Prebuilt Linux, macOS, and Windows releases. A few advanced areas (multi-trait dyn , exotic generic serde) are still maturing — see Roadmap and status.md . Fast Safe Minimal LLVM native Get started Install Reference app"
     },
     {
       "pageTitle": "Nyra Programming Language",
@@ -2089,7 +2099,7 @@
       "id": "index.html#what-is-nyra",
       "title": "Nyra Programming Language",
       "heading": "What is Nyra?",
-      "body": "What is Nyra? Systems-oriented language in active development — readable surface, strict core. .ny"
+      "body": "What is Nyra? Production-ready systems language — readable surface, strict core, LLVM-native speed. .ny"
     },
     {
       "pageTitle": "Nyra Programming Language",
@@ -2183,33 +2193,33 @@
     },
     {
       "pageTitle": "Nyra Programming Language",
-      "url": "index.html#result-error-handling-mvp",
+      "url": "index.html#result-error-handling",
       "section": "Start",
       "kind": "content",
-      "id": "index.html#result-error-handling-mvp",
+      "id": "index.html#result-error-handling",
       "title": "Nyra Programming Language",
-      "heading": "Result & error handling (MVP)",
-      "body": "Result & error handling (MVP) Real Result payloads work — but without ? , every fallible step needs explicit match . match"
+      "heading": "Result & error handling",
+      "body": "Result & error handling Stable Extended Result payloads with ? propagation for fallible pipelines. match"
     },
     {
       "pageTitle": "Nyra Programming Language",
-      "url": "index.html#what-works-today",
+      "url": "index.html#shipped-stable-extended",
       "section": "Start",
       "kind": "content",
-      "id": "index.html#what-works-today",
+      "id": "index.html#shipped-stable-extended",
       "title": "Nyra Programming Language",
-      "heading": "What works today",
-      "body": "What works today enum Result_i32_i32 { Ok(i32), Err(i32) } and import \"stdlib/option.ny\" for generic payloads. Tests: tests/nyra/result_propagate_test.ny . ?"
+      "heading": "Shipped (Stable Extended)",
+      "body": "Shipped (Stable Extended) The ? operator, generic Result<T,E> via import \"stdlib/option.ny\" , and tests such as tests/nyra/result_propagate_test.ny . ?"
     },
     {
       "pageTitle": "Nyra Programming Language",
-      "url": "index.html#what-is-missing",
+      "url": "index.html#still-maturing",
       "section": "Start",
       "kind": "content",
-      "id": "index.html#what-is-missing",
+      "id": "index.html#still-maturing",
       "title": "Nyra Programming Language",
-      "heading": "What is missing",
-      "body": "What is missing No ? operator — pipelines need repeated match or helper wrappers. Early return inside match arms is not supported yet. !"
+      "heading": "Still maturing",
+      "body": "Still maturing Multi-trait dyn A + B objects and some exotic generic serde cases — see roadmap production gates. !"
     },
     {
       "pageTitle": "Nyra Programming Language",
@@ -2219,7 +2229,7 @@
       "id": "index.html#production-readiness",
       "title": "Nyra Programming Language",
       "heading": "Production readiness",
-      "body": "Production readiness Documented and conformance-tested for evaluation — not recommended for production error-heavy apps until ? ships. Result reference & example →"
+      "body": "Production readiness Ready for production error-handling in CLI tools and servers on Core + Stable Extended. Result reference & example →"
     },
     {
       "pageTitle": "Nyra Programming Language",
@@ -2229,7 +2239,7 @@
       "id": "index.html#for-ai-assistants",
       "title": "Nyra Programming Language",
       "heading": "For AI assistants",
-      "body": "For AI assistants Download the canonical Nyra reference for Cursor, ChatGPT, Claude, and other LLMs. Single file nyra-skill.md — syntax, ownership, stdlib, PGO, escape analysis, Result/error-handling MVP rules, and anti-hallucination guardrails (v1.2.x). Download nyra-skill.md Usage guide Learning path"
+      "body": "For AI assistants Download the canonical Nyra reference for Cursor, ChatGPT, Claude, and other LLMs. Single file nyra-skill.md — syntax, ownership, stdlib, PGO, escape analysis, stability tiers, and anti-hallucination guardrails (v1.36.x). Download nyra-skill.md Usage guide Learning path"
     },
     {
       "pageTitle": "Nyra Programming Language",
@@ -2369,7 +2379,7 @@
       "id": "index.html#learning-path",
       "title": "Nyra Programming Language",
       "heading": "Learning path",
-      "body": "Learning path Zero to full app — step by step Project status Nyra is MVP / pre-production . Core tier is semver-stable for learning; Extended features, async, and ? error propagation are experimental or missing. Not ready for mission-critical production use. See Roadmap and stability policy . Nyra · Proprietary · All Rights Reserved · github.com/hamdymohamedak/Nyra"
+      "body": "Learning path Zero to full app — step by step Project status Nyra is production-ready on Core + Stable Extended (async, ? , spawn, traits, serde). Prebuilt releases for Linux, macOS, and Windows. See Roadmap , status.md , and stability policy . Nyra · Proprietary · All Rights Reserved · github.com/hamdymohamedak/Nyra"
     },
     {
       "pageTitle": "Install Nyra",
@@ -3458,8 +3468,8 @@
       "kind": "content",
       "id": "learn-enums.html#result-errors",
       "title": "Nyra Enums",
-      "heading": "Result & error handling (MVP)",
-      "body": "Result & error handling (MVP) Real Result payloads are supported via monomorph enums or import \"stdlib/option.ny\" . There is no ? operator — each fallible step needs explicit match . Without types With types enum Result_i32_i32 { Ok(i32), Err(i32) } fn main() { let code = match Result_i32_i32.Err(7) { Result_i32_i32.Ok(_x) => 0 Result_i32_i32.Err(e) => e } print(code) } enum Result_i32_i32 { Ok(i32), Err(i32) } fn main() -> void { let code = match Result_i32_i32.Err(7) { Result_i32_i32.Ok(_x) => 0 Result_i32_i32.Err(e) => e } print(code) } MVP — not production-ready Result handling is documented and conformance-tested ( CONF-ADT-003 ) for evaluation. Error-heavy production apps should wait for ? propagation. Run: nyra run examples/result_propagate_verbose.ny · Tests: tests/nyra/result_propagate_test.ny . Default enums are tag-only (no payloads). Payload rules: AI skill → Result · nyra-skill.md . Next: Example apps · Dungeon Steps . Try it nyra run examples/language_features/demo.ny Expected output: 1 ← Nyra Structs Learn overview"
+      "heading": "Result & error handling",
+      "body": "Result & error handling Real Result payloads are supported via monomorph enums or import \"stdlib/option.ny\" . There is no ? operator — each fallible step needs explicit match . Without types With types enum Result_i32_i32 { Ok(i32), Err(i32) } fn main() { let code = match Result_i32_i32.Err(7) { Result_i32_i32.Ok(_x) => 0 Result_i32_i32.Err(e) => e } print(code) } enum Result_i32_i32 { Ok(i32), Err(i32) } fn main() -> void { let code = match Result_i32_i32.Err(7) { Result_i32_i32.Ok(_x) => 0 Result_i32_i32.Err(e) => e } print(code) } Stable Extended — ? shipped Result handling with ? propagation is production-ready on Core + Stable Extended. Run: nyra run examples/result_propagate_verbose.ny · Tests: tests/nyra/result_propagate_test.ny . Default enums are tag-only (no payloads). Payload rules: AI skill → Result · nyra-skill.md . Next: Example apps · Dungeon Steps . Try it nyra run examples/language_features/demo.ny Expected output: 1 ← Nyra Structs Learn overview"
     },
     {
       "pageTitle": "Nyra For Loops",
@@ -5719,7 +5729,7 @@
       "id": "reference.html#keywords",
       "title": "Language reference",
       "heading": "Keywords",
-      "body": "Keywords Keyword Purpose fn Function definition let / let mut Immutable / mutable binding const Compile-time constant name if / else Conditional while Loop for / in Range loop: for i in 0..10 return Return from function match Pattern match on enums / values struct / enum User-defined types impl Methods on a type; impl Trait for Type for (in types) HRTB binder: for<'a> fn(...) import Load another .ny file module Module declaration (parsed) extern / export FFI declare / export symbol test Test function print Built-in stdout (keyword); optional color: for ANSI output spawn Concurrent block defer Scope-exit call (LIFO) — Extended ; prefer auto-drop / impl Drop unsafe Block for raw memory (deref, ptr arithmetic, raw casts) asm Inline assembly: asm \"template\" (inside unsafe ) as Type cast: expr as Type (raw casts need unsafe ) no_std Top-level directive — skip nyra_rt link; no print / spawn move / clone Unary prefixes at call sites — explicit move or clone (v2.9) async / await Extended — promises + await (MVP); not on wasm32 trait / dyn Extended — impl Trait for Type , trait objects dyn Trait (MVP) macro Extended — parsed and expanded self Method receiver in impl"
+      "body": "Keywords Keyword Purpose fn Function definition let / let mut Immutable / mutable binding const Compile-time constant name if / else Conditional while Loop for / in Range loop: for i in 0..10 return Return from function match Pattern match on enums / values struct / enum User-defined types impl Methods on a type; impl Trait for Type for (in types) HRTB binder: for<'a> fn(...) import Load another .ny file module Module declaration (parsed) extern / export FFI declare / export symbol test Test function print Built-in stdout (keyword); optional color: for ANSI output spawn Concurrent block defer Scope-exit call (LIFO) — Extended ; prefer auto-drop / impl Drop unsafe Block for raw memory (deref, ptr arithmetic, raw casts) asm Inline assembly: asm \"template\" (inside unsafe ) as Type cast: expr as Type (raw casts need unsafe ) no_std Top-level directive — skip nyra_rt link; no print / spawn move / clone Unary prefixes at call sites — explicit move or clone (v2.9) async / await Stable Extended — promises + await ; not on wasm32 trait / dyn Stable Extended — impl Trait for Type , trait objects dyn Trait macro Extended — parsed and expanded self Method receiver in impl"
     },
     {
       "pageTitle": "Language reference",
@@ -5859,7 +5869,7 @@
       "id": "roadmap.html#intro",
       "title": "Roadmap & status",
       "heading": "Roadmap & status",
-      "body": "Roadmap & status Nyra 1.1 — Core and Stable Extended are semver-stable; Extended preview (async, traits) remains experimental. See stability-v1.md . Beta — app-ready Core + Stable Extended Ship CLI tools and servers on Core + Stable Extended ( ? , enum payloads, spawn, impl Drop ). Extended preview (async scheduler, trait objects) is incomplete — not for mission-critical async workloads until production gates clear."
+      "body": "Roadmap & status Nyra 1.x — Core and Stable Extended are semver-stable. See status.md and stability-v1.md . Production-ready tier Ship CLI tools, servers, and native apps on Core + Stable Extended ( ? , enum payloads, spawn, async/await, traits, serde). Remaining gates: multi-trait dyn objects and advanced trait-object bounds — see status.md ."
     },
     {
       "pageTitle": "Roadmap & status",
@@ -8117,7 +8127,7 @@
       "pageTitle": "Nyra AI Skill (nyra-skill.md)",
       "title": "Nyra AI Skill (nyra-skill.md)",
       "heading": "Nyra AI Skill (nyra-skill.md)",
-      "body": "> Canonical copy: `webDocs/nyra-skill.md`. Regenerate with `node webDocs/scripts/build-nyra-skill.mjs`. # Nyra Programming Language > Canonical copy: `webDocs/nyra-skill.md`. Regenerate with `node webDocs/scripts/build-nyra-skill.mjs`. Use this file as the **sole authoritative reference** for Nyra syntax, semantics, stdlib, toolchain, PGO, and escape analysis. Do not invent features not listed here. Full docs: `webDocs/` in the Nyra repository. > **Project status — v1.2 production-ready tier:** **Core** and **Stable Extended** (async, traits, macros, lifetimes, defer, serde, `?`, spawn, enum payloads) ship **without W001**. See [Stability](#stability-v10) · `docs/status.md`.",
+      "body": "> Canonical copy: `webDocs/nyra-skill.md`. Regenerate with `node webDocs/scripts/build-nyra-skill.mjs`. # Nyra Programming Language > Canonical copy: `webDocs/nyra-skill.md`. Regenerate with `node webDocs/scripts/build-nyra-skill.mjs`. Use this file as the **sole authoritative reference** for Nyra syntax, semantics, stdlib, toolchain, PGO, and escape analysis. Do not invent features not listed here. Full docs: `webDocs/` in the Nyra repository. > **Project status — v1.36 production-ready tier:** **Core** and **Stable Extended** (async, traits, macros, lifetimes, defer, serde, `?`, spawn, enum payloads) ship **without W001**. Prebuilt Linux, macOS, and Windows releases. See [Stability](#stability-v10) · `docs/status.md`.",
       "section": "AI",
       "kind": "content"
     },
@@ -8137,7 +8147,7 @@
       "pageTitle": "Nyra AI Skill (nyra-skill.md)",
       "title": "Nyra AI Skill (nyra-skill.md)",
       "heading": "Identity",
-      "body": "Identity - **Nyra** — systems language: Go-like syntax, Rust-like ownership, LLVM backend. - Source: `.ny` / `.nyra` files → lexer → parser → expand → monomorph (+ generic call inference) → auto-borrow coercion → typecheck → ownership (Copy inference) → borrow + lifetimes + Send/Sync → **escape analysis** → drop plan → LLVM IR → `opt` → clang + runtime C modules. - CLI: `nyra` (Rust). Package manager: `nyra pkg` (NyraPkg). - Version baseline: **v1.2.x** — **Core tier semver-stable**; Extended tier experimental ([`docs/stability-v1.md`](../docs/stability-v1.md)). - **v1.2:** template strings, arrow functions, `net/http` handler dispatch, language bridge (Python/Node/Java workers), NyraPkg semver + registry, `link-source` auto-link, bindings reference, native C interop pattern. - **v2.1:** stack closures (loop-safe), arrow param inference, tuple destructure in arrow params, `??` nullish coalescing, `?.` optional chaining. - **v2.2:** heap closure promotion; `?.method()`; **`Option.Some(T)` payloads** when using `import \"stdlib/option.ny\"` (replaces tag-only built-in `Option` for that module). - **v2.3:** composite struct field drop, auto-owned `extern fn -> string`, `Box_string` (superseded by `Box<string>` in v2.4), `OptionStr`. - **v2.4:** generic `enum Option<T>` / `enum Result<T,E>` monomorph; enum payload drop; `struct Box<T>` + `Box_new(string)` (replaces `Box_string`). - **v2.5:** generic `struct Arc<T>` (`Arc<i32>`, `Arc<string>`); auto Drop for monomorph instances; `Arc_i32` kept as legacy alias in `stdlib/arc.ny`. - **v2.6:** async bootstrap patterns, HTTP health via stdlib `net/http`. - **v2.7:** `nyra.mod` workspaces, `CONF-WS-*` conformance (`conformance/workspace.rs`), `webDocs/enterprise.html`. Tracing/service mesh = external. - **v2.8:** return type inference (`void` default), generic call-site inference (`id(7)`), auto-borrow at calls (`T` → `&T`), `string.clone()` + synthesized struct `Clone`, struct ctor sugar `User(\"Ada\")` / `Point()`. - **v2.9:** Swift-style use-after-move diagnostics (`was moved into save()` + fix-it notes), `move` / `clone` prefix at call sites (`save(move user)`, `save(clone user)`). - **v3.0:** auto Copy inference for all-Copy structs (`Point`, `Rect`); `#[derive(Copy)]` validation; no annotation needed for value types. - **v3.1:** `f64` IEEE-754 double — float literals (`3.14`), mixed `i32`/`f64` promotion, LLVM `double` codegen. - **v3.2:** `char` Unicode scalar — `'a'`, `'\\n'`, `'\\u{...}'`; LLVM `i32`; `print` via `%c`. - **v1.3:** **CONF-LANG** Nyra-source conformance (`tests/conformance/` — pass + fail + fixtures), `stdlib/testing.ny` assertions, `scripts/conformance-tests.sh` in `test-all.sh`.",
+      "body": "Identity - **Nyra** — systems language: Go-like syntax, Rust-like ownership, LLVM backend. - Source: `.ny` / `.nyra` files → lexer → parser → expand → monomorph (+ generic call inference) → auto-borrow coercion → typecheck → ownership (Copy inference) → borrow + lifetimes + Send/Sync → **escape analysis** → drop plan → LLVM IR → `opt` → clang + runtime C modules. - CLI: `nyra` (Rust). Package manager: `nyra pkg` (NyraPkg). - Version baseline: **v1.36.x** — **Core tier semver-stable**; **Stable Extended** shipped ([`docs/stability-v1.md`](../docs/stability-v1.md) · [`docs/status.md`](../docs/status.md)). - **v1.2:** template strings, arrow functions, `net/http` handler dispatch, language bridge (Python/Node/Java workers), NyraPkg semver + registry, `link-source` auto-link, bindings reference, native C interop pattern. - **v2.1:** stack closures (loop-safe), arrow param inference, tuple destructure in arrow params, `??` nullish coalescing, `?.` optional chaining. - **v2.2:** heap closure promotion; `?.method()`; **`Option.Some(T)` payloads** when using `import \"stdlib/option.ny\"` (replaces tag-only built-in `Option` for that module). - **v2.3:** composite struct field drop, auto-owned `extern fn -> string`, `Box_string` (superseded by `Box<string>` in v2.4), `OptionStr`. - **v2.4:** generic `enum Option<T>` / `enum Result<T,E>` monomorph; enum payload drop; `struct Box<T>` + `Box_new(string)` (replaces `Box_string`). - **v2.5:** generic `struct Arc<T>` (`Arc<i32>`, `Arc<string>`); auto Drop for monomorph instances; `Arc_i32` kept as legacy alias in `stdlib/arc.ny`. - **v2.6:** async bootstrap patterns, HTTP health via stdlib `net/http`. - **v2.7:** `nyra.mod` workspaces, `CONF-WS-*` conformance (`conformance/workspace.rs`), `webDocs/enterprise.html`. Tracing/service mesh = external. - **v2.8:** return type inference (`void` default), generic call-site inference (`id(7)`), auto-borrow at calls (`T` → `&T`), `string.clone()` + synthesized struct `Clone`, struct ctor sugar `User(\"Ada\")` / `Point()`. - **v2.9:** Swift-style use-after-move diagnostics (`was moved into save()` + fix-it notes), `move` / `clone` prefix at call sites (`save(move user)`, `save(clone user)`). - **v3.0:** auto Copy inference for all-Copy structs (`Point`, `Rect`); `#[derive(Copy)]` validation; no annotation needed for value types. - **v3.1:** `f64` IEEE-754 double — float literals (`3.14`), mixed `i32`/`f64` promotion, LLVM `double` codegen. - **v3.2:** `char` Unicode scalar — `'a'`, `'\\n'`, `'\\u{...}'`; LLVM `i32`; `print` via `%c`. - **v1.3:** **CONF-LANG** Nyra-source conformance (`tests/conformance/` — pass + fail + fixtures), `stdlib/testing.ny` assertions, `scripts/conformance-tests.sh` in `test-all.sh`.",
       "section": "AI",
       "kind": "content"
     },
@@ -8382,12 +8392,12 @@
       "kind": "content"
     },
     {
-      "id": "nyra-skill.md#traits-dynamic-dispatch-extended",
-      "url": "nyra-skill.md#traits-dynamic-dispatch-extended",
+      "id": "nyra-skill.md#traits-dynamic-dispatch-stable-extended",
+      "url": "nyra-skill.md#traits-dynamic-dispatch-stable-extended",
       "pageTitle": "Nyra AI Skill (nyra-skill.md)",
       "title": "Nyra AI Skill (nyra-skill.md)",
-      "heading": "Traits & dynamic dispatch (Extended)",
-      "body": "Traits & dynamic dispatch (Extended) Nyra supports **trait definitions**, **`impl Trait for Type`**, and **trait objects** via `dyn Trait`. This is **MVP / experimental** — not production-ready for full polymorphism. ### Static dispatch Trait method signatures in the trait block may omit `{ }` or use `;` after the signature. ### Dynamic dispatch (`dyn Trait`) Box a concrete value as a trait object and call through the vtable: - Cast: `value as dyn TraitName` requires `impl TraitName for Type` for the concrete struct. - **Auto-trait bounds (v1.5+):** `value as dyn Trait + Send` / `+ Sync` — parsed and **validated** (non-Send/Sync types rejected at cast). - Fat pointer layout: `{ data: ptr, vtable: ptr }` (synthesized as `Dyn_TraitName`). - **Multi-method traits (v1.29+):** each method has its own vtable slot; `__dyn_{Trait}_{method}` dispatches correctly. - **Trait object drop (v1.29+):** vtable drop thunk + `__dyn_{Trait}_drop` frees heap-boxed concrete data. - **`Drop` / `Clone`** built-in traits use dedicated compiler paths; user traits use the generic vtable. ### Trait bounds on generics (v1.3+) Constrain type parameters so generic code can call trait methods: - Syntax: `T: Trait` or `T: A + B` on `fn` / generic declarations - Checked at monomorph: missing `impl Trait for Type` is a compile error - Works with inferred call sites (`call_greet(u)` without explicit type args) Example: `examples/trait_bounds.ny` · tests: `tests/nyra/trait_bounds_test.ny` ### Limitations (MVP) - Copy-sized structs only (heap box via `malloc` + `memcpy`). - `dyn Trait + Send + Sync` bounds validated on **casts**; fn-parameter bound checking is partial. - No `dyn A + B` multi-trait objects yet. - Explicit **`return`** required in impl bodies (no implicit tail return). - Extended tier: `nyra check --deny-extended` rejects `trait` / `dyn` in Core-only CI. Example: `examples/trait_dyn.ny` · `examples/trait_dyn_multi.ny` · `examples/trait_dyn_send.ny` · tests: `tests/nyra/trait_dispatch_test.ny`, `trait_dyn_multi_test.ny`, `dyn_send_test.ny`",
+      "heading": "Traits & dynamic dispatch (Stable Extended)",
+      "body": "Traits & dynamic dispatch (Stable Extended) Nyra supports **trait definitions**, **`impl Trait for Type`**, and **trait objects** via `dyn Trait`. Shipped on **Stable Extended** — multi-method vtables, `dyn Trait + Send + Sync` bounds, and trait-object `Drop`. Remaining gate: multi-trait `dyn A + B` objects. ### Static dispatch Trait method signatures in the trait block may omit `{ }` or use `;` after the signature. ### Dynamic dispatch (`dyn Trait`) Box a concrete value as a trait object and call through the vtable: - Cast: `value as dyn TraitName` requires `impl TraitName for Type` for the concrete struct. - **Auto-trait bounds (v1.5+):** `value as dyn Trait + Send` / `+ Sync` — parsed and **validated** (non-Send/Sync types rejected at cast). - Fat pointer layout: `{ data: ptr, vtable: ptr }` (synthesized as `Dyn_TraitName`). - **Multi-method traits (v1.29+):** each method has its own vtable slot; `__dyn_{Trait}_{method}` dispatches correctly. - **Trait object drop (v1.29+):** vtable drop thunk + `__dyn_{Trait}_drop` frees heap-boxed concrete data. - **`Drop` / `Clone`** built-in traits use dedicated compiler paths; user traits use the generic vtable. ### Trait bounds on generics (v1.3+) Constrain type parameters so generic code can call trait methods: - Syntax: `T: Trait` or `T: A + B` on `fn` / generic declarations - Checked at monomorph: missing `impl Trait for Type` is a compile error - Works with inferred call sites (`call_greet(u)` without explicit type args) Example: `examples/trait_bounds.ny` · tests: `tests/nyra/trait_bounds_test.ny` ### Limitations (MVP) - Copy-sized structs only (heap box via `malloc` + `memcpy`). - `dyn Trait + Send + Sync` bounds validated on **casts**; fn-parameter bound checking is partial. - No `dyn A + B` multi-trait objects yet. - Explicit **`return`** required in impl bodies (no implicit tail return). - Extended tier: `nyra check --deny-extended` rejects `trait` / `dyn` in Core-only CI. Example: `examples/trait_dyn.ny` · `examples/trait_dyn_multi.ny` · `examples/trait_dyn_send.ny` · tests: `tests/nyra/trait_dispatch_test.ny`, `trait_dyn_multi_test.ny`, `dyn_send_test.ny`",
       "section": "AI",
       "kind": "content"
     },

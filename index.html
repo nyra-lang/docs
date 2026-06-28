@@ -159,7 +159,7 @@
           </div>
 
           <div class="hero-copy">
-            <span class="pill" data-i18n="pages.index.pill">Documentation v1.2.x</span>
+            <span class="pill" data-i18n="pages.index.pill">Documentation v1.36.x</span>
             <h1 id="hero-title">
               <span class="hero-title-brand">Nyra</span>
               <span class="hero-title-sub" data-i18n="pages.index.titleSub">Programming Language</span>
@@ -168,9 +168,9 @@
             <p class="hero-lead" data-i18n="pages.index.lead">
               Go’s simplicity. Rust’s safety. C++’s speed — one toolchain, LLVM under the hood.
             </p>
-            <div class="callout warning hero-mvp-banner" role="note">
-              <strong data-i18n="pages.index.mvpBannerTitle">MVP — not production-ready</strong>
-              <p data-i18n-html="pages.index.mvpBannerBody">Nyra is in active development. Core tier is stable for learning and evaluation; Extended features, async, and error propagation (<code>?</code>) are MVP or missing. <strong>Do not use for mission-critical deployments.</strong> <a href="roadmap.html">Roadmap →</a></p>
+            <div class="callout callout-status hero-status-banner" role="note">
+              <strong data-i18n="pages.index.mvpBannerTitle">Production-ready — Core + Stable Extended</strong>
+              <p data-i18n-html="pages.index.mvpBannerBody"><strong>Core</strong> and <strong>Stable Extended</strong> are semver-stable: async/await, <code>?</code>, spawn, traits, serde, and enum payloads ship without W001. Prebuilt Linux, macOS, and Windows releases. A few advanced areas (multi-trait <code>dyn</code>, exotic generic serde) are still maturing — see <a href="roadmap.html">Roadmap</a> and <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md">status.md</a>.</p>
             </div>
             <ul class="hero-chips" aria-label="Core traits">
               <li data-i18n="pages.index.chipFast">Fast</li>
@@ -193,7 +193,7 @@
       <section class="overview-section" id="about">
         <div class="section-head">
           <h2 data-i18n="pages.index.aboutTitle">What is Nyra?</h2>
-          <p class="section-desc" data-i18n="pages.index.aboutDesc">Systems-oriented language in active development — readable surface, strict core.</p>
+          <p class="section-desc" data-i18n="pages.index.aboutDesc">Production-ready systems language — readable surface, strict core, LLVM-native speed.</p>
         </div>
         <div class="about-grid">
           <article class="about-card">
@@ -284,24 +284,24 @@
 
       <section class="overview-section" id="result-errors">
         <div class="section-head">
-          <h2 data-i18n="pages.index.resultTitle">Result &amp; error handling (MVP)</h2>
-          <p class="section-desc" data-i18n="pages.index.resultDesc">Real <code>Result</code> payloads work — but without <code>?</code>, every fallible step needs explicit <code>match</code>.</p>
+          <h2 data-i18n="pages.index.resultTitle">Result &amp; error handling</h2>
+          <p class="section-desc" data-i18n="pages.index.resultDesc">Stable Extended <code>Result</code> payloads with <code>?</code> propagation for fallible pipelines.</p>
         </div>
         <div class="about-grid">
           <article class="about-card">
             <span class="about-icon" aria-hidden="true">match</span>
-            <h3 data-i18n="pages.index.resultTodayH">What works today</h3>
-            <p data-i18n-html="pages.index.resultTodayP"><code>enum Result_i32_i32 { Ok(i32), Err(i32) }</code> and <code>import "stdlib/option.ny"</code> for generic payloads. Tests: <code>tests/nyra/result_propagate_test.ny</code>.</p>
+            <h3 data-i18n="pages.index.resultTodayH">Shipped (Stable Extended)</h3>
+            <p data-i18n-html="pages.index.resultTodayP">The <code>?</code> operator, generic <code>Result&lt;T,E&gt;</code> via <code>import "stdlib/option.ny"</code>, and tests such as <code>tests/nyra/result_propagate_test.ny</code>.</p>
           </article>
           <article class="about-card">
             <span class="about-icon" aria-hidden="true">?</span>
-            <h3 data-i18n="pages.index.resultMissingH">What is missing</h3>
-            <p data-i18n-html="pages.index.resultMissingP">No <code>?</code> operator — pipelines need repeated <code>match</code> or helper wrappers. Early <code>return</code> inside match arms is not supported yet.</p>
+            <h3 data-i18n="pages.index.resultMissingH">Still maturing</h3>
+            <p data-i18n-html="pages.index.resultMissingP">Multi-trait <code>dyn A + B</code> objects and some exotic generic serde cases — see roadmap production gates.</p>
           </article>
           <article class="about-card about-card-accent">
             <span class="about-icon" aria-hidden="true">!</span>
             <h3 data-i18n="pages.index.resultProdH">Production readiness</h3>
-            <p data-i18n="pages.index.resultProdP">Documented and conformance-tested for evaluation — not recommended for production error-heavy apps until <code>?</code> ships.</p>
+            <p data-i18n="pages.index.resultProdP">Ready for production error-handling in CLI tools and servers on Core + Stable Extended.</p>
             <a class="about-link" href="ai-skill.html#result-errors" data-i18n="pages.index.resultExampleLink">Result reference &amp; example →</a>
           </article>
         </div>
@@ -313,7 +313,7 @@
           <p class="section-desc" data-i18n="pages.index.aiSkillDesc">Download the canonical Nyra reference for Cursor, ChatGPT, Claude, and other LLMs.</p>
         </div>
         <div class="callout">
-          <p data-i18n-html="pages.index.aiSkillBody">Single file <code>nyra-skill.md</code> — syntax, ownership, stdlib, PGO, escape analysis, Result/error-handling MVP rules, and anti-hallucination guardrails (v1.2.x).</p>
+          <p data-i18n-html="pages.index.aiSkillBody">Single file <code>nyra-skill.md</code> — syntax, ownership, stdlib, PGO, escape analysis, stability tiers, and anti-hallucination guardrails (v1.36.x).</p>
           <div class="hero-actions" style="margin-top:1rem">
             <a class="btn btn-primary" href="nyra-skill.md" download data-i18n="pages.index.aiSkillDownload">Download nyra-skill.md</a>
             <a class="btn btn-ghost" href="ai-skill.html" data-i18n="pages.index.aiSkillGuide">Usage guide</a>
@@ -413,9 +413,9 @@
         </div>
       </section>
 
-      <div class="callout callout-status warning">
+      <div class="callout callout-status">
         <strong data-i18n="pages.index.statusTitle">Project status</strong>
-        <span data-i18n-html="pages.index.statusBody">Nyra is <strong>MVP / pre-production</strong>. Core tier is semver-stable for learning; Extended features, async, and <code>?</code> error propagation are experimental or missing. <strong>Not ready for mission-critical production use.</strong> See <a href="roadmap.html">Roadmap</a> and <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md">stability policy</a>.</span>
+        <span data-i18n-html="pages.index.statusBody">Nyra is <strong>production-ready</strong> on Core + Stable Extended (async, <code>?</code>, spawn, traits, serde). Prebuilt releases for Linux, macOS, and Windows. See <a href="roadmap.html">Roadmap</a>, <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md">status.md</a>, and <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md">stability policy</a>.</span>
       </div>
 
       <footer class="site-footer">

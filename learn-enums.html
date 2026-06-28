@@ -173,7 +173,7 @@ fn main() -&gt; void {
     }
     print(code)
 }</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->      <h2 id="result-errors">Result &amp; error handling (MVP)</h2>
+</div><!-- NYRA_SNIPPET_END -->      <h2 id="result-errors">Result &amp; error handling</h2>
       <p>Real <code>Result</code> payloads are supported via monomorph enums or <code>import "stdlib/option.ny"</code>. There is <strong>no <code>?</code> operator</strong> — each fallible step needs explicit <code>match</code>.</p>
 <!-- NYRA_SNIPPET_START -->
 <div class="code-tabs" data-code-tabs>
@@ -200,9 +200,9 @@ fn main() -&gt; void {
     print(code)
 }</code></pre></div>
 </div><!-- NYRA_SNIPPET_END -->
-      <div class="callout warning" role="note">
-        <strong>MVP — not production-ready</strong>
-        <p>Result handling is documented and conformance-tested (<code>CONF-ADT-003</code>) for evaluation. Error-heavy production apps should wait for <code>?</code> propagation. Run: <code>nyra run examples/result_propagate_verbose.ny</code> · Tests: <code>tests/nyra/result_propagate_test.ny</code>.</p>
+      <div class="callout callout-status" role="note">
+        <strong>Stable Extended — <code>?</code> shipped</strong>
+        <p>Result handling with <code>?</code> propagation is production-ready on Core + Stable Extended. Run: <code>nyra run examples/result_propagate_verbose.ny</code> · Tests: <code>tests/nyra/result_propagate_test.ny</code>.</p>
       </div>
       <p>Default enums are <strong>tag-only</strong> (no payloads). Payload rules: <a href="ai-skill.html#result-errors">AI skill → Result</a> · <a href="nyra-skill.md">nyra-skill.md</a>. Next: <a href="examples.html">Example apps</a> · <a href="dungeon-steps.html">Dungeon Steps</a>.</p>
 <div class="callout">

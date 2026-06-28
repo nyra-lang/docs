@@ -1854,12 +1854,13 @@ button:focus-visible {
   margin-bottom: 1rem;
 }
 
-.hero-mvp-banner {
+.hero-status-banner {
   margin: 1rem 0 1.25rem;
   text-align: start;
   max-width: 36rem;
 }
 
+.hero-status-banner p,
 .hero-mvp-banner p {
   margin: 0.35rem 0 0;
   font-size: 0.92rem;

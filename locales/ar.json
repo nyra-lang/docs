@@ -100,12 +100,12 @@
   "pages": {
     "index": {
       "metaTitle": "Nyra — توثيق لغة البرمجة",
-      "pill": "التوثيق v1.2.x",
+      "pill": "التوثيق v1.36.x",
       "titleSub": "لغة برمجة",
       "tagline": "سريعة كالنمر. حادة في التصميم.",
       "lead": "بساطة Go. أمان Rust. سرعة C++ — منصة واحدة، و LLVM في القلب.",
-      "mvpBannerTitle": "MVP — غير جاهز للإنتاج",
-      "mvpBannerBody": "Nyra قيد التطوير النشط. طبقة Core مستقرة للتعلم والتقييم؛ الميزات الموسّعة وasync وتمرير الأخطاء (<code>?</code>) ما زالت MVP أو غير متوفرة. <strong>لا تستخدم في أنظمة حرجة.</strong> <a href=\"roadmap.html\">خارطة الطريق ←</a>",
+      "mvpBannerTitle": "جاهز للإنتاج — Core + Stable Extended",
+      "mvpBannerBody": "<strong>Core</strong> و<strong>Stable Extended</strong> مستقران semver: async/await و<code>?</code> وspawn وtraits وserde وenum payloads بدون W001. إصدارات جاهزة لـ Linux وmacOS وWindows. بعض المجالات المتقدمة (multi-trait <code>dyn</code>، serde عام معقد) ما زالت تتطور — راجع <a href=\"roadmap.html\">خارطة الطريق</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a>.",
       "chipFast": "سريع",
       "chipSafe": "آمن",
       "chipMinimal": "بسيط",
@@ -115,7 +115,7 @@
       "btnReference": "تطبيق مرجعي",
       "ariaGithub": "مستودع GitHub",
       "aboutTitle": "ما هي Nyra؟",
-      "aboutDesc": "لغة موجهة للأنظمة قيد التطوير — سطح قراءة واضح، ونواة صارمة.",
+      "aboutDesc": "لغة أنظمة جاهزة للإنتاج — سطح قراءة واضح، نواة صارمة، وسرعة LLVM.",
       "aboutSourceH": "المصدر",
       "aboutSourceP": "البرامج في ملفات <code>.ny</code>. واجهة Nyra تُصدِر <strong>LLVM IR</strong>، ثم <strong>clang</strong> يربط مع <code>nyra_rt.c</code> للإدخال/الإخراج ومساعدات وقت التشغيل.",
       "aboutPhilH": "الفلسفة",
@@ -163,21 +163,23 @@
       "cardSpecP": "Spec 1.0 المعياري (تجميد v0.2)",
       "cardLearningPathP": "من الصفر إلى تطبيق كامل — خطوة بخطوة",
       "statusTitle": "حالة المشروع",
-      "statusBody": "Nyra في مرحلة <strong>MVP / ما قبل الإنتاج</strong>. طبقة Core مستقرة للتعلم؛ الميزات الموسّعة وasync و<code>?</code> تجريبية أو مفقودة. <strong>غير جاهز للاستخدام الإنتاجي الحرج.</strong> راجع <a href=\"roadmap.html\">خارطة الطريق</a> و<a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/stability-v1.md\">سياسة الاستقرار</a>.",
+      "statusBody": "Nyra <strong>جاهز للإنتاج</strong> على Core + Stable Extended (async و<code>?</code> وspawn وtraits وserde). إصدارات جاهزة لـ Linux وmacOS وWindows. راجع <a href=\"roadmap.html\">خارطة الطريق</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md\">سياسة الاستقرار</a>.",
       "aiSkillTitle": "للمساعدين الذكاء الاصطناعي",
       "aiSkillDesc": "حمّل المرجع الرسمي لـ Nyra لـ Cursor وChatGPT وClaude وغيرها.",
-      "aiSkillBody": "ملف واحد <code>nyra-skill.md</code> — الصياغة، الملكية، stdlib، PGO، escape analysis، قواعد Result/MVP، ومنع الهلوسة (v1.2.x).",
+      "aiSkillBody": "ملف واحد <code>nyra-skill.md</code> — الصياغة، الملكية، stdlib، PGO، escape analysis، مستويات الاستقرار، ومنع الهلوسة (v1.36.x).",
       "aiSkillDownload": "تحميل nyra-skill.md",
       "aiSkillGuide": "دليل الاستخدام",
-      "resultTitle": "Result ومعالجة الأخطاء (MVP)",
-      "resultDesc": "حمولات Result الحقيقية تعمل — لكن بدون ?، كل خطوة قابلة للفشل تحتاج match صريح.",
-      "resultTodayH": "ما يعمل اليوم",
-      "resultTodayP": "<code>enum Result_i32_i32 { Ok(i32), Err(i32) }</code> و<code>import \"stdlib/option.ny\"</code> للحمولات العامة. اختبارات: <code>tests/nyra/result_propagate_test.ny</code>.",
-      "resultMissingH": "ما هو مفقود",
-      "resultMissingP": "لا يوجد عامل <code>?</code> — السلاسل تحتاج match متكرر أو دوال مساعدة. <code>return</code> داخل أذرع match غير مدعوم بعد.",
+      "resultTitle": "Result ومعالجة الأخطاء",
+      "resultDesc": "حمولات <code>Result</code> في Stable Extended مع تمرير <code>?</code> للمسارات القابلة للفشل.",
+      "resultTodayH": "مُطلَق (Stable Extended)",
+      "resultTodayP": "عامل <code>?</code> و<code>Result&lt;T,E&gt;</code> العام عبر <code>import \"stdlib/option.ny\"</code> واختبارات مثل <code>tests/nyra/result_propagate_test.ny</code>.",
+      "resultMissingH": "ما زال يتطور",
+      "resultMissingP": "كائنات multi-trait <code>dyn A + B</code> وبعض حالات serde العامة المعقدة — راجع بوابات الإنتاج في خارطة الطريق.",
       "resultProdH": "جاهزية الإنتاج",
-      "resultProdP": "موثّق ومختبر للتقييم — غير موصى به لتطبيقات إنتاج ثقيلة بالأخطاء حتى يُطلق ?.",
-      "resultExampleLink": "مرجع Result ومثال ←"
+      "resultProdP": "جاهز لمعالجة الأخطاء في أدوات CLI والخوادم على Core + Stable Extended.",
+      "resultExampleLink": "مرجع Result ومثال ←",
+      "statusTitle": "حالة المشروع",
+      "statusBody": "Nyra <strong>جاهزة للإنتاج</strong> على Core + Stable Extended (async و<code>?</code> وspawn وtraits وserde). إصدارات جاهزة لـ Linux وmacOS وWindows. راجع <a href=\"roadmap.html\">خارطة الطريق</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md\">سياسة الاستقرار</a>."
     },
     "getting-started": {
       "metaTitle": "البدء السريع — توثيق Nyra",
@@ -385,7 +387,7 @@
     "roadmap": {
       "metaTitle": "خارطة الطريق والحالة — توثيق Nyra",
       "h1": "خارطة الطريق والحالة",
-      "lead": "Nyra قبل 1.0. تلخّص هذه الصفحة ما تم إنجازه وما يلي."
+      "lead": "Nyra 1.x — Core وStable Extended مستقران semver. راجع <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md\">stability-v1.md</a>."
     },
     "targets": {
       "metaTitle": "أهداف البناء — توثيق Nyra",

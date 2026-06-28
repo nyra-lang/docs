@@ -146,9 +146,9 @@
       <h1 data-i18n="pages.ai-skill.h1">AI skill file</h1>
       <p class="lead" data-i18n-html="pages.ai-skill.lead">Download <code>nyra-skill.md</code> — the complete Nyra reference for AI assistants: syntax, all built-in methods, ownership, PGO, escape analysis, FFI, Result/error-handling MVP rules, and toolchain.</p>
 
-<div class="callout warning" role="note">
-<strong>MVP — not production-ready</strong>
-<p>Nyra is in active development. This skill file is the <strong>authoritative reference for AI-assisted coding</strong>, but the language itself is <strong>not ready for mission-critical production deployments</strong>. Core tier is stable for learning; Extended features, async, and <code>?</code> error propagation are MVP or missing. See <a href="roadmap.html">Roadmap</a>.</p>
+<div class="callout callout-status" role="note">
+<strong>Production-ready — Core + Stable Extended</strong>
+<p>This skill file is the <strong>authoritative reference for AI-assisted coding</strong>. Nyra ships async/await, <code>?</code>, spawn, traits, and serde on Core + Stable Extended — prebuilt Linux, macOS, and Windows releases. Advanced gates (multi-trait <code>dyn</code>, exotic generic serde) are still maturing. See <a href="roadmap.html">Roadmap</a> and <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md">status.md</a>.</p>
 </div>
 
 <div class="callout">
@@ -169,7 +169,7 @@
     <li><a href="escape-analysis.html">Escape analysis</a> — NoEscape, LocalChannel, SROA, <code>#[no_escape]</code></li>
     <li><a href="c-bindgen.html">C Bindgen</a> — <code>nyra pkg c add zlib</code>, FFI out-parameters</li>
     <li><a href="packages.html">NyraPkg</a> — <code>nyra.mod</code>, semver, <code>link-source</code>, <a href="packages.html#prune"><code>nyra pkg prune</code></a> (W002/W003 auto-fix)</li>
-    <li><a href="#result-errors">Result &amp; errors (MVP)</a> — no <code>?</code>; explicit <code>match</code> per step</li>
+    <li><a href="#result-errors">Result &amp; errors</a> — <code>?</code> propagation and explicit <code>match</code></li>
     <li><a href="tooling.html">Toolchain</a> — <code>run</code>, <code>build --release</code>, cross-compile, <code>check</code></li>
   </ul>
 </nav>
@@ -201,8 +201,8 @@ nyra build --pgo .              # profile-guided (host only)
 nyra build --verbose .          # escape analysis report</code></pre>
 <p>Details: <a href="pgo.html">PGO guide</a> · <a href="escape-analysis.html">Escape analysis</a> · <a href="performance.html">Performance toolchain</a></p>
 
-<h2 id="result-errors">Result &amp; error handling (MVP)</h2>
-<p>With real <code>Result</code> payloads (<code>enum Result_i32_i32 { Ok(i32), Err(i32) }</code> or <code>import "stdlib/option.ny"</code>), <strong>every fallible step needs its own <code>match</code></strong>. There is <strong>no <code>?</code> operator</strong> yet — error-heavy apps accumulate boilerplate until it ships.</p>
+<h2 id="result-errors">Result &amp; error handling</h2>
+<p>With real <code>Result</code> payloads (<code>enum Result_i32_i32 { Ok(i32), Err(i32) }</code> or <code>import "stdlib/option.ny"</code>), use the <code>?</code> operator for fallible steps or explicit <code>match</code> when you need custom control flow.</p>
 <pre><code class="language-ny">enum Result_i32_i32 { Ok(i32), Err(i32) }
 
 fn main() {
@@ -217,14 +217,14 @@ fn main() {
     print(v2)
 }</code></pre>
 <table>
-  <thead><tr><th>Shipped (MVP)</th><th>Not yet</th></tr></thead>
+  <thead><tr><th>Shipped (Stable Extended)</th><th>Still maturing</th></tr></thead>
   <tbody>
-    <tr><td>Payload <code>Ok</code> / <code>Err</code>, explicit <code>match</code></td><td><code>?</code> operator, <code>return</code> inside match arms</td></tr>
-    <tr><td><code>tests/nyra/result_propagate_test.ny</code> (3 tests)</td><td>Production-grade error ergonomics</td></tr>
-    <tr><td><code>nyra run examples/result_propagate_verbose.ny</code></td><td>Mission-critical deployment readiness</td></tr>
+    <tr><td>Payload <code>Ok</code> / <code>Err</code>, <code>?</code> operator, explicit <code>match</code></td><td>Multi-trait <code>dyn A + B</code> objects</td></tr>
+    <tr><td><code>tests/nyra/result_propagate_test.ny</code></td><td>Exotic generic serde edge cases</td></tr>
+    <tr><td><code>nyra run examples/result_propagate_verbose.ny</code></td><td>See <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md">status.md</a> production gates</td></tr>
   </tbody>
 </table>
-<p><strong>Production use:</strong> documented and conformance-tested for evaluation only — <strong>not recommended</strong> for production error-heavy workloads. Full rules in <a href="nyra-skill.md">nyra-skill.md</a> § Enums &amp; payloads · Conformance <code>CONF-ADT-003</code>.</p>
+<p><strong>Production use:</strong> ready for CLI tools and servers on Core + Stable Extended. Full rules in <a href="nyra-skill.md">nyra-skill.md</a> § Enums &amp; payloads · Conformance <code>CONF-ADT-003</code>.</p>
 
 <h2>How to use with AI tools</h2>
 <h3>Cursor</h3>
@@ -240,12 +240,12 @@ fn main() {
   </div>
   <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>Follow nyra-skill.md as the sole Nyra reference.
 Use ```ny fenced blocks for Nyra code.
-Do not invent syntax, enum payloads, GC, or ? operator.
-Nyra is MVP — not production-ready for mission-critical apps.</code></pre></div>
+Do not invent syntax, enum payloads, or GC.
+Nyra is production-ready on Core + Stable Extended (async, ?, spawn, traits, serde).</code></pre></div>
   <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>Follow nyra-skill.md as the sole Nyra reference.
 Use ```ny fenced blocks for Nyra code.
-Do not invent syntax, enum payloads, GC, or ? operator.
-Nyra is MVP — not production-ready for mission-critical apps.</code></pre></div>
+Do not invent syntax, enum payloads, or GC.
+Nyra is production-ready on Core + Stable Extended (async, ?, spawn, traits, serde).</code></pre></div>
 </div><!-- NYRA_SNIPPET_END -->
 <script>
 document.getElementById('copy-skill')?.addEventListener('click', function() {

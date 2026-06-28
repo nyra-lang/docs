@@ -18,7 +18,7 @@ This folder is the **docs site source**. It is designed to live in its own repos
 | **Tooling** | One `nyra` CLI — fmt, test, build, check, pkg, LSP |
 | **Types** | **Optional by default** — write without annotations like Go/JS; inference fills types in; annotate only when the compiler cannot infer |
 
-Nyra ships a **batteries-included stdlib** (collections, FS, HTTP/TCP, crypto, databases, serialization, and more) compiled in-tree with the language. **Core** syntax is stable for learning and apps; **Extended** features (async, traits, macros) are preview-tier.
+Nyra ships a **batteries-included stdlib** (collections, FS, HTTP/TCP, crypto, databases, serialization, and more) compiled in-tree with the language. **Core** and **Stable Extended** are production-ready; see [`roadmap.html`](roadmap.html) and [compiler status](https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md).
 
 **Compiler & toolchain:** [github.com/hamdymohamedak/Nyra](https://github.com/hamdymohamedak/Nyra)  
 **Install guide:** [`install.html`](install.html) (mirrors [`install.md`](https://github.com/hamdymohamedak/Nyra/blob/main/install.md) in the compiler repo)
@@ -151,6 +151,7 @@ webDocs/
 ├── index.html              # Home
 ├── *.html                  # Documentation pages
 ├── nyra-skill.md           # Canonical AI language reference (edit this)
+├── CHANGELOG.md            # Docs site release notes (this repo)
 ├── search-index.json       # Generated Lunr index
 ├── sitemap.xml
 ├── assets/                 # Logo, images
@@ -237,6 +238,7 @@ These originate in the **[Nyra compiler repository](https://github.com/hamdymoha
 2. Update [`nyra-skill.md`](nyra-skill.md) — the single source of truth for AI assistants.
 3. Run `node scripts/build-search-index.mjs`.
 4. Bump the docs version pill on `index.html` / `changelog.html` to match the compiler release.
+5. Add an entry to [`CHANGELOG.md`](CHANGELOG.md) for every docs-site release.
 
 Compiler contributors: see [`agents/skill.md`](https://github.com/hamdymohamedak/Nyra/blob/main/agents/skill.md) in the main repo for the full release checklist.
 
