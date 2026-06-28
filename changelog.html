@@ -99,6 +99,7 @@
       <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
       <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
       <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
+      <li><a href="comptime.html" data-i18n="nav.comptime">Comptime</a></li>
       <li><a href="match.html" data-i18n="nav.match">Match</a></li>
       <li><a href="modules.html" data-i18n="nav.modules">Modules</a></li>
       <li><a href="imports.html" data-i18n="nav.imports">Imports guide</a></li>
@@ -130,7 +131,6 @@
       <li><a href="escape-analysis.html" data-i18n="nav.escapeAnalysis">Escape analysis</a></li>
       <li><a href="diagnostics.html" data-i18n="nav.diagnostics">Diagnostics</a></li>
       <li><a href="ffi-abi.html" data-i18n="nav.ffi">FFI &amp; ABI</a></li>
-      <li><a href="c-bindgen.html">C Bindgen</a></li>
       <li><a href="bindings.html" data-i18n="nav.bindings">Runtime bindings</a></li>
       <li><a href="targets.html" data-i18n="nav.targets">Targets</a></li>
       <li><a href="editor-setup.html" data-i18n="nav.editor">Editor setup</a></li>
@@ -420,7 +420,7 @@
 <li><strong>NyraPkg semver + registry</strong> — <code>require ny-sqlite ^0.1.0</code>, persistent <code>pkg-registry</code> (<code>~/.nyra/registry/index.json</code>), <code>nyra pkg verify</code> / <code>publish</code></li>
 <li><strong>Package C auto-link</strong> — <code>link-source rt/sqlite.c</code> in package <code>nyra.mod</code>; compiled automatically at <code>nyra build</code></li>
 <li><strong>Bindings reference</strong> — <a href="bindings.html">Runtime bindings</a> generated from <code>docs/abi-manifest.toml</code> + stdlib scan</li>
-<li><strong>Language bridge</strong> — <code>stdlib/bridge/mod.ny</code> · Python/Node/Java workers (<code>examples/bridge/</code>) · <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/bridge.md">docs/bridge.md</a></li>
+<li><strong>Language bridge</strong> — <code>stdlib/bridge/mod.ny</code> · Python/Node/Java workers (<code>examples/bridge/</code>) · <a href="https://github.com/nyra-lang/nyra/blob/main/docs/bridge.md">docs/bridge.md</a></li>
 <li><strong>TLS / HTTPS stable</strong> — OpenSSL in <code>rt_tls.c</code>; <code>get("https://…")</code> · example <code>examples/projects/https_smoke/</code></li>
 <li><strong>Modular stdlib</strong> — collections, strings/ops, regex, fs/path, time/instant, json, iter, crypto stubs, uuid, env, terminal, config, bench, profile, and more under <code>stdlib/</code></li>
 <li><strong>Vec_i32 / HashMap_str_i32</strong> — method syntax <code>v.push(x)</code>; free helpers <code>vec_len</code> for stdlib internals</li>

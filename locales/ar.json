@@ -64,6 +64,7 @@
     "reference": "مرجع اللغة",
     "spec": "مواصفات اللغة",
     "generics": "Generics",
+    "comptime": "Comptime",
     "match": "Match",
     "modules": "الوحدات",
     "imports": "دليل الاستيراد",
@@ -105,7 +106,7 @@
       "tagline": "سريعة كالنمر. حادة في التصميم.",
       "lead": "بساطة Go. أمان Rust. سرعة C++ — منصة واحدة، و LLVM في القلب.",
       "mvpBannerTitle": "جاهز للإنتاج — Core + Stable Extended",
-      "mvpBannerBody": "<strong>Core</strong> و<strong>Stable Extended</strong> مستقران semver: async/await و<code>?</code> وspawn وtraits وserde وenum payloads بدون W001. إصدارات جاهزة لـ Linux وmacOS وWindows. بعض المجالات المتقدمة (multi-trait <code>dyn</code>، serde عام معقد) ما زالت تتطور — راجع <a href=\"roadmap.html\">خارطة الطريق</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a>.",
+      "mvpBannerBody": "<strong>Core</strong> و<strong>Stable Extended</strong> مستقران semver: async/await و<code>?</code> وspawn وtraits وserde وenum payloads بدون W001. إصدارات جاهزة لـ Linux وmacOS وWindows. بعض المجالات المتقدمة (multi-trait <code>dyn</code>، serde عام معقد) ما زالت تتطور — راجع <a href=\"roadmap.html\">خارطة الطريق</a> و<a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/status.md\">status.md</a>.",
       "chipFast": "سريع",
       "chipSafe": "آمن",
       "chipMinimal": "بسيط",
@@ -163,7 +164,7 @@
       "cardSpecP": "Spec 1.0 المعياري (تجميد v0.2)",
       "cardLearningPathP": "من الصفر إلى تطبيق كامل — خطوة بخطوة",
       "statusTitle": "حالة المشروع",
-      "statusBody": "Nyra <strong>جاهز للإنتاج</strong> على Core + Stable Extended (async و<code>?</code> وspawn وtraits وserde). إصدارات جاهزة لـ Linux وmacOS وWindows. راجع <a href=\"roadmap.html\">خارطة الطريق</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md\">سياسة الاستقرار</a>.",
+      "statusBody": "Nyra <strong>جاهز للإنتاج</strong> على Core + Stable Extended (async و<code>?</code> وspawn وtraits وserde). إصدارات جاهزة لـ Linux وmacOS وWindows. راجع <a href=\"roadmap.html\">خارطة الطريق</a> و<a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/status.md\">status.md</a> و<a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/stability-v1.md\">سياسة الاستقرار</a>.",
       "aiSkillTitle": "للمساعدين الذكاء الاصطناعي",
       "aiSkillDesc": "حمّل المرجع الرسمي لـ Nyra لـ Cursor وChatGPT وClaude وغيرها.",
       "aiSkillBody": "ملف واحد <code>nyra-skill.md</code> — الصياغة، الملكية، stdlib، PGO، escape analysis، مستويات الاستقرار، ومنع الهلوسة (v1.36.x).",
@@ -179,7 +180,7 @@
       "resultProdP": "جاهز لمعالجة الأخطاء في أدوات CLI والخوادم على Core + Stable Extended.",
       "resultExampleLink": "مرجع Result ومثال ←",
       "statusTitle": "حالة المشروع",
-      "statusBody": "Nyra <strong>جاهزة للإنتاج</strong> على Core + Stable Extended (async و<code>?</code> وspawn وtraits وserde). إصدارات جاهزة لـ Linux وmacOS وWindows. راجع <a href=\"roadmap.html\">خارطة الطريق</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md\">سياسة الاستقرار</a>."
+      "statusBody": "Nyra <strong>جاهزة للإنتاج</strong> على Core + Stable Extended (async و<code>?</code> وspawn وtraits وserde). إصدارات جاهزة لـ Linux وmacOS وWindows. راجع <a href=\"roadmap.html\">خارطة الطريق</a> و<a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/status.md\">status.md</a> و<a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/stability-v1.md\">سياسة الاستقرار</a>."
     },
     "getting-started": {
       "metaTitle": "البدء السريع — توثيق Nyra",
@@ -387,7 +388,7 @@
     "roadmap": {
       "metaTitle": "خارطة الطريق والحالة — توثيق Nyra",
       "h1": "خارطة الطريق والحالة",
-      "lead": "Nyra 1.x — Core وStable Extended مستقران semver. راجع <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a> و<a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md\">stability-v1.md</a>."
+      "lead": "Nyra 1.x — Core وStable Extended مستقران semver. راجع <a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/status.md\">status.md</a> و<a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/stability-v1.md\">stability-v1.md</a>."
     },
     "targets": {
       "metaTitle": "أهداف البناء — توثيق Nyra",

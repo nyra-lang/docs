@@ -99,6 +99,7 @@
       <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
       <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
       <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
+      <li><a href="comptime.html" data-i18n="nav.comptime">Comptime</a></li>
       <li><a href="match.html" data-i18n="nav.match">Match</a></li>
       <li><a href="modules.html" data-i18n="nav.modules">Modules</a></li>
       <li><a href="imports.html" data-i18n="nav.imports">Imports guide</a></li>
@@ -130,7 +131,6 @@
       <li><a href="escape-analysis.html" data-i18n="nav.escapeAnalysis">Escape analysis</a></li>
       <li><a href="diagnostics.html" data-i18n="nav.diagnostics">Diagnostics</a></li>
       <li><a href="ffi-abi.html" data-i18n="nav.ffi">FFI &amp; ABI</a></li>
-      <li><a href="c-bindgen.html">C Bindgen</a></li>
       <li><a href="bindings.html" data-i18n="nav.bindings">Runtime bindings</a></li>
       <li><a href="targets.html" data-i18n="nav.targets">Targets</a></li>
       <li><a href="editor-setup.html" data-i18n="nav.editor">Editor setup</a></li>
@@ -148,7 +148,7 @@
 
 <div class="callout callout-status" role="note">
 <strong>Production-ready — Core + Stable Extended</strong>
-<p>This skill file is the <strong>authoritative reference for AI-assisted coding</strong>. Nyra ships async/await, <code>?</code>, spawn, traits, and serde on Core + Stable Extended — prebuilt Linux, macOS, and Windows releases. Advanced gates (multi-trait <code>dyn</code>, exotic generic serde) are still maturing. See <a href="roadmap.html">Roadmap</a> and <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md">status.md</a>.</p>
+<p>This skill file is the <strong>authoritative reference for AI-assisted coding</strong>. Nyra ships async/await, <code>?</code>, spawn, traits, and serde on Core + Stable Extended — prebuilt Linux, macOS, and Windows releases. Advanced gates (multi-trait <code>dyn</code>, exotic generic serde) are still maturing. See <a href="roadmap.html">Roadmap</a> and <a href="https://github.com/nyra-lang/nyra/blob/main/docs/status.md">status.md</a>.</p>
 </div>
 
 <div class="callout">
@@ -221,7 +221,7 @@ fn main() {
   <tbody>
     <tr><td>Payload <code>Ok</code> / <code>Err</code>, <code>?</code> operator, explicit <code>match</code></td><td>Multi-trait <code>dyn A + B</code> objects</td></tr>
     <tr><td><code>tests/nyra/result_propagate_test.ny</code></td><td>Exotic generic serde edge cases</td></tr>
-    <tr><td><code>nyra run examples/result_propagate_verbose.ny</code></td><td>See <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md">status.md</a> production gates</td></tr>
+    <tr><td><code>nyra run examples/result_propagate_verbose.ny</code></td><td>See <a href="https://github.com/nyra-lang/nyra/blob/main/docs/status.md">status.md</a> production gates</td></tr>
   </tbody>
 </table>
 <p><strong>Production use:</strong> ready for CLI tools and servers on Core + Stable Extended. Full rules in <a href="nyra-skill.md">nyra-skill.md</a> § Enums &amp; payloads · Conformance <code>CONF-ADT-003</code>.</p>

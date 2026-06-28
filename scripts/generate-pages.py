@@ -61,6 +61,7 @@ NAV = '''<nav>
       <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
       <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
       <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
+      <li><a href="comptime.html" data-i18n="nav.comptime">Comptime</a></li>
       <li><a href="match.html" data-i18n="nav.match">Match</a></li>
       <li><a href="modules.html" data-i18n="nav.modules">Modules</a></li>
       <li><a href="imports.html" data-i18n="nav.imports">Imports guide</a></li>

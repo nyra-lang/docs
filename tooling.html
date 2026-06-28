@@ -100,6 +100,7 @@
       <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
       <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
       <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
+      <li><a href="comptime.html" data-i18n="nav.comptime">Comptime</a></li>
       <li><a href="match.html" data-i18n="nav.match">Match</a></li>
       <li><a href="modules.html" data-i18n="nav.modules">Modules</a></li>
       <li><a href="imports.html" data-i18n="nav.imports">Imports guide</a></li>
@@ -169,6 +170,12 @@
           <tr><td><code>nyra bind c</code></td><td>C header → <code>extern fn</code> — see <a href="c-bindgen.html">C Bindgen</a></td></tr>
         </tbody>
       </table>
+
+      <h2>Comptime modules</h2>
+      <p><strong>Job:</strong> Validate a compile-time-only file (lookup tables, generated constants) without a <code>main</code> or runtime codegen.</p>
+      <pre><code>nyra check examples/toolchain/comptime_tables.ny
+nyra run examples/toolchain/comptime_import_main.ny</code></pre>
+      <p>Three forms: file-level <code>comptime</code>, function <code>#[comptime]</code>, and block <code>comptime { … }</code>. Full guide: <a href="comptime.html">Comptime evaluation</a>.</p>
 
       <h2>Start a project</h2>
       <p><strong>Job:</strong> Scaffold <code>main.ny</code>, <code>nyra.mod</code>, and lockfiles before your first build.</p>
@@ -445,7 +452,7 @@ nyra build . --release --lto-full    # full LTO (slower link)</code></pre>
 nyra fmt . --check
 nyra test .
 nyra build . --release</code></pre>
-      <p>Repository scripts: <code>make test-all</code> (includes <code>make test-conformance</code> for CONF-LANG), <code>make test-sanitizer</code>. Workflow: <a href="https://github.com/hamdymohamedak/Nyra/blob/main/.github/workflows/ci.yml"><code>.github/workflows/ci.yml</code></a>.</p>
+      <p>Repository scripts: <code>make test-all</code> (includes <code>make test-conformance</code> for CONF-LANG), <code>make test-sanitizer</code>. Workflow: <a href="https://github.com/nyra-lang/nyra/blob/main/.github/workflows/ci.yml"><code>.github/workflows/ci.yml</code></a>.</p>
 
       <h2 id="freestanding"><code>no_std</code> &amp; freestanding builds</h2>
       <p><strong>Job:</strong> Bare-metal firmware or kernels without the Nyra runtime.</p>
@@ -481,7 +488,7 @@ nyra build . --no-std</code></pre>
   "nyra.languageServerArgs": ["lsp"],
   "nyra.debugAdapterPath": "nyra"
 }</code></pre>
-      <p>Setup guide: <a href="editor-setup.html">Editor setup</a> · Grammar: <a href="https://github.com/hamdymohamedak/Nyra/blob/main/grammar/README.md"><code>grammar/README.md</code></a></p>
+      <p>Setup guide: <a href="editor-setup.html">Editor setup</a> · Grammar: <a href="https://github.com/nyra-lang/nyra/blob/main/grammar/README.md"><code>grammar/README.md</code></a></p>
 
       <footer class="site-footer"><a href="packages.html">NyraPkg →</a></footer>
     </main>

@@ -1,7 +1,7 @@
 # Changelog — Nyra Documentation Site
 
 Standalone changelog for the **Nyra docs site** ([`nyra-lang/docs`](https://github.com/nyra-lang/docs)).  
-This repository is independent from the [Nyra compiler](https://github.com/hamdymohamedak/Nyra). Compiler/stdlib release notes live in the compiler repo [`CHANGELOG.md`](https://github.com/hamdymohamedak/Nyra/blob/main/CHANGELOG.md).
+This repository is independent from the [Nyra compiler](https://github.com/nyra-lang/nyra). Compiler/stdlib release notes live in the compiler repo [`CHANGELOG.md`](https://github.com/nyra-lang/nyra/blob/main/CHANGELOG.md).
 
 **Versioning:** docs releases use the same pill as `index.html` (e.g. `Documentation v1.36.x`), usually bumped when public messaging or pages change for a compiler release.
 
@@ -11,7 +11,7 @@ This repository is independent from the [Nyra compiler](https://github.com/hamdy
 
 **Production-ready status — remove MVP / pre-production banner**
 
-- **Updated** — `index.html` hero banner and footer status: **Production-ready — Core + Stable Extended** (aligned with compiler [`docs/status.md`](https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md))
+- **Updated** — `index.html` hero banner and footer status: **Production-ready — Core + Stable Extended** (aligned with compiler [`docs/status.md`](https://github.com/nyra-lang/nyra/blob/main/docs/status.md))
 - **Updated** — Result section on home page: `?` operator and Stable Extended error handling
 - **Updated** — `roadmap.html` callout: production-ready tier; remaining gates (multi-trait `dyn`, exotic generic serde)
 - **Updated** — `ai-skill.html`: status callout, Result section, system-prompt guardrails

@@ -64,6 +64,7 @@
     "reference": "Language reference",
     "spec": "Language spec",
     "generics": "Generics",
+    "comptime": "Comptime",
     "match": "Match",
     "modules": "Modules",
     "imports": "Imports guide",
@@ -105,7 +106,7 @@
       "tagline": "Fast like a panther. Sharp by design.",
       "lead": "Go’s simplicity. Rust’s safety. C++’s speed — one toolchain, LLVM under the hood.",
       "mvpBannerTitle": "Production-ready — Core + Stable Extended",
-      "mvpBannerBody": "<strong>Core</strong> and <strong>Stable Extended</strong> are semver-stable: async/await, <code>?</code>, spawn, traits, serde, and enum payloads ship without W001. Prebuilt Linux, macOS, and Windows releases. A few advanced areas (multi-trait <code>dyn</code>, exotic generic serde) are still maturing — see <a href=\"roadmap.html\">Roadmap</a> and <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a>.",
+      "mvpBannerBody": "<strong>Core</strong> and <strong>Stable Extended</strong> are semver-stable: async/await, <code>?</code>, spawn, traits, serde, and enum payloads ship without W001. Prebuilt Linux, macOS, and Windows releases. A few advanced areas (multi-trait <code>dyn</code>, exotic generic serde) are still maturing — see <a href=\"roadmap.html\">Roadmap</a> and <a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/status.md\">status.md</a>.",
       "chipFast": "Fast",
       "chipSafe": "Safe",
       "chipMinimal": "Minimal",
@@ -181,7 +182,7 @@
       "resultProdP": "Ready for production error-handling in CLI tools and servers on Core + Stable Extended.",
       "resultExampleLink": "Result reference & example →",
       "statusTitle": "Project status",
-      "statusBody": "Nyra is <strong>production-ready</strong> on Core + Stable Extended (async, <code>?</code>, spawn, traits, serde). Prebuilt releases for Linux, macOS, and Windows. See <a href=\"roadmap.html\">Roadmap</a>, <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a>, and <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md\">stability policy</a>."
+      "statusBody": "Nyra is <strong>production-ready</strong> on Core + Stable Extended (async, <code>?</code>, spawn, traits, serde). Prebuilt releases for Linux, macOS, and Windows. See <a href=\"roadmap.html\">Roadmap</a>, <a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/status.md\">status.md</a>, and <a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/stability-v1.md\">stability policy</a>."
     },
     "getting-started": {
       "metaTitle": "Getting started — Nyra Docs",
@@ -371,6 +372,11 @@
     },
     "spec": { "metaTitle": "Language specification — Nyra Docs", "h1": "Language specification", "lead": "Normative Spec 1.0 freeze (v0.3.0)." },
     "generics": { "metaTitle": "Generics — Nyra Docs", "h1": "Generics", "lead": "Type parameters and monomorphization." },
+    "comptime": {
+      "metaTitle": "Comptime — Nyra Docs",
+      "h1": "Comptime evaluation",
+      "lead": "Optional compile-time evaluation — lookup tables, string routing, and generated constants with <strong>zero runtime cost</strong>."
+    },
     "match": { "metaTitle": "Match — Nyra Docs", "h1": "Match expressions", "lead": "Exhaustiveness, guards, tag-only enums." },
     "async": { "metaTitle": "Async — Nyra Docs", "h1": "Async & await", "lead": "Async functions and await (Stable Extended)." },
     "traits-macros": { "metaTitle": "Traits & macros — Nyra Docs", "h1": "Traits & macros", "lead": "Trait definitions, <code>impl Drop for Type</code>, and macro expansion." },
@@ -412,7 +418,7 @@
     "roadmap": {
       "metaTitle": "Roadmap & status — Nyra Docs",
       "h1": "Roadmap & status",
-      "lead": "Nyra 1.x — Core and Stable Extended are semver-stable. See <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md\">status.md</a> and <a href=\"https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md\">stability-v1.md</a>."
+      "lead": "Nyra 1.x — Core and Stable Extended are semver-stable. See <a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/status.md\">status.md</a> and <a href=\"https://github.com/nyra-lang/nyra/blob/main/docs/stability-v1.md\">stability-v1.md</a>."
     }
   }
 }

@@ -1,6 +1,6 @@
 # Nyra Documentation
 
-Official static documentation site for **[Nyra](https://github.com/hamdymohamedak/Nyra)** — a systems programming language that combines Go-like simplicity, Rust-like memory safety, and LLVM-native performance.
+Official static documentation site for **[Nyra](https://github.com/nyra-lang/nyra)** — a systems programming language that combines Go-like simplicity, Rust-like memory safety, and LLVM-native performance.
 
 This folder is the **docs site source**. It is designed to live in its own repository ([`nyra-lang/docs`](https://github.com/nyra-lang/docs)) and deploy as a standalone GitHub Pages site, while staying in sync with the compiler repo when Nyra language behavior changes.
 
@@ -18,10 +18,10 @@ This folder is the **docs site source**. It is designed to live in its own repos
 | **Tooling** | One `nyra` CLI — fmt, test, build, check, pkg, LSP |
 | **Types** | **Optional by default** — write without annotations like Go/JS; inference fills types in; annotate only when the compiler cannot infer |
 
-Nyra ships a **batteries-included stdlib** (collections, FS, HTTP/TCP, crypto, databases, serialization, and more) compiled in-tree with the language. **Core** and **Stable Extended** are production-ready; see [`roadmap.html`](roadmap.html) and [compiler status](https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md).
+Nyra ships a **batteries-included stdlib** (collections, FS, HTTP/TCP, crypto, databases, serialization, and more) compiled in-tree with the language. **Core** and **Stable Extended** are production-ready; see [`roadmap.html`](roadmap.html) and [compiler status](https://github.com/nyra-lang/nyra/blob/main/docs/status.md).
 
-**Compiler & toolchain:** [github.com/hamdymohamedak/Nyra](https://github.com/hamdymohamedak/Nyra)  
-**Install guide:** [`install.html`](install.html) (mirrors [`install.md`](https://github.com/hamdymohamedak/Nyra/blob/main/install.md) in the compiler repo)
+**Compiler & toolchain:** [github.com/nyra-lang/nyra](https://github.com/nyra-lang/nyra)  
+**Install guide:** [`install.html`](install.html) (mirrors [`install.md`](https://github.com/nyra-lang/nyra/blob/main/install.md) in the compiler repo)
 
 ---
 
@@ -232,7 +232,7 @@ node scripts/build-search-index.mjs
 
 ### Language / stdlib / CLI changes
 
-These originate in the **[Nyra compiler repository](https://github.com/hamdymohamedak/Nyra)**. When syntax, stdlib, or toolchain behavior changes:
+These originate in the **[Nyra compiler repository](https://github.com/nyra-lang/nyra)**. When syntax, stdlib, or toolchain behavior changes:
 
 1. Update the matching pages (see table in [Site map](#site-map)).
 2. Update [`nyra-skill.md`](nyra-skill.md) — the single source of truth for AI assistants.
@@ -240,7 +240,7 @@ These originate in the **[Nyra compiler repository](https://github.com/hamdymoha
 4. Bump the docs version pill on `index.html` / `changelog.html` to match the compiler release.
 5. Add an entry to [`CHANGELOG.md`](CHANGELOG.md) for every docs-site release.
 
-Compiler contributors: see [`agents/skill.md`](https://github.com/hamdymohamedak/Nyra/blob/main/agents/skill.md) in the main repo for the full release checklist.
+Compiler contributors: see [`agents/skill.md`](https://github.com/nyra-lang/nyra/blob/main/agents/skill.md) in the main repo for the full release checklist.
 
 ### Adding a new page
 
@@ -257,9 +257,9 @@ node scripts/build-search-index.mjs
 
 | Resource | URL |
 |----------|-----|
-| Nyra compiler & stdlib | [github.com/hamdymohamedak/Nyra](https://github.com/hamdymohamedak/Nyra) |
+| Nyra compiler & stdlib | [github.com/nyra-lang/nyra](https://github.com/nyra-lang/nyra) |
 | Docs repository | [github.com/nyra-lang/docs](https://github.com/nyra-lang/docs) |
-| Language status | [docs/status.md](https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md) |
+| Language status | [docs/status.md](https://github.com/nyra-lang/nyra/blob/main/docs/status.md) |
 | AI language reference | [`nyra-skill.md`](nyra-skill.md) |
 
 ---

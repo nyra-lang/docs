@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-28T01:47:43.105Z",
+  "generated": "2026-06-28T21:55:35.087Z",
   "docs": [
     {
       "pageTitle": "AI skill file",
@@ -1112,6 +1112,126 @@
       "body": "Ownership Move-captured owned values follow existing borrow-check rules (no active borrows when creating a closure). Captures of Send / Sync types only — references cannot be captured. Heap-promoted env blocks are freed at scope end when held in a let binding with heap_owned metadata. ← Nyra Functions Learn overview Nyra Scope →"
     },
     {
+      "pageTitle": "Comptime evaluation",
+      "url": "comptime.html#intro",
+      "section": "Docs",
+      "kind": "content",
+      "id": "comptime.html#intro",
+      "title": "Comptime evaluation",
+      "heading": "Comptime evaluation",
+      "body": "Comptime evaluation Optional compile-time evaluation — lookup tables, string routing, and generated constants with zero runtime cost . Nyra does not force comptime; use normal runtime code by default and opt in when you need Zig-style power."
+    },
+    {
+      "pageTitle": "Comptime evaluation",
+      "url": "comptime.html#philosophy",
+      "section": "Docs",
+      "kind": "content",
+      "id": "comptime.html#philosophy",
+      "title": "Comptime evaluation",
+      "heading": "Philosophy",
+      "body": "Philosophy The compiler folds pure expressions before codegen . Folded helpers are stripped from the binary; only the resulting constants (or imported pub const values) remain. Both zero-types and explicit types styles work — every example ships as foo.ny + foo.typed.ny under examples/toolchain/ ."
+    },
+    {
+      "pageTitle": "Comptime evaluation",
+      "url": "comptime.html#three-forms",
+      "section": "Docs",
+      "kind": "content",
+      "id": "comptime.html#three-forms",
+      "title": "Comptime evaluation",
+      "heading": "Three forms",
+      "body": "Three forms"
+    },
+    {
+      "pageTitle": "Comptime evaluation",
+      "url": "comptime.html#1-file-level-comptime-module",
+      "section": "Docs",
+      "kind": "content",
+      "id": "comptime.html#1-file-level-comptime-module",
+      "title": "Comptime evaluation",
+      "heading": "1 — File-level comptime module",
+      "body": "1 — File-level comptime module Put comptime on the first line . The entire file is evaluated at compile time. Export pub const (and optional pub struct / pub enum ) for importers. No main , print , spawn , async , or extern in comptime modules. Without types With types comptime fn hash_step(n) { return (n * 2654435761) % 2147483647 } pub const SEED = hash_step(42) pub const SUM_FOUR = sum_array([0, 1, 2, 3]) comptime fn hash_step(n: i32) -> i32 { return (n * 2654435761) % 2147483647 } pub const SEED: i32 = hash_step(42) pub const SUM_FOUR: i32 = sum_array([0, 1, 2, 3]) Check without codegen: nyra check examples/toolchain/comptime_tables.ny . Import from runtime code: import \"comptime_tables.ny\" as tables fn main() { let seed = tables::SEED } Example: examples/toolchain/comptime_import_main.ny ."
+    },
+    {
+      "pageTitle": "Comptime evaluation",
+      "url": "comptime.html#2-function-attribute-comptime",
+      "section": "Docs",
+      "kind": "content",
+      "id": "comptime.html#2-function-attribute-comptime",
+      "title": "Comptime evaluation",
+      "heading": "2 — Function attribute #[comptime]",
+      "body": "2 — Function attribute #[comptime] Mark a single function in a normal file. Calls with known arguments fold at compile time; the function body is removed from the runtime binary. Without types With types #[comptime] fn mix(n) { return n * 3 } const SEED = mix(14) fn main() { print(\"SEED\", SEED) // 42 — mix() not in binary } #[comptime] fn mix(n: i64) -> i64 { return n * 3 } const SEED: i64 = mix(14) fn main() { print(\"SEED\", SEED) } Example: examples/toolchain/comptime_fn_attr.ny ."
+    },
+    {
+      "pageTitle": "Comptime evaluation",
+      "url": "comptime.html#3-block-expression-comptime",
+      "section": "Docs",
+      "kind": "content",
+      "id": "comptime.html#3-block-expression-comptime",
+      "title": "Comptime evaluation",
+      "heading": "3 — Block expression comptime { … }",
+      "body": "3 — Block expression comptime { … } Folds a compile-time block to a value (trailing expression or return ). Supports loops, mutable locals, and match . Without types With types const TOTAL = comptime { let mut acc = 0 let mut i = 0 while i < 4 { acc = acc + i i = i + 1 } acc } enum Mode { Fast Slow } const SCORE = comptime { match Mode.Fast { Mode.Fast => 100 Mode.Slow => 10 } } const TOTAL: i32 = comptime { let mut acc: i32 = 0 let mut i: i32 = 0 while i < 4 { acc = acc + i i = i + 1 } acc } Examples: comptime_block_loops.ny , comptime_match.ny , comptime_struct_enum.ny ."
+    },
+    {
+      "pageTitle": "Comptime evaluation",
+      "url": "comptime.html#power-example-tables-strings-match",
+      "section": "Docs",
+      "kind": "content",
+      "id": "comptime.html#power-example-tables-strings-match",
+      "title": "Comptime evaluation",
+      "heading": "Power example — tables, strings, match",
+      "body": "Power example — tables, strings, match examples/toolchain/comptime_power.ny builds a lookup table, routes HTTP verbs by string match , and concatenates labels — all at compile time: comptime fn build_lookup(size) { let mut table = [0; size] let mut i = 0 while i < size { table[i] = i * i i = i + 1 } return table } pub const LOOKUP = build_lookup(8) pub const GET_CODE = comptime { match \"GET\" { \"GET\" => 1 \"POST\" => 2 _ => 0 } }"
+    },
+    {
+      "pageTitle": "Comptime evaluation",
+      "url": "comptime.html#what-comptime-supports",
+      "section": "Docs",
+      "kind": "content",
+      "id": "comptime.html#what-comptime-supports",
+      "title": "Comptime evaluation",
+      "heading": "What comptime supports",
+      "body": "What comptime supports Integers, bools, strings (literals, + , == / != ) Fixed arrays ( [1, 2, 3] , [x; N] , spreads), .len() on arrays/strings Structs — literals, field access, spread, struct match Enums — unit and payload variants Tuples and tuple match for i in 0..N , for x in arr , while , break , continue match on enums, bools, integer literals, string literals, guards, struct/tuple arms; or-patterns via desugar Mutable updates: table[i] = v , s.field = v with let mut Generic calls (monomorphized before eval), pure function calls, if / return"
+    },
+    {
+      "pageTitle": "Comptime evaluation",
+      "url": "comptime.html#forbidden-in-comptime",
+      "section": "Docs",
+      "kind": "content",
+      "id": "comptime.html#forbidden-in-comptime",
+      "title": "Comptime evaluation",
+      "heading": "Forbidden in comptime",
+      "body": "Forbidden in comptime main , print , spawn , async , extern , unsafe , asm , parallel for Runtime calls to #[comptime] functions (compile error) Reassigning non- mut let bindings Use priv const for internal comptime helpers; export only what importers need as pub const ."
+    },
+    {
+      "pageTitle": "Comptime evaluation",
+      "url": "comptime.html#let-vs-const-vs-comptime",
+      "section": "Docs",
+      "kind": "content",
+      "id": "comptime.html#let-vs-const-vs-comptime",
+      "title": "Comptime evaluation",
+      "heading": "let vs const vs comptime",
+      "body": "let vs const vs comptime let let mut const comptime file #[comptime] When evaluated Runtime Runtime Compile time (literal) Compile time (whole file) Compile time (call sites) In binary Yes Yes Constant only Exported constants only Folded away Example let n = 1 let mut i = 0 const MAX = 100 pub const TABLE = … #[comptime] fn hash(n) … See also Nyra Constants for everyday const usage."
+    },
+    {
+      "pageTitle": "Comptime evaluation",
+      "url": "comptime.html#toolchain",
+      "section": "Docs",
+      "kind": "content",
+      "id": "comptime.html#toolchain",
+      "title": "Comptime evaluation",
+      "heading": "Toolchain",
+      "body": "Toolchain Command Job nyra check path/to/comptime_module.ny Type-check a comptime-only file (no main , no codegen required) nyra run importer.ny Compile runtime code that imports folded constants nyra test tests/nyra/comptime/ Run comptime regression suite (zero-types + typed pairs)"
+    },
+    {
+      "pageTitle": "Comptime evaluation",
+      "url": "comptime.html#examples-tests",
+      "section": "Docs",
+      "kind": "content",
+      "id": "comptime.html#examples-tests",
+      "title": "Comptime evaluation",
+      "heading": "Examples & tests",
+      "body": "Examples & tests Path Demonstrates examples/toolchain/comptime_tables.ny File-level module + hash helpers examples/toolchain/comptime_import_main.ny Import pub const from comptime file examples/toolchain/comptime_fn_attr.ny #[comptime] function folding examples/toolchain/comptime_block_loops.ny comptime { } + while examples/toolchain/comptime_match.ny Enum / bool / integer match examples/toolchain/comptime_struct_enum.ny Struct literals + struct match examples/toolchain/comptime_power.ny Tables, string match , concat tests/nyra/comptime/ Full test grid ( *_test.ny runners) ← Generics · Modules →"
+    },
+    {
       "pageTitle": "Concurrency",
       "url": "concurrency.html#intro",
       "section": "Language",
@@ -1289,7 +1409,7 @@
       "id": "dungeon-steps.html#run-the-app",
       "title": "Dungeon Steps",
       "heading": "Run the app",
-      "body": "Run the app git clone https://github.com/hamdymohamedak/Nyra.git cd Nyra/App/NyraApp nyra run . Project root only Run from the directory that contains main.ny . Use nyra run . — not nyra run main.ny — so imports resolve. See Modules and Imports guide . After building Nyra from source locally: ./scripts/dev-install.sh # from repo root cd App/NyraApp nyra run ."
+      "body": "Run the app git clone git@github.com:nyra-lang/nyra.git cd Nyra/App/NyraApp nyra run . Project root only Run from the directory that contains main.ny . Use nyra run . — not nyra run main.ny — so imports resolve. See Modules and Imports guide . After building Nyra from source locally: ./scripts/dev-install.sh # from repo root cd App/NyraApp nyra run ."
     },
     {
       "pageTitle": "Dungeon Steps",
@@ -1689,7 +1809,7 @@
       "id": "examples.html#5-calculator-structs-imports",
       "title": "Example applications",
       "heading": "5. Calculator structs + imports",
-      "body": "5. Calculator structs + imports Official repo example · three files calculator/ main.ny types.ny ops.ny types.ny struct Calculator { value: i32 } Without types With types ops.ny import \"types.ny\" fn add_calc(c, n) { return Calculator { value: c.value + n } } ops.ny import \"types.ny\" fn add_calc(c: Calculator, n: i32) -> Calculator { return Calculator { value: c.value + n } } Without types With types main.ny import \"types.ny\" import \"ops.ny\" fn main() { let c = Calculator { value: 0 } let c2 = add_calc(c, 10) print(c2.value) } main.ny import \"types.ny\" import \"ops.ny\" fn main() -> void { let c = Calculator { value: 0 } let c2 = add_calc(c, 10) print(c2.value) } git clone https://github.com/hamdymohamedak/Nyra.git cd Nyra nyra run examples/projects/calculator Output: 10"
+      "body": "5. Calculator structs + imports Official repo example · three files calculator/ main.ny types.ny ops.ny types.ny struct Calculator { value: i32 } Without types With types ops.ny import \"types.ny\" fn add_calc(c, n) { return Calculator { value: c.value + n } } ops.ny import \"types.ny\" fn add_calc(c: Calculator, n: i32) -> Calculator { return Calculator { value: c.value + n } } Without types With types main.ny import \"types.ny\" import \"ops.ny\" fn main() { let c = Calculator { value: 0 } let c2 = add_calc(c, 10) print(c2.value) } main.ny import \"types.ny\" import \"ops.ny\" fn main() -> void { let c = Calculator { value: 0 } let c2 = add_calc(c, 10) print(c2.value) } git clone git@github.com:nyra-lang/nyra.git cd Nyra nyra run examples/projects/calculator Output: 10"
     },
     {
       "pageTitle": "Example applications",
@@ -1889,7 +2009,7 @@
       "id": "generics.html",
       "title": "Generics",
       "heading": "",
-      "body": "Generics Type parameters, monomorphization, and call-site inference. Without types With types fn id<T>(x) { return x } fn main() { print(id(42)) // T inferred as i32 — no type args needed print(id(42)) // explicit still works } fn id<T>(x: T) -> T { return x } fn main() -> void { print(id<i32>(42)) // T inferred as i32 — no type args needed print(id<i32>(42)) // explicit still works } Monomorphization generates specialized functions at compile time ( id__i32 , etc.). Generic calls use ident < Type > ( syntax when types are explicit. See also Ownership UX for return-type inference and CONF-GEN-* in the conformance suite. Language spec →"
+      "body": "Generics Type parameters, monomorphization, and call-site inference. Without types With types fn id<T>(x) { return x } fn main() { print(id(42)) // T inferred as i32 — no type args needed print(id(42)) // explicit still works } fn id<T>(x: T) -> T { return x } fn main() -> void { print(id<i32>(42)) // T inferred as i32 — no type args needed print(id<i32>(42)) // explicit still works } Monomorphization generates specialized functions at compile time ( id__i32 , etc.). Generic calls use ident < Type > ( syntax when types are explicit. See also Comptime evaluation for optional compile-time folding, Ownership UX for return-type inference, and CONF-GEN-* in the conformance suite. Comptime →"
     },
     {
       "pageTitle": "Getting started",
@@ -2379,7 +2499,7 @@
       "id": "index.html#learning-path",
       "title": "Nyra Programming Language",
       "heading": "Learning path",
-      "body": "Learning path Zero to full app — step by step Project status Nyra is production-ready on Core + Stable Extended (async, ? , spawn, traits, serde). Prebuilt releases for Linux, macOS, and Windows. See Roadmap , status.md , and stability policy . Nyra · Proprietary · All Rights Reserved · github.com/hamdymohamedak/Nyra"
+      "body": "Learning path Zero to full app — step by step Project status Nyra is production-ready on Core + Stable Extended (async, ? , spawn, traits, serde). Prebuilt releases for Linux, macOS, and Windows. See Roadmap , status.md , and stability policy . Nyra · Proprietary · All Rights Reserved · github.com/nyra-lang/nyra"
     },
     {
       "pageTitle": "Install Nyra",
@@ -3389,7 +3509,7 @@
       "id": "learn-constants.html#const",
       "title": "Nyra Constants",
       "heading": "const",
-      "body": "const Without types With types const MAX_LIVES = 3 const PI = 3 fn main() { print(MAX_LIVES) } const MAX_LIVES = 3 const PI = 3 fn main() -> void { print(MAX_LIVES) } let let mut const Can reassign? No Yes No When set? Runtime Runtime Compile time ← Nyra Data Types Learn overview Nyra Operators →"
+      "body": "const Without types With types const MAX_LIVES = 3 const PI = 3 fn main() { print(MAX_LIVES) } const MAX_LIVES = 3 const PI = 3 fn main() -> void { print(MAX_LIVES) } let let mut const Can reassign? No Yes No When set? Runtime Runtime Compile time For heavier compile-time work — lookup tables, string routing, and generated constants with zero runtime cost — see Comptime evaluation . ← Nyra Data Types Learn overview Nyra Operators →"
     },
     {
       "pageTitle": "Nyra Data Structures",
@@ -5729,7 +5849,7 @@
       "id": "reference.html#keywords",
       "title": "Language reference",
       "heading": "Keywords",
-      "body": "Keywords Keyword Purpose fn Function definition let / let mut Immutable / mutable binding const Compile-time constant name if / else Conditional while Loop for / in Range loop: for i in 0..10 return Return from function match Pattern match on enums / values struct / enum User-defined types impl Methods on a type; impl Trait for Type for (in types) HRTB binder: for<'a> fn(...) import Load another .ny file module Module declaration (parsed) extern / export FFI declare / export symbol test Test function print Built-in stdout (keyword); optional color: for ANSI output spawn Concurrent block defer Scope-exit call (LIFO) — Extended ; prefer auto-drop / impl Drop unsafe Block for raw memory (deref, ptr arithmetic, raw casts) asm Inline assembly: asm \"template\" (inside unsafe ) as Type cast: expr as Type (raw casts need unsafe ) no_std Top-level directive — skip nyra_rt link; no print / spawn move / clone Unary prefixes at call sites — explicit move or clone (v2.9) async / await Stable Extended — promises + await ; not on wasm32 trait / dyn Stable Extended — impl Trait for Type , trait objects dyn Trait macro Extended — parsed and expanded self Method receiver in impl"
+      "body": "Keywords Keyword Purpose fn Function definition let / let mut Immutable / mutable binding const Compile-time constant name comptime Optional compile-time evaluation — file module, #[comptime] , or comptime { } block ( guide ) if / else Conditional while Loop for / in Range loop: for i in 0..10 return Return from function match Pattern match on enums / values struct / enum User-defined types impl Methods on a type; impl Trait for Type for (in types) HRTB binder: for<'a> fn(...) import Load another .ny file module Module declaration (parsed) extern / export FFI declare / export symbol test Test function print Built-in stdout (keyword); optional color: for ANSI output spawn Concurrent block defer Scope-exit call (LIFO) — Extended ; prefer auto-drop / impl Drop unsafe Block for raw memory (deref, ptr arithmetic, raw casts) asm Inline assembly: asm \"template\" (inside unsafe ) as Type cast: expr as Type (raw casts need unsafe ) no_std Top-level directive — skip nyra_rt link; no print / spawn move / clone Unary prefixes at call sites — explicit move or clone (v2.9) async / await Stable Extended — promises + await ; not on wasm32 trait / dyn Stable Extended — impl Trait for Type , trait objects dyn Trait macro Extended — parsed and expanded self Method receiver in impl"
     },
     {
       "pageTitle": "Language reference",
@@ -5939,7 +6059,7 @@
       "id": "roadmap.html#contributing",
       "title": "Roadmap & status",
       "heading": "Contributing",
-      "body": "Contributing Source and issues: github.com/hamdymohamedak/Nyra . See CONTRIBUTING.md in the repo. ← Overview"
+      "body": "Contributing Source and issues: github.com/nyra-lang/nyra . See CONTRIBUTING.md in the repo. ← Overview"
     },
     {
       "pageTitle": "Sitemap",
@@ -5949,7 +6069,7 @@
       "id": "sitemap.html",
       "title": "Sitemap",
       "heading": "",
-      "body": "Sitemap All documentation pages. Page Topic Overview Start here Getting started First project Installation Install guide Learning path Curriculum AI skill nyra-skill.md for LLMs Language basics Variables, loops, structs, imports Syntax Core syntax Types Types & data Reference Keywords Spec Normative spec Generics Monomorphization Match Pattern matching Memory Ownership Ownership UX Auto-borrow, auto-Copy, inference, f64 Async async/await Traits Traits & macros Stdlib API reference Built-in methods Strings, arrays, numbers, maps — one-page lookup Concurrency spawn & channels Examples Sample apps OS, files & hardware Filesystem, platform, FFI, bridge Toolchain CLI Performance Release flags, LTO PGO Automated profile-guided optimization Diagnostics Errors FFI ABI policy C Bindgen C header → extern fn ; nyra pkg c add Targets Native & Wasm Editor Grammar NyraPkg Packages Roadmap Status Changelog History Overview →"
+      "body": "Sitemap All documentation pages. Page Topic Overview Start here Getting started First project Installation Install guide Learning path Curriculum AI skill nyra-skill.md for LLMs Language basics Variables, loops, structs, imports Syntax Core syntax Types Types & data Reference Keywords Spec Normative spec Generics Monomorphization Comptime Compile-time evaluation (optional) Match Pattern matching Memory Ownership Ownership UX Auto-borrow, auto-Copy, inference, f64 Async async/await Traits Traits & macros Stdlib API reference Built-in methods Strings, arrays, numbers, maps — one-page lookup Concurrency spawn & channels Examples Sample apps OS, files & hardware Filesystem, platform, FFI, bridge Toolchain CLI Performance Release flags, LTO PGO Automated profile-guided optimization Diagnostics Errors FFI ABI policy C Bindgen C header → extern fn ; nyra pkg c add Targets Native & Wasm Editor Grammar NyraPkg Packages Roadmap Status Changelog History Overview →"
     },
     {
       "pageTitle": "Language specification",
@@ -7053,6 +7173,16 @@
     },
     {
       "pageTitle": "Toolchain",
+      "url": "tooling.html#comptime-modules",
+      "section": "Toolchain",
+      "kind": "content",
+      "id": "tooling.html#comptime-modules",
+      "title": "Toolchain",
+      "heading": "Comptime modules",
+      "body": "Comptime modules Job: Validate a compile-time-only file (lookup tables, generated constants) without a main or runtime codegen. nyra check examples/toolchain/comptime_tables.ny nyra run examples/toolchain/comptime_import_main.ny Three forms: file-level comptime , function #[comptime] , and block comptime { … } . Full guide: Comptime evaluation ."
+    },
+    {
+      "pageTitle": "Toolchain",
       "url": "tooling.html#start-a-project",
       "section": "Toolchain",
       "kind": "content",
@@ -7832,6 +7962,16 @@
       "kind": "nav"
     },
     {
+      "id": "nav:comptime.html",
+      "url": "comptime.html",
+      "pageTitle": "Comptime",
+      "title": "Comptime",
+      "heading": "Navigation",
+      "body": "Comptime Comptime Advanced متقدم",
+      "section": "Advanced",
+      "kind": "nav"
+    },
+    {
       "id": "nav:match.html",
       "url": "match.html",
       "pageTitle": "Match",
@@ -8197,7 +8337,7 @@
       "pageTitle": "Nyra AI Skill (nyra-skill.md)",
       "title": "Nyra AI Skill (nyra-skill.md)",
       "heading": "Variables",
-      "body": "Variables A **variable** is a name for a value. Nyra has three main forms: ### `let` — immutable binding `let` means: bind this name once. Reading the value is always OK; replacing it is not (unless you used `mut`). ### `mut` — mutable (changeable) `mut` is short for **mutable**. The variable can be reassigned after creation. Use `let mut` (or `mut`) for counters, loop indices, accumulators, and any value that changes over time. ### `const` — compile-time constant Fixed at compile time; shared fixed values across the program. Not the same as `let` — you cannot compute `const` from runtime input. | | `let` | `let mut` | `const` | |---|-------|-----------|---------| | Reassign? | No | Yes | No | | When set? | Runtime in code | Runtime; can change | Compile time | | Example | `let name = \"Ali\"` | `let mut gold = 0` | `const MAX = 100` | - Immutable `let` of **Move** types (heap `string`) transfers ownership on use. - `let mut` of Copy types (`i32`, `bool`, enums) is not moved on function call. Integer separators: `1_000_000`",
+      "body": "Variables A **variable** is a name for a value. Nyra has three main forms: ### `let` — immutable binding `let` means: bind this name once. Reading the value is always OK; replacing it is not (unless you used `mut`). ### `mut` — mutable (changeable) `mut` is short for **mutable**. The variable can be reassigned after creation. Use `let mut` (or `mut`) for counters, loop indices, accumulators, and any value that changes over time. ### `const` — compile-time constant Fixed at compile time; shared fixed values across the program. Not the same as `let` — you cannot compute `const` from runtime input unless the expression is folded at compile time (see **comptime** below). ### `comptime` — compile-time evaluation (optional) Three forms: 1. **File-level** — put `comptime` on the **first line** of a file. The **entire unit** is compile-time only; only `pub const` (and optional `pub struct`/`enum`) are exported to importers. Comptime modules cannot define `main`, `spawn`, `async`, `print`, or `extern`. 2. **Function-level** — put `#[comptime]` on a **single function** in a normal file. Calls with known arguments fold at compile time; the function is stripped from the runtime binary. 3. **Block expression** — `comptime { ... }` folds a compile-time block to a value (trailing expression or `return`). Import from a normal file (file-level comptime module): Check a comptime module: `nyra check examples/toolchain/comptime_tables.ny` (no codegen / no `main` required). Examples: `examples/toolchain/comptime_tables.ny`, `comptime_import_main.ny`, `comptime_fn_attr.ny`, `comptime_block_loops.ny`, `comptime_match.ny`, `comptime_struct_enum.ny`, `comptime_power.ny` (zero-types + `.typed.ny` pairs). **Philosophy (Zig-like, optional):** Nyra does not force comptime — use normal runtime code by default. When you need lookup tables, string routing, or generated constants with **zero runtime cost**, opt in via `comptime` file, `#[comptime]`, or `comptime { }`. The interpreter folds values before codegen so hot paths stay lean (like Zig `comptime`, but always optional). **Supported in comptime eval:** integers, bools, **strings** (literals, `+` concat, `==` / `!=`), fixed arrays (`[1, 2, 3]`, `[x; N]`, `[x; param]`, spreads), **`.len()`** on arrays/strings, **mutable array/struct updates** (`table[i] = v`, `s.field = v` with `let mut`), **structs** (literals, field access, spread, struct match), **enums** (unit + payload), **tuples**, `for i in 0..N`, `for x in arr`, `while` / `break` / `continue`, `comptime { }` blocks, **`match`** (enum, bool, **integer literals**, **string literals**, guards, struct, tuple), generic calls (monomorphized before eval), pure function calls, `if` / `return` / `let mut`. **Match in comptime:** enum arms (`Status.Ok`, `Opt.Some(x)`), bool (`true` / `false`), integer literals (`0`, `7`, …) and `_ if guard`, **string literals** (`\"GET\" => …`), struct arms (`Point { x, y }`), tuple arms (`(a, b)`). Or-patterns (`A | B =>`) work via desugar. **Comptime modules export:** `pub const` values plus **`pub struct` / `pub enum`** type definitions (private helpers and functions are stripped). **Still forbidden in comptime:** `main`, `print`, `spawn`, `async`, `extern`, `unsafe`, `asm`, `parallel for`. Runtime calls to `#[comptime]` functions are a compile error. Reassigning `let` (non-`mut`) bindings is rejected. Use `priv const` for internal comptime helpers (Nyra defaults to `pub` when visibility is omitted); export only `pub const` values importers need. | | `let` | `let mut` | `const` | `comptime` file | `#[comptime]` fn | |---|-------|-----------|---------|-----------------|------------------| | Reassign? | No | Yes | No | N/A (no runtime) | N/A (stripped) | | When set? | Runtime in code | Runtime; can change | Compile time | Compile time (whole file) | Compile time (per call site) | | Example | `let name = \"Ali\"` | `let mut gold = 0` | `const MAX = 100` | `comptime` + `pub const TABLE = ...` | `#[comptime] fn hash(n) { ... }` | - Immutable `let` of **Move** types (heap `string`) transfers ownership on use. - `let mut` of Copy types (`i32`, `bool`, enums) is not moved on function call. Integer separators: `1_000_000`",
       "section": "AI",
       "kind": "content"
     },
@@ -8207,7 +8347,7 @@
       "pageTitle": "Nyra AI Skill (nyra-skill.md)",
       "title": "Nyra AI Skill (nyra-skill.md)",
       "heading": "Language reference",
-      "body": "Language reference Quick lookup for syntax the lexer and parser accept today. Types are optional unless inference fails. ### Keywords | Keyword | Purpose | |---------|---------| | `fn` | Function definition | | `let` / `let mut` | Immutable / mutable binding | | `const` | Compile-time constant | | `if` / `else` | Conditional (also expression) | | `while` | Loop | | `break` | Exit innermost `while` / `for` | | `for` / `in` | `for i in 0..10` or `for x in arr` | | `return` | Return from function | | `match` | Pattern match on enums / values | | `struct` / `enum` | User-defined types | | `impl` | Methods; `impl Trait for Type` | | `import` | Load another `.ny` file | | `module` | Module declaration | | `extern` / `export` | FFI declare / export C symbol | | `test` | Test function | | `print` | Built-in stdout; optional `color:` | | `spawn` | Concurrent block (Extended) | | `parallel for` | Parallel loop over range or array (Extended) | | `progress for` | Progress bar loop (Extended) | | `benchmark` | Timed block with Time/Memory/CPU report (Extended) | | `defer` | Scope-exit call (LIFO) — **Extended**; prefer auto-drop / `impl Drop` (see below) | | `unsafe` | Raw memory block | | `asm` | Inline assembly inside `unsafe` | | `as` | Type cast (`expr as Type`) | | `no_std` | Skip `nyra_rt` link | | `move` / `clone` | Explicit move or clone at call site | | `async` / `await` | Parsed; runtime evolving (Extended) | | `trait` / `dyn` | Trait defs, static impl, trait objects `dyn Trait` (Extended) | | `self` | Method receiver in `impl` | ### Operators | Category | Operators | |----------|-----------| | Arithmetic | `+` `-` `*` `/` `%` | | Comparison | `==` `!=` `<` `<=` `>` `>=` | | Logical | `&&` `\\|\\|` `!` | | Nullish / optional (v2.1+) | `??` `?.` `?.method()` | | Reference | `&x` (shared), `&mut x` (exclusive) | | Raw (inside `unsafe`) | `*ptr` load, `*ptr = v` store, `ptr + i32`, `ptr - i32` | | Cast | `expr as Type` — raw casts need `unsafe` | | Field / call | `obj.field`, `f(a, b)`, `obj.method(a)` | ### Literals | Form | Example | Inferred type | |------|---------|---------------| | Integer | `42`, `1_000_000` | `i32` | | Float | `3.14`, `1e-3` | `f64` | | Character | `'a'`, `'\\n'`, `'\\u{1F600}'` | `char` | | Boolean | `true`, `false` | `bool` | | String | `\"hello\"` | `string` (static literal) | | Template | `` `Hello ${name}!` `` | `string` (interpolates `i32`, `f64`, `string`, `bool`, `char`, and **any expression** including calls like `${fmt(x)}`) | | Array | `[1, 2, 3]` | `[i32; 3]` when annotated | | Tuple | `(1, \"a\")` | `(i32, string)` when annotated | | Object | `{ name: \"a\", age: 1 }` | inferred struct (or matches declared struct) | ### Statements ### How code becomes a binary Stop early without linking: `nyra check .` · JSON diagnostics: `nyra diag . --json`",
+      "body": "Language reference Quick lookup for syntax the lexer and parser accept today. Types are optional unless inference fails. ### Keywords | Keyword | Purpose | |---------|---------| | `fn` | Function definition | | `let` / `let mut` | Immutable / mutable binding | | `const` | Compile-time constant | | `comptime` | Optional compile-time evaluation (file, `#[comptime]`, or `comptime { }` block) | | `if` / `else` | Conditional (also expression) | | `while` | Loop | | `break` | Exit innermost `while` / `for` | | `for` / `in` | `for i in 0..10` or `for x in arr` | | `return` | Return from function | | `match` | Pattern match on enums / values | | `struct` / `enum` | User-defined types | | `impl` | Methods; `impl Trait for Type` | | `import` | Load another `.ny` file | | `module` | Module declaration | | `extern` / `export` | FFI declare / export C symbol | | `test` | Test function | | `print` | Built-in stdout; optional `color:` | | `spawn` | Concurrent block (Extended) | | `parallel for` | Parallel loop over range or array (Extended) | | `progress for` | Progress bar loop (Extended) | | `benchmark` | Timed block with Time/Memory/CPU report (Extended) | | `defer` | Scope-exit call (LIFO) — **Extended**; prefer auto-drop / `impl Drop` (see below) | | `unsafe` | Raw memory block | | `asm` | Inline assembly inside `unsafe` | | `as` | Type cast (`expr as Type`) | | `no_std` | Skip `nyra_rt` link | | `move` / `clone` | Explicit move or clone at call site | | `async` / `await` | Parsed; runtime evolving (Extended) | | `trait` / `dyn` | Trait defs, static impl, trait objects `dyn Trait` (Extended) | | `self` | Method receiver in `impl` | ### Operators | Category | Operators | |----------|-----------| | Arithmetic | `+` `-` `*` `/` `%` | | Comparison | `==` `!=` `<` `<=` `>` `>=` | | Logical | `&&` `\\|\\|` `!` | | Nullish / optional (v2.1+) | `??` `?.` `?.method()` | | Reference | `&x` (shared), `&mut x` (exclusive) | | Raw (inside `unsafe`) | `*ptr` load, `*ptr = v` store, `ptr + i32`, `ptr - i32` | | Cast | `expr as Type` — raw casts need `unsafe` | | Field / call | `obj.field`, `f(a, b)`, `obj.method(a)` | ### Literals | Form | Example | Inferred type | |------|---------|---------------| | Integer | `42`, `1_000_000` | `i32` | | Float | `3.14`, `1e-3` | `f64` | | Character | `'a'`, `'\\n'`, `'\\u{1F600}'` | `char` | | Boolean | `true`, `false` | `bool` | | String | `\"hello\"` | `string` (static literal) | | Template | `` `Hello ${name}!` `` | `string` (interpolates `i32`, `f64`, `string`, `bool`, `char`, and **any expression** including calls like `${fmt(x)}`) | | Array | `[1, 2, 3]` | `[i32; 3]` when annotated | | Tuple | `(1, \"a\")` | `(i32, string)` when annotated | | Object | `{ name: \"a\", age: 1 }` | inferred struct (or matches declared struct) | ### Statements ### How code becomes a binary Stop early without linking: `nyra check .` · JSON diagnostics: `nyra diag . --json`",
       "section": "AI",
       "kind": "content"
     },

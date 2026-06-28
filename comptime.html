@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#06090d">
   <meta name="color-scheme" content="dark light">
-  <title>Closures — Nyra Docs</title>
+  <title>Comptime — Nyra Docs</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/search.css">
 </head>
-<body data-page="closures">
+<body data-page="comptime">
   <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
   <header class="site-header">
     <a class="logo" href="index.html">
@@ -99,7 +99,7 @@
       <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
       <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
       <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
-      <li><a href="comptime.html" data-i18n="nav.comptime">Comptime</a></li>
+      <li><a class="active" href="comptime.html" data-i18n="nav.comptime">Comptime</a></li>
       <li><a href="match.html" data-i18n="nav.match">Match</a></li>
       <li><a href="modules.html" data-i18n="nav.modules">Modules</a></li>
       <li><a href="imports.html" data-i18n="nav.imports">Imports guide</a></li>
@@ -143,88 +143,197 @@
 </nav>
     </aside>
     <main class="content">
-      <h1>Closures (v2.2)</h1>
-      <p class="lead">Stack- and heap-allocated capturing lambdas, escape rules, and loop-safe callback patterns.</p>
+      <h1 data-i18n="pages.comptime.h1">Comptime evaluation</h1>
+      <p class="lead" data-i18n-html="pages.comptime.lead">Optional compile-time evaluation — lookup tables, string routing, and generated constants with <strong>zero runtime cost</strong>. Nyra does not force comptime; use normal runtime code by default and opt in when you need Zig-style power.</p>
 
-<h2>Stack vs heap</h2>
-<p>Non-escaping capturing closures store their environment in a <strong>stack <code>alloca</code></strong> at the creation site. The closure body receives <code>ptr %env</code> as its first argument.</p>
-<p>When a capturing closure is coerced to a plain <code>fn(...)</code> for a <strong>synchronous</strong> callback (e.g. <code>iter_filter</code> predicate), the compiler emits a per-site wrapper that loads the stack env from an invoke slot before each call.</p>
-<p>As of <strong>v2.2</strong>, closures that <strong>escape</strong> — returned from a function, passed as a <code>fn(...)</code> argument, or stored beyond the synchronous invoke window — promote their env to the <strong>heap</strong> (<code>malloc</code> + <code>memcpy</code>). The wrapper loads the env from a persistent global; heap env is freed when the owning <code>let</code> binding goes out of scope.</p>
+      <h2>Philosophy</h2>
+      <p>The compiler folds pure expressions <strong>before codegen</strong>. Folded helpers are stripped from the binary; only the resulting constants (or imported <code>pub const</code> values) remain. Both <strong>zero-types</strong> and <strong>explicit types</strong> styles work — every example ships as <code>foo.ny</code> + <code>foo.typed.ny</code> under <code>examples/toolchain/</code>.</p>
 
-<h2>Escape rules (v2.2)</h2>
-<ul>
-<li><strong>Return</strong> — <code>return (x) =&gt; x + n</code> always heap-promotes.</li>
-<li><strong>Sync callback</strong> — inline <code>iter_filter(v, (x) =&gt; …)</code> or a <code>let pred = …</code> passed immediately in the same block uses stack + invoke slot.</li>
-<li><strong>Fn pointer param</strong> — stack closure variables passed to external <code>fn(...)</code> params set the invoke slot at the call site; returned closures use heap globals.</li>
-</ul>
+      <h2>Three forms</h2>
 
-<h2>Direct call vs fn pointer</h2>
+      <h3>1 — File-level <code>comptime</code> module</h3>
+      <p>Put <code>comptime</code> on the <strong>first line</strong>. The entire file is evaluated at compile time. Export <code>pub const</code> (and optional <code>pub struct</code> / <code>pub enum</code>) for importers. No <code>main</code>, <code>print</code>, <code>spawn</code>, <code>async</code>, or <code>extern</code> in comptime modules.</p>
 <!-- NYRA_SNIPPET_START -->
 <div class="code-tabs" data-code-tabs>
   <div class="code-tabs-bar" role="tablist">
     <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
     <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
   </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn make_adder(n){
-    return (x) =&gt; x + n          // heap — escapes via return
-}
-let add5 = make_adder(5)
-print(add5(10))                 // 15
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>comptime
 
-iter_filter(v, (x) =&gt; x &gt; 0)    // stack + invoke slot (sync)</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn make_adder(n: i32){
-    return (x) =&gt; x + n          // heap — escapes via return
+fn hash_step(n) {
+    return (n * 2654435761) % 2147483647
 }
-let add5 = make_adder(5)
-print(add5(10))                 // 15
 
-iter_filter(v, (x) =&gt; x &gt; 0)    // stack + invoke slot (sync)</code></pre></div>
-</div><!-- NYRA_SNIPPET_END --><h2>Loop-safe pattern</h2>
-<!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>import &quot;stdlib/iter/mod.ny&quot;
+pub const SEED = hash_step(42)
+pub const SUM_FOUR = sum_array([0, 1, 2, 3])</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>comptime
+
+fn hash_step(n: i32) -&gt; i32 {
+    return (n * 2654435761) % 2147483647
+}
+
+pub const SEED: i32 = hash_step(42)
+pub const SUM_FOUR: i32 = sum_array([0, 1, 2, 3])</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->
+      <p>Check without codegen: <code>nyra check examples/toolchain/comptime_tables.ny</code>. Import from runtime code:</p>
+      <pre><code>import "comptime_tables.ny" as tables
 
 fn main() {
-    let v = Vec_i32_from_range(1, 6)
+    let seed = tables::SEED
+}</code></pre>
+      <p>Example: <code>examples/toolchain/comptime_import_main.ny</code>.</p>
+
+      <h3>2 — Function attribute <code>#[comptime]</code></h3>
+      <p>Mark a single function in a <strong>normal</strong> file. Calls with known arguments fold at compile time; the function body is removed from the runtime binary.</p>
+<!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>#[comptime]
+fn mix(n) {
+    return n * 3
+}
+
+const SEED = mix(14)
+
+fn main() {
+    print("SEED", SEED)   // 42 — mix() not in binary
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>#[comptime]
+fn mix(n: i64) -&gt; i64 {
+    return n * 3
+}
+
+const SEED: i64 = mix(14)
+
+fn main() {
+    print("SEED", SEED)
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->
+      <p>Example: <code>examples/toolchain/comptime_fn_attr.ny</code>.</p>
+
+      <h3>3 — Block expression <code>comptime { … }</code></h3>
+      <p>Folds a compile-time block to a value (trailing expression or <code>return</code>). Supports loops, mutable locals, and <code>match</code>.</p>
+<!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>const TOTAL = comptime {
+    let mut acc = 0
     let mut i = 0
-    let threshold = 2
-    while i  if x &gt; threshold { 1 } else { 0 }
-        let out = iter_filter(v, pred)
-        print(Vec_i32_len(out))
+    while i &lt; 4 {
+        acc = acc + i
         i = i + 1
     }
-}</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>import &quot;stdlib/iter/mod.ny&quot;
+    acc
+}
 
-fn main() -&gt; void {
-    let v = Vec_i32_from_range(1, 6)
+enum Mode { Fast Slow }
+
+const SCORE = comptime {
+    match Mode.Fast {
+        Mode.Fast =&gt; 100
+        Mode.Slow =&gt; 10
+    }
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>const TOTAL: i32 = comptime {
+    let mut acc: i32 = 0
     let mut i: i32 = 0
-    let threshold: i32 = 2
-    while i  if x &gt; threshold { 1 } else { 0 }
-        let out = iter_filter(v, pred)
-        print(Vec_i32_len(out))
+    while i &lt; 4 {
+        acc = acc + i
         i = i + 1
     }
+    acc
 }</code></pre></div>
-</div><!-- NYRA_SNIPPET_END --><p><code>iter_filter</code> calls <code>pred</code> synchronously before returning, so the stack env remains valid for the invoke window.</p>
+</div><!-- NYRA_SNIPPET_END -->
+      <p>Examples: <code>comptime_block_loops.ny</code>, <code>comptime_match.ny</code>, <code>comptime_struct_enum.ny</code>.</p>
 
-<h2>Ownership</h2>
-<ul>
-<li>Move-captured owned values follow existing borrow-check rules (no active borrows when creating a closure).</li>
-<li>Captures of <code>Send</code>/<code>Sync</code> types only — references cannot be captured.</li>
-<li>Heap-promoted env blocks are freed at scope end when held in a <code>let</code> binding with <code>heap_owned</code> metadata.</li>
-</ul>
+      <h2>Power example — tables, strings, match</h2>
+      <p><code>examples/toolchain/comptime_power.ny</code> builds a lookup table, routes HTTP verbs by string <code>match</code>, and concatenates labels — all at compile time:</p>
+      <pre><code>comptime
 
-<nav class="lesson-nav" aria-label="Learn navigation">
-<a class="lesson-nav-prev" href="learn-functions.html">← Nyra Functions</a>
-<a class="lesson-nav-hub" href="learn-intro.html">Learn overview</a>
-<a class="lesson-nav-next" href="learn-scope.html">Nyra Scope →</a>
-</nav>
-      <footer class="site-footer"></footer>
+fn build_lookup(size) {
+    let mut table = [0; size]
+    let mut i = 0
+    while i &lt; size {
+        table[i] = i * i
+        i = i + 1
+    }
+    return table
+}
+
+pub const LOOKUP = build_lookup(8)
+pub const GET_CODE = comptime {
+    match "GET" {
+        "GET" =&gt; 1
+        "POST" =&gt; 2
+        _ =&gt; 0
+    }
+}</code></pre>
+
+      <h2>What comptime supports</h2>
+      <ul>
+        <li>Integers, bools, <strong>strings</strong> (literals, <code>+</code>, <code>==</code> / <code>!=</code>)</li>
+        <li>Fixed arrays (<code>[1, 2, 3]</code>, <code>[x; N]</code>, spreads), <code>.len()</code> on arrays/strings</li>
+        <li><strong>Structs</strong> — literals, field access, spread, struct <code>match</code></li>
+        <li><strong>Enums</strong> — unit and payload variants</li>
+        <li><strong>Tuples</strong> and tuple <code>match</code></li>
+        <li><code>for i in 0..N</code>, <code>for x in arr</code>, <code>while</code>, <code>break</code>, <code>continue</code></li>
+        <li><code>match</code> on enums, bools, integer literals, string literals, guards, struct/tuple arms; or-patterns via desugar</li>
+        <li>Mutable updates: <code>table[i] = v</code>, <code>s.field = v</code> with <code>let mut</code></li>
+        <li>Generic calls (monomorphized before eval), pure function calls, <code>if</code> / <code>return</code></li>
+      </ul>
+
+      <h2>Forbidden in comptime</h2>
+      <ul>
+        <li><code>main</code>, <code>print</code>, <code>spawn</code>, <code>async</code>, <code>extern</code>, <code>unsafe</code>, <code>asm</code>, <code>parallel for</code></li>
+        <li>Runtime calls to <code>#[comptime]</code> functions (compile error)</li>
+        <li>Reassigning non-<code>mut</code> <code>let</code> bindings</li>
+      </ul>
+      <p>Use <code>priv const</code> for internal comptime helpers; export only what importers need as <code>pub const</code>.</p>
+
+      <h2><code>let</code> vs <code>const</code> vs comptime</h2>
+      <table>
+        <thead><tr><th></th><th><code>let</code></th><th><code>let mut</code></th><th><code>const</code></th><th><code>comptime</code> file</th><th><code>#[comptime]</code></th></tr></thead>
+        <tbody>
+          <tr><td>When evaluated</td><td>Runtime</td><td>Runtime</td><td>Compile time (literal)</td><td>Compile time (whole file)</td><td>Compile time (call sites)</td></tr>
+          <tr><td>In binary</td><td>Yes</td><td>Yes</td><td>Constant only</td><td>Exported constants only</td><td>Folded away</td></tr>
+          <tr><td>Example</td><td><code>let n = 1</code></td><td><code>let mut i = 0</code></td><td><code>const MAX = 100</code></td><td><code>pub const TABLE = …</code></td><td><code>#[comptime] fn hash(n) …</code></td></tr>
+        </tbody>
+      </table>
+      <p>See also <a href="learn-constants.html">Nyra Constants</a> for everyday <code>const</code> usage.</p>
+
+      <h2>Toolchain</h2>
+      <table>
+        <thead><tr><th>Command</th><th>Job</th></tr></thead>
+        <tbody>
+          <tr><td><code>nyra check path/to/comptime_module.ny</code></td><td>Type-check a comptime-only file (no <code>main</code>, no codegen required)</td></tr>
+          <tr><td><code>nyra run importer.ny</code></td><td>Compile runtime code that imports folded constants</td></tr>
+          <tr><td><code>nyra test tests/nyra/comptime/</code></td><td>Run comptime regression suite (zero-types + typed pairs)</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Examples &amp; tests</h2>
+      <table>
+        <thead><tr><th>Path</th><th>Demonstrates</th></tr></thead>
+        <tbody>
+          <tr><td><code>examples/toolchain/comptime_tables.ny</code></td><td>File-level module + hash helpers</td></tr>
+          <tr><td><code>examples/toolchain/comptime_import_main.ny</code></td><td>Import <code>pub const</code> from comptime file</td></tr>
+          <tr><td><code>examples/toolchain/comptime_fn_attr.ny</code></td><td><code>#[comptime]</code> function folding</td></tr>
+          <tr><td><code>examples/toolchain/comptime_block_loops.ny</code></td><td><code>comptime { }</code> + <code>while</code></td></tr>
+          <tr><td><code>examples/toolchain/comptime_match.ny</code></td><td>Enum / bool / integer <code>match</code></td></tr>
+          <tr><td><code>examples/toolchain/comptime_struct_enum.ny</code></td><td>Struct literals + struct <code>match</code></td></tr>
+          <tr><td><code>examples/toolchain/comptime_power.ny</code></td><td>Tables, string <code>match</code>, concat</td></tr>
+          <tr><td><code>tests/nyra/comptime/</code></td><td>Full test grid (<code>*_test.ny</code> runners)</td></tr>
+        </tbody>
+      </table>
+
+      <footer class="site-footer"><a href="generics.html">← Generics</a> · <a href="modules.html">Modules →</a></footer>
     </main>
   </div>
     <script src="vendor/lunr.min.js"></script>

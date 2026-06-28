@@ -102,6 +102,7 @@
       <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
       <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
       <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
+      <li><a href="comptime.html" data-i18n="nav.comptime">Comptime</a></li>
       <li><a href="match.html" data-i18n="nav.match">Match</a></li>
       <li><a href="modules.html" data-i18n="nav.modules">Modules</a></li>
       <li><a href="imports.html" data-i18n="nav.imports">Imports guide</a></li>
@@ -133,7 +134,6 @@
       <li><a href="escape-analysis.html" data-i18n="nav.escapeAnalysis">Escape analysis</a></li>
       <li><a href="diagnostics.html" data-i18n="nav.diagnostics">Diagnostics</a></li>
       <li><a href="ffi-abi.html" data-i18n="nav.ffi">FFI &amp; ABI</a></li>
-      <li><a href="c-bindgen.html">C Bindgen</a></li>
       <li><a href="bindings.html" data-i18n="nav.bindings">Runtime bindings</a></li>
       <li><a href="targets.html" data-i18n="nav.targets">Targets</a></li>
       <li><a href="editor-setup.html" data-i18n="nav.editor">Editor setup</a></li>
@@ -170,7 +170,7 @@
             </p>
             <div class="callout callout-status hero-status-banner" role="note">
               <strong data-i18n="pages.index.mvpBannerTitle">Production-ready — Core + Stable Extended</strong>
-              <p data-i18n-html="pages.index.mvpBannerBody"><strong>Core</strong> and <strong>Stable Extended</strong> are semver-stable: async/await, <code>?</code>, spawn, traits, serde, and enum payloads ship without W001. Prebuilt Linux, macOS, and Windows releases. A few advanced areas (multi-trait <code>dyn</code>, exotic generic serde) are still maturing — see <a href="roadmap.html">Roadmap</a> and <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md">status.md</a>.</p>
+              <p data-i18n-html="pages.index.mvpBannerBody"><strong>Core</strong> and <strong>Stable Extended</strong> are semver-stable: async/await, <code>?</code>, spawn, traits, serde, and enum payloads ship without W001. Prebuilt Linux, macOS, and Windows releases. A few advanced areas (multi-trait <code>dyn</code>, exotic generic serde) are still maturing — see <a href="roadmap.html">Roadmap</a> and <a href="https://github.com/nyra-lang/nyra/blob/main/docs/status.md">status.md</a>.</p>
             </div>
             <ul class="hero-chips" aria-label="Core traits">
               <li data-i18n="pages.index.chipFast">Fast</li>
@@ -182,7 +182,7 @@
               <a class="btn btn-primary" href="getting-started.html" data-i18n="pages.index.btnStart">Get started</a>
               <a class="btn btn-ghost" href="install.html" data-i18n="pages.index.btnInstall">Install</a>
               <a class="btn btn-ghost" href="dungeon-steps.html" data-i18n="pages.index.btnReference">Reference app</a>
-              <a class="btn btn-ghost btn-icon" href="https://github.com/hamdymohamedak/Nyra" data-i18n-aria-label="pages.index.ariaGithub" aria-label="GitHub repository">
+              <a class="btn btn-ghost btn-icon" href="https://github.com/nyra-lang/nyra" data-i18n-aria-label="pages.index.ariaGithub" aria-label="GitHub repository">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
               </a>
             </div>
@@ -415,12 +415,12 @@
 
       <div class="callout callout-status">
         <strong data-i18n="pages.index.statusTitle">Project status</strong>
-        <span data-i18n-html="pages.index.statusBody">Nyra is <strong>production-ready</strong> on Core + Stable Extended (async, <code>?</code>, spawn, traits, serde). Prebuilt releases for Linux, macOS, and Windows. See <a href="roadmap.html">Roadmap</a>, <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/status.md">status.md</a>, and <a href="https://github.com/hamdymohamedak/Nyra/blob/main/docs/stability-v1.md">stability policy</a>.</span>
+        <span data-i18n-html="pages.index.statusBody">Nyra is <strong>production-ready</strong> on Core + Stable Extended (async, <code>?</code>, spawn, traits, serde). Prebuilt releases for Linux, macOS, and Windows. See <a href="roadmap.html">Roadmap</a>, <a href="https://github.com/nyra-lang/nyra/blob/main/docs/status.md">status.md</a>, and <a href="https://github.com/nyra-lang/nyra/blob/main/docs/stability-v1.md">stability policy</a>.</span>
       </div>
 
       <footer class="site-footer">
         <span data-i18n="common.footerLicense">Nyra · Proprietary · All Rights Reserved ·</span>
-        <a href="https://github.com/hamdymohamedak/Nyra">github.com/hamdymohamedak/Nyra</a>
+        <a href="https://github.com/nyra-lang/nyra">github.com/nyra-lang/nyra</a>
       </footer>
     </main>
   </div>
