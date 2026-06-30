@@ -151,14 +151,6 @@
       <section class="hero-landing" aria-labelledby="hero-title">
         <div class="hero-facet-bg" aria-hidden="true"></div>
         <div class="hero-glow-orb" aria-hidden="true"></div>
-
-        <div class="hero-landing-inner">
-          <div class="hero-visual">
-            <div class="logo-frame">
-              <img src="./assets/Nyrabgremoved.png" alt="Nyra" width="320" height="auto">
-            </div>
-          </div>
-
           <div class="hero-copy">
             <span class="pill" data-i18n="pages.index.pill">Documentation v1.39.x</span>
             <h1 id="hero-title">
@@ -169,9 +161,16 @@
             <p class="hero-lead" data-i18n="pages.index.lead">
               Go’s simplicity. Rust’s safety. C++’s speed — one toolchain, LLVM under the hood.
             </p>
-            <div class="callout callout-status hero-status-banner" role="note">
-              <strong data-i18n="pages.index.mvpBannerTitle">Production-ready — Core + Stable Extended</strong>
-              <p data-i18n-html="pages.index.mvpBannerBody"><strong>Core</strong> and <strong>Stable Extended</strong> are semver-stable: async/await, <code>?</code>, spawn, traits, serde, and enum payloads ship without W001. Prebuilt Linux, macOS, and Windows releases. A few advanced areas (multi-trait <code>dyn</code>, exotic generic serde) are still maturing — see <a href="roadmap.html">Roadmap</a> and <a href="https://github.com/nyra-lang/nyra/blob/main/docs/status.md">status.md</a>.</p>
+            <div class="hero-install" aria-label="Install commands">
+              <div class="hero-install-block">
+                <span class="hero-install-label" data-i18n="pages.index.installNyraLabel">Nyra</span>
+                <pre class="hero-install-cmd"><code>curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh</code></pre>
+              </div>
+              <div class="hero-install-block">
+                <span class="hero-install-label" data-i18n="pages.index.installPkgLabel">nyrapkg (package manager)</span>
+                <pre class="hero-install-cmd"><code>curl -fsSL https://raw.githubusercontent.com/nyra-lang/pkg/main/scripts/install.sh | sh</code></pre>
+              </div>
+              <p class="hero-install-hint" data-i18n-html="pages.index.installHint">Then: <code>source ~/.zshrc</code> · <a href="install.html">full install guide</a></p>
             </div>
             <ul class="hero-chips" aria-label="Core traits">
               <li data-i18n="pages.index.chipFast">Fast</li>
