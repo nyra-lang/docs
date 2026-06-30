@@ -132,7 +132,6 @@ def shell(page: str, title: str, h1: str, lead: str, body: str, footer: str, act
   <header class="site-header">
     <a class="logo" href="index.html">
       <img src="../assets/Nyrabgremoved.png" alt="Nyra">
-      <span>Nyra</span>
     </a>
     <div class="site-toolbar">
       <div class="toolbar-group" role="group" aria-label="Search">

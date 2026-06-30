@@ -116,6 +116,39 @@
     }
   }
 
+  function bindMobileNav() {
+    var navCheck = document.getElementById('nav-check');
+    if (!navCheck || navCheck.dataset.bound) return;
+    navCheck.dataset.bound = '1';
+
+    var toggle = document.querySelector('.nav-toggle');
+
+    function updateNavAria() {
+      if (!toggle) return;
+      var open = navCheck.checked;
+      var key = open ? 'ui.menuClose' : 'ui.menuOpen';
+      var label = t(key);
+      if (label) toggle.setAttribute('aria-label', label);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    navCheck.addEventListener('change', updateNavAria);
+    updateNavAria();
+
+    function closeMobileNav() {
+      if (!window.matchMedia('(max-width: 768px)').matches) return;
+      navCheck.checked = false;
+      updateNavAria();
+    }
+
+    document.querySelectorAll('.sidebar a[href]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        if (link.getAttribute('href') === '#') return;
+        closeMobileNav();
+      });
+    });
+  }
+
   function bindToolbar() {
     var themeBtn = document.getElementById('theme-toggle');
     if (themeBtn && !themeBtn.dataset.bound) {
@@ -448,6 +481,7 @@
     if (theme !== 'light' && theme !== 'dark') theme = DEFAULT_THEME;
 
     bindToolbar();
+    bindMobileNav();
     applyTheme(theme);
     ensureCodeTabs();
     highlightAllCodeBlocks();
@@ -456,6 +490,7 @@
     loadLocale(lang)
       .then(function () {
         applyLang(lang);
+        bindMobileNav();
         ensureCodeTabs();
         highlightAllCodeBlocks();
         initCodeTabs();
@@ -463,6 +498,7 @@
       .catch(function () {
         state.lang = DEFAULT_LANG;
         applyLang(DEFAULT_LANG);
+        bindMobileNav();
         ensureCodeTabs();
         highlightAllCodeBlocks();
         initCodeTabs();
