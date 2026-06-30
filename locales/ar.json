@@ -62,6 +62,7 @@
     "syntax": "الصياغة",
     "types": "الأنواع والبيانات",
     "reference": "مرجع اللغة",
+    "keywords": "كلمات Nyra المحجوزة",
     "spec": "مواصفات اللغة",
     "generics": "Generics",
     "comptime": "Comptime",
@@ -374,6 +375,11 @@
       "metaTitle": "مرجع اللغة — توثيق Nyra",
       "h1": "مرجع اللغة",
       "lead": "الكلمات المفتاحية والعوامل والحرفيات — كل ما يقبله المحلل اليوم."
+    },
+    "keywords": {
+      "metaTitle": "كلمات Nyra المحجوزة — توثيق Nyra",
+      "h1": "كلمات Nyra المحجوزة",
+      "lead": "كل <strong>كلمة محجوزة</strong> و<strong>اسم نوع</strong> يعاملها المحلل ككلمة مفتاحية — وكيف تعيد استخدام هذه الأسماء كمتغيرات ببادئة <code>@</code>، وكيف تختلف <strong>سمات المترجم</strong> (<code>#[…]</code> وليس <code>@</code>)."
     },
     "traits-macros": {
       "metaTitle": "Traits والماكرو — توثيق Nyra",

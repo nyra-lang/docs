@@ -97,6 +97,7 @@
       <li><a href="language.html" data-i18n="nav.syntax">Syntax</a></li>
       <li><a href="types.html" data-i18n="nav.types">Types &amp; data</a></li>
       <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
+      <li><a href="keywords.html" data-i18n="nav.keywords">Nyra Keywords</a></li>
       <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
       <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
       <li><a class="active" href="comptime.html" data-i18n="nav.comptime">Comptime</a></li>
@@ -173,8 +174,8 @@ fn hash_step(n: i32) -&gt; i32 {
     return (n * 2654435761) % 2147483647
 }
 
-pub const SEED: i32 = hash_step(42)
-pub const SUM_FOUR: i32 = sum_array([0, 1, 2, 3])</code></pre></div>
+pub const SEED = hash_step(42)
+pub const SUM_FOUR = sum_array([0, 1, 2, 3])</code></pre></div>
 </div><!-- NYRA_SNIPPET_END -->
       <p>Check without codegen: <code>nyra check examples/toolchain/comptime_tables.ny</code>. Import from runtime code:</p>
       <pre><code>import "comptime_tables.ny" as tables
@@ -200,17 +201,17 @@ fn mix(n) {
 const SEED = mix(14)
 
 fn main() {
-    print("SEED", SEED)   // 42 — mix() not in binary
+    print(&quot;SEED&quot;, SEED)   // 42 — mix() not in binary
 }</code></pre></div>
   <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>#[comptime]
-fn mix(n: i64) -&gt; i64 {
+fn mix(n: i32) -&gt; i32 {
     return n * 3
 }
 
-const SEED: i64 = mix(14)
+const SEED = mix(14)
 
-fn main() {
-    print("SEED", SEED)
+fn main() -&gt; void {
+    print(&quot;SEED&quot;, SEED)   // 42 — mix() not in binary
 }</code></pre></div>
 </div><!-- NYRA_SNIPPET_END -->
       <p>Example: <code>examples/toolchain/comptime_fn_attr.ny</code>.</p>
@@ -241,7 +242,7 @@ const SCORE = comptime {
         Mode.Slow =&gt; 10
     }
 }</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>const TOTAL: i32 = comptime {
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>const TOTAL = comptime {
     let mut acc: i32 = 0
     let mut i: i32 = 0
     while i &lt; 4 {
@@ -249,6 +250,15 @@ const SCORE = comptime {
         i = i + 1
     }
     acc
+}
+
+enum Mode { Fast Slow }
+
+const SCORE = comptime {
+    match Mode.Fast {
+        Mode.Fast =&gt; 100
+        Mode.Slow =&gt; 10
+    }
 }</code></pre></div>
 </div><!-- NYRA_SNIPPET_END -->
       <p>Examples: <code>comptime_block_loops.ny</code>, <code>comptime_match.ny</code>, <code>comptime_struct_enum.ny</code>.</p>

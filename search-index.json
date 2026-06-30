@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-28T21:55:35.087Z",
+  "generated": "2026-06-30T07:42:03.857Z",
   "docs": [
     {
       "pageTitle": "AI skill file",
@@ -1149,7 +1149,7 @@
       "id": "comptime.html#1-file-level-comptime-module",
       "title": "Comptime evaluation",
       "heading": "1 — File-level comptime module",
-      "body": "1 — File-level comptime module Put comptime on the first line . The entire file is evaluated at compile time. Export pub const (and optional pub struct / pub enum ) for importers. No main , print , spawn , async , or extern in comptime modules. Without types With types comptime fn hash_step(n) { return (n * 2654435761) % 2147483647 } pub const SEED = hash_step(42) pub const SUM_FOUR = sum_array([0, 1, 2, 3]) comptime fn hash_step(n: i32) -> i32 { return (n * 2654435761) % 2147483647 } pub const SEED: i32 = hash_step(42) pub const SUM_FOUR: i32 = sum_array([0, 1, 2, 3]) Check without codegen: nyra check examples/toolchain/comptime_tables.ny . Import from runtime code: import \"comptime_tables.ny\" as tables fn main() { let seed = tables::SEED } Example: examples/toolchain/comptime_import_main.ny ."
+      "body": "1 — File-level comptime module Put comptime on the first line . The entire file is evaluated at compile time. Export pub const (and optional pub struct / pub enum ) for importers. No main , print , spawn , async , or extern in comptime modules. Without types With types comptime fn hash_step(n) { return (n * 2654435761) % 2147483647 } pub const SEED = hash_step(42) pub const SUM_FOUR = sum_array([0, 1, 2, 3]) comptime fn hash_step(n: i32) -> i32 { return (n * 2654435761) % 2147483647 } pub const SEED = hash_step(42) pub const SUM_FOUR = sum_array([0, 1, 2, 3]) Check without codegen: nyra check examples/toolchain/comptime_tables.ny . Import from runtime code: import \"comptime_tables.ny\" as tables fn main() { let seed = tables::SEED } Example: examples/toolchain/comptime_import_main.ny ."
     },
     {
       "pageTitle": "Comptime evaluation",
@@ -1159,7 +1159,7 @@
       "id": "comptime.html#2-function-attribute-comptime",
       "title": "Comptime evaluation",
       "heading": "2 — Function attribute #[comptime]",
-      "body": "2 — Function attribute #[comptime] Mark a single function in a normal file. Calls with known arguments fold at compile time; the function body is removed from the runtime binary. Without types With types #[comptime] fn mix(n) { return n * 3 } const SEED = mix(14) fn main() { print(\"SEED\", SEED) // 42 — mix() not in binary } #[comptime] fn mix(n: i64) -> i64 { return n * 3 } const SEED: i64 = mix(14) fn main() { print(\"SEED\", SEED) } Example: examples/toolchain/comptime_fn_attr.ny ."
+      "body": "2 — Function attribute #[comptime] Mark a single function in a normal file. Calls with known arguments fold at compile time; the function body is removed from the runtime binary. Without types With types #[comptime] fn mix(n) { return n * 3 } const SEED = mix(14) fn main() { print(\"SEED\", SEED) // 42 — mix() not in binary } #[comptime] fn mix(n: i32) -> i32 { return n * 3 } const SEED = mix(14) fn main() -> void { print(\"SEED\", SEED) // 42 — mix() not in binary } Example: examples/toolchain/comptime_fn_attr.ny ."
     },
     {
       "pageTitle": "Comptime evaluation",
@@ -1169,7 +1169,7 @@
       "id": "comptime.html#3-block-expression-comptime",
       "title": "Comptime evaluation",
       "heading": "3 — Block expression comptime { … }",
-      "body": "3 — Block expression comptime { … } Folds a compile-time block to a value (trailing expression or return ). Supports loops, mutable locals, and match . Without types With types const TOTAL = comptime { let mut acc = 0 let mut i = 0 while i < 4 { acc = acc + i i = i + 1 } acc } enum Mode { Fast Slow } const SCORE = comptime { match Mode.Fast { Mode.Fast => 100 Mode.Slow => 10 } } const TOTAL: i32 = comptime { let mut acc: i32 = 0 let mut i: i32 = 0 while i < 4 { acc = acc + i i = i + 1 } acc } Examples: comptime_block_loops.ny , comptime_match.ny , comptime_struct_enum.ny ."
+      "body": "3 — Block expression comptime { … } Folds a compile-time block to a value (trailing expression or return ). Supports loops, mutable locals, and match . Without types With types const TOTAL = comptime { let mut acc = 0 let mut i = 0 while i < 4 { acc = acc + i i = i + 1 } acc } enum Mode { Fast Slow } const SCORE = comptime { match Mode.Fast { Mode.Fast => 100 Mode.Slow => 10 } } const TOTAL = comptime { let mut acc: i32 = 0 let mut i: i32 = 0 while i < 4 { acc = acc + i i = i + 1 } acc } enum Mode { Fast Slow } const SCORE = comptime { match Mode.Fast { Mode.Fast => 100 Mode.Slow => 10 } } Examples: comptime_block_loops.ny , comptime_match.ny , comptime_struct_enum.ny ."
     },
     {
       "pageTitle": "Comptime evaluation",
@@ -2752,6 +2752,156 @@
       "body": "Other patterns Host → Nyra — export fn cdylib: Python ctypes , Node koffi , Rust direct link ( examples/ffi/export_greet/ ) Tauri sidecar — ship nyra build binary as sidecar mini-http — experimental HTTP hello patterns Wasm — wasm32-wasi target Native FFI — export fn from Nyra, extern from C · nyra pkg c add (raylib, zlib, …) · NyraPkg for link-source FFI & ABI →"
     },
     {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#intro",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#intro",
+      "title": "Nyra Keywords",
+      "heading": "Nyra Keywords",
+      "body": "Nyra Keywords Every reserved word and type name the lexer treats as a keyword — plus how to reuse those names as variables with a leading @ , and how compiler attributes differ ( #[…] , not @ ). On this page @ vs #[ ] Raw identifiers ( @name ) Reserved words list Bindings & constants Control flow Types, modules & functions Memory & ownership Concurrency & async Type names Compiler attributes ( #[…] ) Quick reference"
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#at-vs-hash",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#at-vs-hash",
+      "title": "Nyra Keywords",
+      "heading": "@ vs #[ ]",
+      "body": "@ vs #[ ] Nyra uses two different prefix forms. They are not interchangeable. Syntax Role Example @name Raw identifier — use a reserved word or type name as a variable / field name let @module = 10 #[attr] Compiler attribute — metadata on functions, structs, or parameters #[derive(Copy)] module … Keyword — declare a module path module my.app clone x Keyword — explicit heap duplicate at a call site save(clone user) @module and @clone in source are not special builtins — they are ordinary identifiers whose names happen to match keywords. See Raw identifiers below."
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#raw-identifiers",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#raw-identifiers",
+      "title": "Nyra Keywords",
+      "heading": "Raw identifiers ( @name )",
+      "body": "Raw identifiers ( @name ) When a name is reserved (keyword or built-in type), you cannot use it bare as an identifier. Prefix it with @ — the same idea as Rust r#name . The lexer strips the @ and treats the token as a normal Identifier . The compiler stores the name without the prefix. fn main() { let @module = 10 let @clone = @module print(@clone) // prints 10 } Here @module is a variable named module ; @clone is a variable named clone . This is unrelated to the module declaration keyword or the clone ownership prefix."
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#when-is-required",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#when-is-required",
+      "title": "Nyra Keywords",
+      "heading": "When @ is required",
+      "body": "When @ is required Any name that the lexer would otherwise parse as a keyword or type token needs @ to be used as an identifier: Without @ With @ module → module keyword @module → variable named module clone → clone prefix @clone → variable named clone fn → function keyword @fn → variable named fn i32 → type i32 @i32 → variable named i32"
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#rules",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#rules",
+      "title": "Nyra Keywords",
+      "heading": "Rules",
+      "body": "Rules @ must be followed by a letter or _ (not a digit). let x = @ alone is a lexer error ( Expected identifier after '@' ). let x = @1 is invalid for the same reason. C bindings from nyra pkg c add may append _ to reserved C names instead of using @ (see C Bindgen )."
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#reserved-list",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#reserved-list",
+      "title": "Nyra Keywords",
+      "heading": "Reserved words list",
+      "body": "Reserved words list The table below matches the compiler’s reserved-name list used by C bindgen ( c-bindgen/src/names.rs ). These names cannot appear as bare identifiers in Nyra source. let mut fn if else while return true false print import module struct impl self for const extern export inst enum match spawn in test async await trait macro defer unsafe asm as move clone void bool string ptr char type out i8 i16 i32 i64 i128 u8 u16 u32 u64 u128 isize usize f64 The lexer also reserves additional tokens (e.g. break , continue , pub , priv , dyn , f32 , benchmark , parallel , progress ). Treat any keyword from the language reference as requiring @ when used as an identifier."
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#bindings",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#bindings",
+      "title": "Nyra Keywords",
+      "heading": "Bindings & constants",
+      "body": "Bindings & constants Keyword Purpose let Immutable binding — value cannot be reassigned mut Used with let mut for a reassignable binding const Compile-time constant name true / false Boolean literals"
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#control-flow",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#control-flow",
+      "title": "Nyra Keywords",
+      "heading": "Control flow",
+      "body": "Control flow Keyword Purpose if / else Conditional branches while Loop while condition is true for / in Iteration — for i in 0..10 or for x in arr match Pattern match on enums and values return Return from the current function"
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#types-functions",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#types-functions",
+      "title": "Nyra Keywords",
+      "heading": "Types, modules & functions",
+      "body": "Types, modules & functions Keyword Purpose fn Function definition struct Product type with named fields enum Sum type with variants impl Methods on a type; impl Trait for Type trait Trait definition (Extended) self Method receiver inside impl import Load another .ny file module Module path declaration — see Modules extern Declare an external (C) function export Export a symbol for FFI inst Generic instance / monomorph hook (tooling) type Type alias or associated type surface macro Macro definition (Extended) test Test function — run with nyra test print Built-in stdout; optional color: for ANSI output as Type cast — expr as Type unsafe Block for raw pointers and low-level operations asm Inline assembly (inside unsafe ) defer Scope-exit call (LIFO) — Extended; prefer impl Drop out Output / FFI direction marker in bindings"
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#memory-ownership",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#memory-ownership",
+      "title": "Nyra Keywords",
+      "heading": "Memory & ownership",
+      "body": "Memory & ownership Keyword Purpose move Unary prefix at a call site — transfer ownership explicitly ( guide ) clone Unary prefix or .clone() — heap duplicate; original stays valid clone user and let @clone = user mean completely different things: the first duplicates a value; the second binds a variable whose name is the word clone ."
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#concurrency-async",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#concurrency-async",
+      "title": "Nyra Keywords",
+      "heading": "Concurrency & async",
+      "body": "Concurrency & async Keyword Purpose spawn Start a concurrent block async / await Async functions and suspension (Extended)"
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#type-names",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#type-names",
+      "title": "Nyra Keywords",
+      "heading": "Type names",
+      "body": "Type names These tokens are parsed as type names, not ordinary identifiers. Use @ if you need a variable with the same spelling. Type Notes i8 … i128 Signed integers; i32 is the default for int literals u8 … u128 Unsigned integers isize , usize Pointer-sized integers f64 IEEE-754 double; default float literal type char Unicode scalar — 'a' , '\\n' bool true / false string UTF-8 heap string (Move) void Functions with no return value ptr Opaque FFI pointer handle Full type reference: Types & data · Language reference → Type names"
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#attributes",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#attributes",
+      "title": "Nyra Keywords",
+      "heading": "Compiler attributes ( #[…] )",
+      "body": "Compiler attributes ( #[…] ) Attributes attach to items in source. They start with # , not @ . Attribute Purpose #[derive(Copy)] Document / validate that a struct is Copy-safe #[derive(Clone)] Synthesize .clone() when fields allow it #[comptime] Evaluate this function at compile time; strip from binary — Comptime guide #[inline] Hint inlining at call sites #[hot] / #[cold] LLVM branch-hint attributes for hot / cold paths #[no_escape] On &T parameters — value must not escape the function — Escape analysis #[derive(Copy)] struct Point { x: i32 y: i32 } #[comptime] fn table_size() { return 256 } fn process(#[no_escape] data: i32) { ... }"
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#quick-ref",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#quick-ref",
+      "title": "Nyra Keywords",
+      "heading": "Quick reference",
+      "body": "Quick reference You write Meaning @module Variable (or field) named module module my.app Declare module path my.app @clone Variable named clone clone user Duplicate user for a call; keep user valid #[derive(Copy)] Compiler attribute on a struct @i32 Variable named i32 (not type annotation)"
+    },
+    {
+      "pageTitle": "Nyra Keywords",
+      "url": "keywords.html#llvm-not-nyra-source",
+      "section": "Docs",
+      "kind": "content",
+      "id": "keywords.html#llvm-not-nyra-source",
+      "title": "Nyra Keywords",
+      "heading": "LLVM @ (not Nyra source)",
+      "body": "LLVM @ (not Nyra source) Generated LLVM IR uses @symbol for global functions (e.g. @i32_to_string ). That is LLVM notation, not something you write in .ny files. Language reference →"
+    },
+    {
       "pageTitle": "Language basics",
       "url": "language-basics.html#intro",
       "section": "Language",
@@ -4099,7 +4249,7 @@
       "id": "learn-syntax.html#program-entry",
       "title": "Nyra Syntax",
       "heading": "Program entry",
-      "body": "Program entry Without types With types fn main() { print(\"Hello\") } fn main() -> void { print(\"Hello\") } Nyra uses curly braces for blocks. Statements end at newline (no semicolons required). Function names use snake_case ; types and structs use PascalCase . Full cheat sheet: Syntax reference · Keywords ← Nyra Get Started Learn overview Nyra Output →"
+      "body": "Program entry Without types With types fn main() { print(\"Hello\") } fn main() -> void { print(\"Hello\") } Nyra uses curly braces for blocks. Statements end at newline (no semicolons required). Function names use snake_case ; types and structs use PascalCase . Full cheat sheet: Syntax reference · Nyra Keywords ← Nyra Get Started Learn overview Nyra Output →"
     },
     {
       "pageTitle": "Nyra Tuples",
@@ -5849,7 +5999,7 @@
       "id": "reference.html#keywords",
       "title": "Language reference",
       "heading": "Keywords",
-      "body": "Keywords Keyword Purpose fn Function definition let / let mut Immutable / mutable binding const Compile-time constant name comptime Optional compile-time evaluation — file module, #[comptime] , or comptime { } block ( guide ) if / else Conditional while Loop for / in Range loop: for i in 0..10 return Return from function match Pattern match on enums / values struct / enum User-defined types impl Methods on a type; impl Trait for Type for (in types) HRTB binder: for<'a> fn(...) import Load another .ny file module Module declaration (parsed) extern / export FFI declare / export symbol test Test function print Built-in stdout (keyword); optional color: for ANSI output spawn Concurrent block defer Scope-exit call (LIFO) — Extended ; prefer auto-drop / impl Drop unsafe Block for raw memory (deref, ptr arithmetic, raw casts) asm Inline assembly: asm \"template\" (inside unsafe ) as Type cast: expr as Type (raw casts need unsafe ) no_std Top-level directive — skip nyra_rt link; no print / spawn move / clone Unary prefixes at call sites — explicit move or clone (v2.9) async / await Stable Extended — promises + await ; not on wasm32 trait / dyn Stable Extended — impl Trait for Type , trait objects dyn Trait macro Extended — parsed and expanded self Method receiver in impl"
+      "body": "Keywords Full reserved-word list, @ raw identifiers, and #[…] attributes: Nyra Keywords . Keyword Purpose fn Function definition let / let mut Immutable / mutable binding const Compile-time constant name comptime Optional compile-time evaluation — file module, #[comptime] , or comptime { } block ( guide ) if / else Conditional while Loop for / in Range loop: for i in 0..10 return Return from function match Pattern match on enums / values struct / enum User-defined types impl Methods on a type; impl Trait for Type for (in types) HRTB binder: for<'a> fn(...) import Load another .ny file module Module declaration (parsed) extern / export FFI declare / export symbol test Test function print Built-in stdout (keyword); optional color: for ANSI output spawn Concurrent block defer Scope-exit call (LIFO) — Extended ; prefer auto-drop / impl Drop unsafe Block for raw memory (deref, ptr arithmetic, raw casts) asm Inline assembly: asm \"template\" (inside unsafe ) as Type cast: expr as Type (raw casts need unsafe ) no_std Top-level directive — skip nyra_rt link; no print / spawn move / clone Unary prefixes at call sites — explicit move or clone (v2.9) async / await Stable Extended — promises + await ; not on wasm32 trait / dyn Stable Extended — impl Trait for Type , trait objects dyn Trait macro Extended — parsed and expanded self Method receiver in impl"
     },
     {
       "pageTitle": "Language reference",
@@ -7939,6 +8089,16 @@
       "heading": "Navigation",
       "body": "Language reference مرجع اللغة Advanced متقدم",
       "section": "Language",
+      "kind": "nav"
+    },
+    {
+      "id": "nav:keywords.html",
+      "url": "keywords.html",
+      "pageTitle": "Nyra Keywords",
+      "title": "Nyra Keywords",
+      "heading": "Navigation",
+      "body": "Nyra Keywords كلمات Nyra المحجوزة Advanced متقدم",
+      "section": "Advanced",
       "kind": "nav"
     },
     {

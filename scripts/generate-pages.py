@@ -59,6 +59,7 @@ NAV = '''<nav>
       <li><a href="language.html" data-i18n="nav.syntax">Syntax</a></li>
       <li><a href="types.html" data-i18n="nav.types">Types &amp; data</a></li>
       <li><a href="reference.html" data-i18n="nav.reference">Language reference</a></li>
+      <li><a href="keywords.html" data-i18n="nav.keywords">Nyra Keywords</a></li>
       <li><a href="spec.html" data-i18n="nav.spec">Language spec</a></li>
       <li><a href="generics.html" data-i18n="nav.generics">Generics</a></li>
       <li><a href="comptime.html" data-i18n="nav.comptime">Comptime</a></li>
@@ -380,7 +381,8 @@ document.getElementById('copy-skill')?.addEventListener('click', function() {
 <tr><td><a href="language-basics.html">Language basics</a></td><td>Variables, loops, structs, imports</td></tr>
 <tr><td><a href="language.html">Syntax</a></td><td>Core syntax</td></tr>
 <tr><td><a href="types.html">Types</a></td><td>Types &amp; data</td></tr>
-<tr><td><a href="reference.html">Reference</a></td><td>Keywords</td></tr>
+<tr><td><a href="reference.html">Reference</a></td><td>Operators, literals, quick lookup</td></tr>
+<tr><td><a href="keywords.html">Keywords</a></td><td>Reserved words, <code>@</code> raw identifiers, <code>#[…]</code> attributes</td></tr>
 <tr><td><a href="spec.html">Spec</a></td><td>Normative spec</td></tr>
 <tr><td><a href="generics.html">Generics</a></td><td>Monomorphization</td></tr>
 <tr><td><a href="match.html">Match</a></td><td>Pattern matching</td></tr>

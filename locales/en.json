@@ -62,6 +62,7 @@
     "syntax": "Syntax",
     "types": "Types & data",
     "reference": "Language reference",
+    "keywords": "Nyra Keywords",
     "spec": "Language spec",
     "generics": "Generics",
     "comptime": "Comptime",
@@ -369,6 +370,11 @@
       "metaTitle": "Language reference — Nyra Docs",
       "h1": "Language reference",
       "lead": "Keywords, operators, literals, and quick lookup — everything the lexer and parser accept today."
+    },
+    "keywords": {
+      "metaTitle": "Nyra Keywords — Nyra Docs",
+      "h1": "Nyra Keywords",
+      "lead": "Every <strong>reserved word</strong> and <strong>type name</strong> the lexer treats as a keyword — plus how to reuse those names as variables with a leading <code>@</code>, and how compiler <strong>attributes</strong> differ (<code>#[…]</code>, not <code>@</code>)."
     },
     "spec": { "metaTitle": "Language specification — Nyra Docs", "h1": "Language specification", "lead": "Normative Spec 1.0 freeze (v0.3.0)." },
     "generics": { "metaTitle": "Generics — Nyra Docs", "h1": "Generics", "lead": "Type parameters and monomorphization." },
