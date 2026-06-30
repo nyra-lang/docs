@@ -219,7 +219,7 @@
       <h2 id="release-tag" data-i18n="pages.install.h2_tag">2. Pick a release tag</h2>
       <ol>
         <li>Open <a href="https://github.com/nyra-lang/nyra/releases">Releases</a>.</li>
-        <li>Choose a version (e.g. <strong>v1.0.0</strong> — includes <code>nyra pkg init</code> + <code>main.ny</code> scaffold).</li>
+        <li>Choose a version (e.g. <strong>v1.38.0</strong>).</li>
         <li>Under <strong>Assets</strong>, download the file that matches your <strong>CPU</strong> and <strong>OS</strong> (see table).</li>
       </ol>
       <table>
@@ -346,11 +346,17 @@ $env:NYRA_HOME = "$PWD"
         Native Windows support is evolving; WSL2 matches the Linux release workflow today.
       </div>
 
+      <h2 id="install-nyrapkg">Install nyrapkg (package manager)</h2>
+      <p>Dependency management uses the standalone <strong>nyrapkg</strong> tool (<a href="packages.html">guide</a> · <a href="https://github.com/nyra-lang/pkg">github.com/nyra-lang/pkg</a>), installed alongside <code>nyra</code> under <code>~/.nyra/bin/</code>:</p>
+      <pre><code>curl -fsSL https://raw.githubusercontent.com/nyra-lang/pkg/main/scripts/install.sh | sh
+nyrapkg --version</code></pre>
+      <p>From source: <code>nyra build --release -o nyrapkg .</code> in the pkg repo, then <code>nyrapkg bootstrap</code>.</p>
+
       <h2 id="first-project" data-i18n="pages.install.h2_first">7. First project (all platforms)</h2>
       <p>Once <code>nyra --version</code> works (e.g. <code>nyra 1.0.0</code>):</p>
       <pre><code>mkdir myapp
 cd myapp
-nyra pkg init</code></pre>
+nyrapkg init</code></pre>
       <p>This creates:</p>
       <ul>
         <li><code>nyra.mod</code>, <code>nyra.lock</code>, <code>nyra.sum</code></li>
@@ -401,7 +407,7 @@ nyra run examples/syntax/hello.ny</code></pre>
           <tr><td><code>release asset not found</code></td><td>Tag not published yet, wrong arch asset, or private repo without login</td></tr>
           <tr><td><code>Runtime not found</code></td><td>Set <code>export NYRA_HOME=~/.nyra</code> and ensure <code>share/stdlib/nyra_rt.c</code> exists</td></tr>
           <tr><td><code>zsh: killed</code> (macOS)</td><td><code>xattr -cr ~/.nyra/bin/nyra</code></td></tr>
-          <tr><td><code>Failed to read main.ny</code></td><td>Run <code>nyra pkg init</code> first, or create <code>main.ny</code></td></tr>
+          <tr><td><code>Failed to read main.ny</code></td><td>Run <code>nyrapkg init</code> first, or create <code>main.ny</code></td></tr>
           <tr><td>404 on <code>raw.githubusercontent.com</code></td><td>Repo is private — use Releases download or make repo public</td></tr>
         </tbody>
       </table>
@@ -412,7 +418,8 @@ nyra run examples/syntax/hello.ny</code></pre>
         <tbody>
           <tr><td>Latest install (mac/Linux, public repo)</td><td><code>curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh</code></td></tr>
           <tr><td>Pin version</td><td><code>... | sh -s -- --version 1.0.0</code></td></tr>
-          <tr><td>New project</td><td><code>nyra pkg init &amp;&amp; nyra run main.ny</code></td></tr>
+          <tr><td>Package manager</td><td><code>curl -fsSL https://raw.githubusercontent.com/nyra-lang/pkg/main/scripts/install.sh | sh</code></td></tr>
+          <tr><td>New project</td><td><code>nyrapkg init &amp;&amp; nyra run .</code></td></tr>
           <tr><td>Releases page</td><td><a href="https://github.com/nyra-lang/nyra/releases">github.com/nyra-lang/nyra/releases</a></td></tr>
         </tbody>
       </table>

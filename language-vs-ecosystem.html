@@ -150,7 +150,7 @@
 
       <h2>Two layers</h2>
       <pre><code>┌─────────────────────────────────────────────────────────┐
-│  Layer 2 — Community / NyraPkg                          │
+│  Layer 2 — Community packages (nyrapkg)                 │
 │  ny-sqlite, ny-redis, game engines, CLI libs, …         │
 ├─────────────────────────────────────────────────────────┤
 │  Layer 1 — Nyra language + strong stdlib (Core)         │
@@ -171,11 +171,11 @@
       </ul>
       <p>CI gate: <code>bash scripts/test-all.sh</code> — includes <strong>CONF-LANG</strong> (<code>scripts/conformance-tests.sh</code>), Rust <code>CONF-*</code>, compiletest suite (~1.6k fast profile), and <code>tests/nyra/</code> smoke. See <a href="tooling.html#test-layers">Toolchain → Testing layers</a>.</p>
 
-      <h2>Layer 2 — NyraPkg &amp; community</h2>
-      <p>Database drivers, crypto, compression, domain SDKs — published via <code>nyra pkg</code>, not the compiler:</p>
-      <pre><code>nyra pkg install ny-sqlite@^0.1.0
+      <h2>Layer 2 — nyrapkg &amp; community</h2>
+      <p>Database drivers, crypto, compression, domain SDKs — installed with <strong>nyrapkg</strong>, not baked into the compiler:</p>
+      <pre><code>nyrapkg install ny-sqlite@^0.1.0
 import "pkg/ny-sqlite"</code></pre>
-      <p>See <a href="packages.html">NyraPkg</a>. Anyone can publish; the language stays neutral.</p>
+      <p>See <a href="packages.html">nyrapkg</a> · repository <a href="https://github.com/nyra-lang/pkg">github.com/nyra-lang/pkg</a>.</p>
 
       <h2>net/http</h2>
       <p>HTTP client, server, router slots, and handler dispatch live in <strong>stdlib</strong> (<code>stdlib/net/http/</code>). See <a href="net-http.html">net/http reference</a> and <code>examples/net_http_smoke.ny</code>.</p>

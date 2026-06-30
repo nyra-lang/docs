@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-30T07:42:03.857Z",
+  "generated": "2026-06-30T10:09:40.400Z",
   "docs": [
     {
       "pageTitle": "AI skill file",
@@ -179,7 +179,7 @@
       "id": "backend.html#stack",
       "title": "Backend application layer",
       "heading": "Stack",
-      "body": "Stack net/http — stdlib/net/http/mod.ny — full HTTP/1.1 client + routed server ( net/http reference ) TCP — stdlib/net/tcp.ny · TcpListener , TcpStream Async — stdlib/async.ny , promises + await ( Async guide ) JSON — stdlib/json/mod.ny field encode/decode TLS / HTTPS — stdlib/tls.ny + OpenSSL; client auto-upgrades https:// URLs Env / config — stdlib/env/mod.ny , stdlib/config/mod.ny DB — nyra pkg install ny-sqlite@^0.1.0 · import \"pkg/ny-sqlite\" Production APIs — compose net/http handler slots with stdlib/db/* or NyraPkg drivers; see NyraPkg"
+      "body": "Stack net/http — stdlib/net/http/mod.ny — full HTTP/1.1 client + routed server ( net/http reference ) TCP — stdlib/net/tcp.ny · TcpListener , TcpStream Async — stdlib/async.ny , promises + await ( Async guide ) JSON — stdlib/json/mod.ny field encode/decode TLS / HTTPS — stdlib/tls.ny + OpenSSL; client auto-upgrades https:// URLs Env / config — stdlib/env/mod.ny , stdlib/config/mod.ny DB — nyrapkg install ny-sqlite@^0.1.0 · import \"pkg/ny-sqlite\" Production APIs — compose net/http handler slots with stdlib/db/* or package drivers; see nyrapkg"
     },
     {
       "pageTitle": "Backend application layer",
@@ -363,13 +363,13 @@
     },
     {
       "pageTitle": "Runtime bindings",
-      "url": "bindings.html#package-bindings-nyrapkg",
+      "url": "bindings.html#package-bindings",
       "section": "Toolchain",
       "kind": "content",
-      "id": "bindings.html#package-bindings-nyrapkg",
+      "id": "bindings.html#package-bindings",
       "title": "Runtime bindings",
-      "heading": "Package bindings (NyraPkg)",
-      "body": "Package bindings (NyraPkg) Package Nyra module C shim Native lib ny-sqlite sqlite.ny rt/sqlite.c -lsqlite3 Install: nyra pkg install ny-sqlite@^0.1.0 then import \"pkg/ny-sqlite\" . See NyraPkg . NyraPkg →"
+      "heading": "Package bindings",
+      "body": "Package bindings Package Nyra module C shim Native lib ny-sqlite sqlite.ny rt/sqlite.c -lsqlite3 Install: nyrapkg install ny-sqlite@^0.1.0 then import \"pkg/ny-sqlite\" . See nyrapkg . nyrapkg →"
     },
     {
       "pageTitle": "C Bindgen",
@@ -399,7 +399,7 @@
       "id": "c-bindgen.html#pkg-c",
       "title": "C Bindgen",
       "heading": "nyra pkg c — one command per library",
-      "body": "nyra pkg c — one command per library The recommended way to add system C libraries to a NyraPkg project. No manual -I paths, no Homebrew keg paths, no hand-editing nyra.mod . nyra pkg init && cd myapp nyra pkg c add raylib # brew install + full bind + nyra.mod nyra pkg c add zlib nyra pkg c add sqlite3 nyra pkg c add sdl2 nyra pkg c list # what's installed in this project nyra pkg c remove raylib # delete bindings + unlink nyra.mod import \"vendor/bindings/raylib.ny\""
+      "body": "nyra pkg c — one command per library The recommended way to add system C libraries to a NyraPkg project. No manual -I paths, no Homebrew keg paths, no hand-editing nyra.mod . nyrapkg init && cd myapp nyra pkg c add raylib # brew install + full bind + nyra.mod nyra pkg c add zlib nyra pkg c add sqlite3 nyra pkg c add sdl2 nyra pkg c list # what's installed in this project nyra pkg c remove raylib # delete bindings + unlink nyra.mod import \"vendor/bindings/raylib.ny\""
     },
     {
       "pageTitle": "C Bindgen",
@@ -469,7 +469,7 @@
       "id": "c-bindgen.html#tutorial-zlib",
       "title": "C Bindgen",
       "heading": "Tutorial: zlib",
-      "body": "Tutorial: zlib Recommended: nyra pkg init && cd myapp nyra pkg c add zlib nyra run . Without types With types import \"vendor/bindings/zlib.ny\" fn main() { print(zlibVersion()) } import \"vendor/bindings/zlib.ny\" fn main() -> void { print(zlibVersion()) } Manual bind (advanced — custom headers or unknown libraries) On Apple Silicon, Homebrew installs zlib as keg-only under /opt/homebrew/opt/zlib ."
+      "body": "Tutorial: zlib Recommended: nyrapkg init && cd myapp nyra pkg c add zlib nyra run . Without types With types import \"vendor/bindings/zlib.ny\" fn main() { print(zlibVersion()) } import \"vendor/bindings/zlib.ny\" fn main() -> void { print(zlibVersion()) } Manual bind (advanced — custom headers or unknown libraries) On Apple Silicon, Homebrew installs zlib as keg-only under /opt/homebrew/opt/zlib ."
     },
     {
       "pageTitle": "C Bindgen",
@@ -479,7 +479,7 @@
       "id": "c-bindgen.html#1-prerequisites",
       "title": "C Bindgen",
       "heading": "1 — Prerequisites",
-      "body": "1 — Prerequisites brew install zlib llvm nyra pkg init cd myapp"
+      "body": "1 — Prerequisites brew install zlib llvm nyrapkg init cd myapp"
     },
     {
       "pageTitle": "C Bindgen",
@@ -539,7 +539,7 @@
       "id": "c-bindgen.html#tutorial-sqlite",
       "title": "C Bindgen",
       "heading": "Tutorial: SQLite",
-      "body": "Tutorial: SQLite nyra pkg c add sqlite3 import \"vendor/bindings/sqlite3.ny\" fn main() { print(sqlite3_libversion()) } Alternatively: nyra pkg install ny-sqlite@^0.1.0 — see NyraPkg ."
+      "body": "Tutorial: SQLite nyra pkg c add sqlite3 import \"vendor/bindings/sqlite3.ny\" fn main() { print(sqlite3_libversion()) } Alternatively: nyrapkg install ny-sqlite@^0.1.0 — see nyrapkg ."
     },
     {
       "pageTitle": "C Bindgen",
@@ -689,7 +689,7 @@
       "id": "c-bindgen.html#see-also",
       "title": "C Bindgen",
       "heading": "See also",
-      "body": "See also FFI & ABI — boundary types and repr(C) NyraPkg — link and link-source Toolchain — nyra cc , nyra toolchain install docs/c-bindgen.md in the repository NyraPkg →"
+      "body": "See also FFI & ABI — boundary types and repr(C) nyrapkg — link and link-source Toolchain — nyra cc , nyra toolchain install docs/c-bindgen.md in the repository nyrapkg →"
     },
     {
       "pageTitle": "Changelog",
@@ -700,6 +700,16 @@
       "title": "Changelog",
       "heading": "Changelog",
       "body": "Changelog Spec freeze history and release notes."
+    },
+    {
+      "pageTitle": "Changelog",
+      "url": "changelog.html#v1390-nyrapkg-split-2026-06-30",
+      "section": "Project",
+      "kind": "content",
+      "id": "changelog.html#v1390-nyrapkg-split-2026-06-30",
+      "title": "Changelog",
+      "heading": "v1.39.0 (nyrapkg split — 2026-06-30)",
+      "body": "v1.39.0 (nyrapkg split — 2026-06-30) nyrapkg — standalone package manager in nyra-lang/pkg (written in Nyra): init , add , install , verify , --version , bootstrap , self update , toolchain update Install layout — ~/.nyra/bin/nyrapkg alongside ~/.nyra/bin/nyra nyra pkg trimmed — dependency commands removed from compiler CLI; kept build , prune , c , bind Removed from compiler repo — pkg-registry , stdlib/pkg.ny , in-tree PackageManager app Docs — packages.html , install, getting started, tooling updated"
     },
     {
       "pageTitle": "Changelog",
@@ -1759,7 +1769,7 @@
       "id": "examples.html#intro",
       "title": "Example applications",
       "heading": "Example applications",
-      "body": "Example applications Copy-paste friendly mini apps that show how real Nyra projects are structured. Each example lists files, code, and the command to run. Examples 1. Hello World (single file) 2. Project scaffold ( pkg init ) 3. Multi-file greet app 4. Sum loop (arithmetic) 5. Calculator (structs + imports) 6. Library return value 7. Enum & match 8. Dungeon Steps (reference app) 9. Timing & memory builtins 10. Read file (auto-drop) 11. Stdlib demos 12. C library: zlib (C Bindgen) 13. Raylib graphics (C Bindgen) Examples in the repository"
+      "body": "Example applications Copy-paste friendly mini apps that show how real Nyra projects are structured. Each example lists files, code, and the command to run. Examples 1. Hello World (single file) 2. Project scaffold ( nyrapkg init ) 3. Multi-file greet app 4. Sum loop (arithmetic) 5. Calculator (structs + imports) 6. Library return value 7. Enum & match 8. Dungeon Steps (reference app) 9. Timing & memory builtins 10. Read file (auto-drop) 11. Stdlib demos 12. C library: zlib (C Bindgen) 13. Raylib graphics (C Bindgen) Examples in the repository"
     },
     {
       "pageTitle": "Example applications",
@@ -1779,7 +1789,7 @@
       "id": "examples.html#2-project-scaffold-tooling",
       "title": "Example applications",
       "heading": "2. Project scaffold tooling",
-      "body": "2. Project scaffold tooling NyraPkg · auto main.ny mkdir myapp && cd myapp nyra pkg init nyra run . Creates nyra.mod , nyra.lock , nyra.sum , and main.ny (Hello World)."
+      "body": "2. Project scaffold tooling nyrapkg · auto main.ny mkdir myapp && cd myapp nyrapkg init nyra run . Creates nyra.mod , nyra.lock , nyra.sum , and main.ny (Hello World)."
     },
     {
       "pageTitle": "Example applications",
@@ -1789,7 +1799,7 @@
       "id": "examples.html#3-multi-file-greet-app-imports",
       "title": "Example applications",
       "heading": "3. Multi-file greet app imports",
-      "body": "3. Multi-file greet app imports Import functions from src/ · must use nyra run . greet-app/ main.ny nyra.mod src/ hello.ny Without types With types src/hello.ny fn hello() { print(\"Hello from src/hello.ny\") } fn hello_twice() { hello() hello() } src/hello.ny fn hello() { print(\"Hello from src/hello.ny\") } fn hello_twice() { hello() hello() } Without types With types main.ny import \"src/hello.ny\" fn main() { hello() hello_twice() } main.ny import \"src/hello.ny\" fn main() -> void { hello() hello_twice() } nyra pkg init in greet-app (or create files manually). Add src/hello.ny and update main.ny as above. From project root: nyra run . Imports guide See Imports guide for functions, structs, and constants."
+      "body": "3. Multi-file greet app imports Import functions from src/ · must use nyra run . greet-app/ main.ny nyra.mod src/ hello.ny Without types With types src/hello.ny fn hello() { print(\"Hello from src/hello.ny\") } fn hello_twice() { hello() hello() } src/hello.ny fn hello() { print(\"Hello from src/hello.ny\") } fn hello_twice() { hello() hello() } Without types With types main.ny import \"src/hello.ny\" fn main() { hello() hello_twice() } main.ny import \"src/hello.ny\" fn main() -> void { hello() hello_twice() } nyrapkg init in greet-app (or create files manually). Add src/hello.ny and update main.ny as above. From project root: nyra run . Imports guide See Imports guide for functions, structs, and constants."
     },
     {
       "pageTitle": "Example applications",
@@ -1889,7 +1899,7 @@
       "id": "examples.html#commands",
       "title": "Example applications",
       "heading": "Commands",
-      "body": "Commands nyra pkg init && cd myapp nyra pkg c add zlib nyra run . myapp/ main.ny nyra.mod vendor/bindings/ zlib.ny Without types With types import \"vendor/bindings/zlib.ny\" fn main() { print(\"Hello, World!\") print(zlibVersion()) } import \"vendor/bindings/zlib.ny\" fn main() -> void { print(\"Hello, World!\") print(zlibVersion()) } Output: Hello, World! 1.3.2 See also: SQLite tutorial · Troubleshooting · examples/c_bindgen/ (custom C + link-source )"
+      "body": "Commands nyrapkg init && cd myapp nyra pkg c add zlib nyra run . myapp/ main.ny nyra.mod vendor/bindings/ zlib.ny Without types With types import \"vendor/bindings/zlib.ny\" fn main() { print(\"Hello, World!\") print(zlibVersion()) } import \"vendor/bindings/zlib.ny\" fn main() -> void { print(\"Hello, World!\") print(zlibVersion()) } Output: Hello, World! 1.3.2 See also: SQLite tutorial · Troubleshooting · examples/c_bindgen/ (custom C + link-source )"
     },
     {
       "pageTitle": "Example applications",
@@ -2039,7 +2049,7 @@
       "id": "getting-started.html#2-create-a-project",
       "title": "Getting started",
       "heading": "2. Create a project",
-      "body": "2. Create a project mkdir myapp && cd myapp nyra pkg init This creates: nyra.mod — module manifest nyra.lock / nyra.sum — dependency lock & checksums main.ny — entry point with a Hello World sample"
+      "body": "2. Create a project mkdir myapp && cd myapp nyrapkg init This creates: nyra.mod — module manifest nyra.lock / nyra.sum — dependency lock & checksums main.ny — entry point with a Hello World sample"
     },
     {
       "pageTitle": "Getting started",
@@ -2129,7 +2139,7 @@
       "id": "imports.html#path-rules",
       "title": "Imports guide",
       "heading": "Path rules",
-      "body": "Path rules Import string Resolved from \"src/foo.ny\" Relative to the file containing the import \"types.ny\" Same directory as the importing file \"stdlib/vec.ny\" $NYRA_HOME/share/stdlib/ , install tree, or repo stdlib/ — works from any project depth \"std/json/mod\" Alias for stdlib/json/mod.ny (extension optional) \"stdlib/prelude.ny\" Bundle: vec, map, strings/ops, log \"pkg/ny-sqlite\" .nyra/cache/ny-sqlite/ after nyra pkg install ny-sqlite@^0.1.0 (see NyraPkg )"
+      "body": "Path rules Import string Resolved from \"src/foo.ny\" Relative to the file containing the import \"types.ny\" Same directory as the importing file \"stdlib/vec.ny\" $NYRA_HOME/share/stdlib/ , install tree, or repo stdlib/ — works from any project depth \"std/json/mod\" Alias for stdlib/json/mod.ny (extension optional) \"stdlib/prelude.ny\" Bundle: vec, map, strings/ops, log \"pkg/ny-sqlite\" .nyra/cache/ny-sqlite/ after nyrapkg install ny-sqlite@^0.1.0 (see nyrapkg )"
     },
     {
       "pageTitle": "Imports guide",
@@ -2549,7 +2559,7 @@
       "id": "install.html#release-tag",
       "title": "Install Nyra",
       "heading": "2. Pick a release tag",
-      "body": "2. Pick a release tag Open Releases . Choose a version (e.g. v1.0.0 — includes nyra pkg init + main.ny scaffold). Under Assets , download the file that matches your CPU and OS (see table). Your machine Release asset Mac, Apple Silicon (M1/M2/M3) nyra-aarch64-darwin.tar.gz Mac, Intel nyra-x86_64-darwin.tar.gz Linux, 64-bit Intel/AMD nyra-x86_64-linux.tar.gz Linux, 64-bit ARM (e.g. Raspberry Pi 4/5, ARM cloud) nyra-aarch64-linux.tar.gz Windows (native) No prebuilt yet — use Windows below Optional: verify checksums using SHA256SUMS on the same release page."
+      "body": "2. Pick a release tag Open Releases . Choose a version (e.g. v1.38.0 ). Under Assets , download the file that matches your CPU and OS (see table). Your machine Release asset Mac, Apple Silicon (M1/M2/M3) nyra-aarch64-darwin.tar.gz Mac, Intel nyra-x86_64-darwin.tar.gz Linux, 64-bit Intel/AMD nyra-x86_64-linux.tar.gz Linux, 64-bit ARM (e.g. Raspberry Pi 4/5, ARM cloud) nyra-aarch64-linux.tar.gz Windows (native) No prebuilt yet — use Windows below Optional: verify checksums using SHA256SUMS on the same release page."
     },
     {
       "pageTitle": "Install Nyra",
@@ -2663,13 +2673,23 @@
     },
     {
       "pageTitle": "Install Nyra",
+      "url": "install.html#install-nyrapkg",
+      "section": "Start",
+      "kind": "content",
+      "id": "install.html#install-nyrapkg",
+      "title": "Install Nyra",
+      "heading": "Install nyrapkg (package manager)",
+      "body": "Install nyrapkg (package manager) Dependency management uses the standalone nyrapkg tool ( guide · github.com/nyra-lang/pkg ), installed alongside nyra under ~/.nyra/bin/ : curl -fsSL https://raw.githubusercontent.com/nyra-lang/pkg/main/scripts/install.sh | sh nyrapkg --version From source: nyra build --release -o nyrapkg . in the pkg repo, then nyrapkg bootstrap ."
+    },
+    {
+      "pageTitle": "Install Nyra",
       "url": "install.html#first-project",
       "section": "Start",
       "kind": "content",
       "id": "install.html#first-project",
       "title": "Install Nyra",
       "heading": "7. First project (all platforms)",
-      "body": "7. First project (all platforms) Once nyra --version works (e.g. nyra 1.0.0 ): mkdir myapp cd myapp nyra pkg init This creates: nyra.mod , nyra.lock , nyra.sum main.ny with a Hello, world program Run it: nyra run main.ny Expected output: Hello, world! Multi-file projects For apps with import , run from the project root: nyra run . — see Modules and Getting started . Other useful commands: nyra check nyra build nyra build --release nyra fmt --write main.ny"
+      "body": "7. First project (all platforms) Once nyra --version works (e.g. nyra 1.0.0 ): mkdir myapp cd myapp nyrapkg init This creates: nyra.mod , nyra.lock , nyra.sum main.ny with a Hello, world program Run it: nyra run main.ny Expected output: Hello, world! Multi-file projects For apps with import , run from the project root: nyra run . — see Modules and Getting started . Other useful commands: nyra check nyra build nyra build --release nyra fmt --write main.ny"
     },
     {
       "pageTitle": "Install Nyra",
@@ -2709,7 +2729,7 @@
       "id": "install.html#troubleshooting",
       "title": "Install Nyra",
       "heading": "11. Troubleshooting",
-      "body": "11. Troubleshooting Problem Fix clang not found Install clang (see §1 ) release asset not found Tag not published yet, wrong arch asset, or private repo without login Runtime not found Set export NYRA_HOME=~/.nyra and ensure share/stdlib/nyra_rt.c exists zsh: killed (macOS) xattr -cr ~/.nyra/bin/nyra Failed to read main.ny Run nyra pkg init first, or create main.ny 404 on raw.githubusercontent.com Repo is private — use Releases download or make repo public"
+      "body": "11. Troubleshooting Problem Fix clang not found Install clang (see §1 ) release asset not found Tag not published yet, wrong arch asset, or private repo without login Runtime not found Set export NYRA_HOME=~/.nyra and ensure share/stdlib/nyra_rt.c exists zsh: killed (macOS) xattr -cr ~/.nyra/bin/nyra Failed to read main.ny Run nyrapkg init first, or create main.ny 404 on raw.githubusercontent.com Repo is private — use Releases download or make repo public"
     },
     {
       "pageTitle": "Install Nyra",
@@ -2719,7 +2739,7 @@
       "id": "install.html#quick-ref",
       "title": "Install Nyra",
       "heading": "Quick reference",
-      "body": "Quick reference Step Command Latest install (mac/Linux, public repo) curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh Pin version ... | sh -s -- --version 1.0.0 New project nyra pkg init && nyra run main.ny Releases page github.com/nyra-lang/nyra/releases Canonical source: install.md in the repository. Getting started → · Overview"
+      "body": "Quick reference Step Command Latest install (mac/Linux, public repo) curl -fsSL https://raw.githubusercontent.com/nyra-lang/nyra/main/scripts/install.sh | sh Pin version ... | sh -s -- --version 1.0.0 Package manager curl -fsSL https://raw.githubusercontent.com/nyra-lang/pkg/main/scripts/install.sh | sh New project nyrapkg init && nyra run . Releases page github.com/nyra-lang/nyra/releases Canonical source: install.md in the repository. Getting started → · Overview"
     },
     {
       "pageTitle": "Integration guides",
@@ -3139,7 +3159,7 @@
       "id": "language-vs-ecosystem.html#two-layers",
       "title": "Language vs Ecosystem",
       "heading": "Two layers",
-      "body": "Two layers ┌─────────────────────────────────────────────────────────┐ │ Layer 2 — Community / NyraPkg │ │ ny-sqlite, ny-redis, game engines, CLI libs, … │ ├─────────────────────────────────────────────────────────┤ │ Layer 1 — Nyra language + strong stdlib (Core) │ │ ownership, Result/Option/?, crypto, db, serde, net │ └─────────────────────────────────────────────────────────┘"
+      "body": "Two layers ┌─────────────────────────────────────────────────────────┐ │ Layer 2 — Community packages (nyrapkg) │ │ ny-sqlite, ny-redis, game engines, CLI libs, … │ ├─────────────────────────────────────────────────────────┤ │ Layer 1 — Nyra language + strong stdlib (Core) │ │ ownership, Result/Option/?, crypto, db, serde, net │ └─────────────────────────────────────────────────────────┘"
     },
     {
       "pageTitle": "Language vs Ecosystem",
@@ -3158,8 +3178,8 @@
       "kind": "content",
       "id": "language-vs-ecosystem.html#layer-2-nyrapkg-community",
       "title": "Language vs Ecosystem",
-      "heading": "Layer 2 — NyraPkg & community",
-      "body": "Layer 2 — NyraPkg & community Database drivers, crypto, compression, domain SDKs — published via nyra pkg , not the compiler: nyra pkg install ny-sqlite@^0.1.0 import \"pkg/ny-sqlite\" See NyraPkg . Anyone can publish; the language stays neutral."
+      "heading": "Layer 2 — nyrapkg & community",
+      "body": "Layer 2 — nyrapkg & community Database drivers, crypto, compression, domain SDKs — installed with nyrapkg , not baked into the compiler: nyrapkg install ny-sqlite@^0.1.0 import \"pkg/ny-sqlite\" See nyrapkg · repository github.com/nyra-lang/pkg ."
     },
     {
       "pageTitle": "Language vs Ecosystem",
@@ -5049,7 +5069,7 @@
       "id": "modules.html#nyramod",
       "title": "Modules & projects",
       "heading": "nyra.mod",
-      "body": "nyra.mod module example.local require ( https://github.com/example/ny-lib ) See NyraPkg for Git dependencies."
+      "body": "nyra.mod module example.local require ( https://github.com/example/ny-lib ) See nyrapkg for Git dependencies."
     },
     {
       "pageTitle": "Modules & projects",
@@ -5622,152 +5642,182 @@
       "body": "Compiler pipeline Source (.ny) → Lexer → Parser → expand (??, ?., struct ctors, clone/move desugar) → monomorph (+ generic call-site inference) → coerce_auto_borrow → typecheck → ownership (Copy inference, Drop plan) → borrowck (+ callee-aware diagnostics) → lifetimes → Send/Sync → LLVM codegen → opt → clang 88 conformance tests green including CONF-INF-* , CONF-COERCE-* , CONF-DIAG-* , CONF-COPY-* , CONF-F64-* . ← Memory & ownership Learning path Diagnostics → Language reference →"
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#intro",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#intro",
-      "title": "NyraPkg",
-      "heading": "NyraPkg",
-      "body": "NyraPkg Manifests, lockfiles, and Git-backed dependencies."
+      "title": "nyrapkg",
+      "heading": "nyrapkg",
+      "body": "nyrapkg Standalone package manager for Nyra — like cargo for Rust. Repository: github.com/nyra-lang/pkg . Split (v1.39+): Dependency management moved out of the nyra compiler CLI into nyrapkg . The nyra pkg command remains for build helpers only ( build , prune , c , bind ) — not init / add / install / verify ."
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
+      "url": "packages.html#install-layout",
+      "section": "Toolchain",
+      "kind": "content",
+      "id": "packages.html#install-layout",
+      "title": "nyrapkg",
+      "heading": "Install layout",
+      "body": "Install layout nyrapkg shares the Nyra install root (default ~/.nyra ): ~/.nyra/ ├── bin/ │ ├── nyra # compiler (nyra-lang/nyra) │ └── nyrapkg # package manager (nyra-lang/pkg) ├── config # registry=http://127.0.0.1:9470 └── lib/ # optional LLVM / WASI toolchain # Install nyrapkg (when a GitHub release is published) curl -fsSL https://raw.githubusercontent.com/nyra-lang/pkg/main/scripts/install.sh | sh # Or from source export NYRA_HOME=~/.nyra nyra build --release -o nyrapkg /path/to/pkg nyrapkg bootstrap export PATH=\"$HOME/.nyra/bin:$PATH\" nyrapkg --version"
+    },
+    {
+      "pageTitle": "nyrapkg",
+      "url": "packages.html#nyrapkg-commands-dependencies",
+      "section": "Toolchain",
+      "kind": "content",
+      "id": "packages.html#nyrapkg-commands-dependencies",
+      "title": "nyrapkg",
+      "heading": "nyrapkg commands (dependencies)",
+      "body": "nyrapkg commands (dependencies) nyrapkg init [path] # scaffold nyra.mod + main.ny + lock files nyrapkg add ny-sqlite ^0.1.0 # add require + fetch + update lock nyrapkg install ny-serde@^0.1.0 # alias for add nyrapkg verify [path] # nyra.mod ↔ nyra.lock ↔ nyra.sum nyrapkg --version # nyrapkg + nyra versions nyrapkg which # NYRA_HOME, bin paths nyrapkg bootstrap # copy binary → ~/.nyra/bin/nyrapkg nyrapkg self update [version] # update nyrapkg from releases nyrapkg toolchain update [version] # update nyra compiler (~/.nyra) nyrapkg update nyra|self [version] # aliases"
+    },
+    {
+      "pageTitle": "nyrapkg",
+      "url": "packages.html#nyra-pkg-commands-toolchain",
+      "section": "Toolchain",
+      "kind": "content",
+      "id": "packages.html#nyra-pkg-commands-toolchain",
+      "title": "nyrapkg",
+      "heading": "nyra pkg commands (toolchain)",
+      "body": "nyra pkg commands (toolchain) Still part of the compiler — native linking, C bindings, and project build: nyra pkg build [path] # verify lock + compile nyra pkg prune [--check] # remove unused imports / prefix locals nyra pkg c add raylib # system C lib (one command) nyra pkg c list | c remove NAME nyra pkg bind c vendor/api.h --lib foo --update-mod"
+    },
+    {
+      "pageTitle": "nyrapkg",
       "url": "packages.html#files",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#files",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "Files",
       "body": "Files File Role nyra.mod Module name + require list nyra.lock Pinned dependencies (JSON) nyra.sum Checksums per module .nyra/cache/ Downloaded Git / local modules"
     },
     {
-      "pageTitle": "NyraPkg",
-      "url": "packages.html#cli-commands",
+      "pageTitle": "nyrapkg",
+      "url": "packages.html#cli-commands-historical-reference",
       "section": "Toolchain",
       "kind": "content",
-      "id": "packages.html#cli-commands",
-      "title": "NyraPkg",
-      "heading": "CLI commands",
-      "body": "CLI commands nyra pkg init # scaffold nyra.mod + main.ny nyra pkg c add raylib # system C lib (one command) nyra pkg c list # installed C libs nyra pkg c remove raylib # unlink + delete bindings nyra pkg bind c vendor/api.h --lib foo --update-mod # manual C header nyra pkg install ny-sqlite@^0.1.0 # semver + fetch + merge link lines nyra pkg add URL # add Git dependency (alias: install) nyra pkg verify # checksums + semver constraints nyra pkg publish NAME VER URL # publish to registry nyra pkg build # verify lock + compile nyra pkg prune # remove unused imports, prefix unused locals nyra pkg prune --check # dry run (report only, no edits) nyra run . # run from project root"
+      "id": "packages.html#cli-commands-historical-reference",
+      "title": "nyrapkg",
+      "heading": "CLI commands (historical reference)",
+      "body": "CLI commands (historical reference) The block below listed the old monolithic nyra pkg surface. Use the split above in new projects. # Dependencies → nyrapkg nyrapkg init nyrapkg install ny-sqlite@^0.1.0 nyrapkg verify # Toolchain → nyra pkg nyra pkg c add raylib nyra pkg build nyra pkg prune --check nyra run ."
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#prune",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#prune",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "nyra pkg prune",
       "body": "nyra pkg prune Removes unused code from a project — similar to cargo fix for lint warnings. Applies safe, automatic edits based on W002 (unused import) and W003 (unused variable). # Apply fixes nyra pkg prune # Dry run (report only, no edits; exits 1 if unused code found) nyra pkg prune --check # Specific project directory nyra pkg prune --path ./myapp Lint Action W002 unused import Removes the import \"…\" line W003 unused variable Prefixes the name with _ (e.g. let dead → let _dead ) Prefixing unused locals is safer than deleting let statements when the initializer might have side effects. Example — before: Without types With types import \"src/unused.ny\" fn main() { let dead = 99 print(\"ok\") } import \"src/unused.ny\" fn main() -> void { let dead: i32 = 99 print(\"ok\") } After nyra pkg prune : Without types With types fn main() { let _dead = 99 print(\"ok\") } fn main() -> void { let _dead: i32 = 99 print(\"ok\") } Implementation: compiler/lint/src/prune.rs · Compiler::prune_project() in the driver · CLI: cli/src/commands/pkg.rs . Tests: cargo test -p lint , cargo test -p compiler --test pkg_prune , fixture tests/fixtures/prune_unused/ ."
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#system-c-libraries-nyra-pkg-c",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#system-c-libraries-nyra-pkg-c",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "System C libraries ( nyra pkg c )",
       "body": "System C libraries ( nyra pkg c ) One command — no manual -I paths or Homebrew keg paths: nyra pkg c add raylib # brew install + full bind + nyra.mod nyra pkg c add zlib nyra pkg c list nyra pkg c remove raylib import \"vendor/bindings/raylib.ny\" Manifest: vendor/bindings/c-libs.toml . See C Bindgen ."
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#bind-a-system-c-library-manual",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#bind-a-system-c-library-manual",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "Bind a system C library (manual)",
       "body": "Bind a system C library (manual) Generate extern fn from a system header without a NyraPkg wrapper. Step-by-step: C Bindgen → zlib . brew install zlib llvm SDK=$(xcrun --show-sdk-path) nyra pkg bind c /opt/homebrew/opt/zlib/include/zlib.h --lib z \\ -I /opt/homebrew/opt/zlib/include -I \"$SDK/usr/include\" \\ --export zlibVersion -o vendor/bindings/zlib.ny # nyra.mod link z link -L /opt/homebrew/opt/zlib/lib import \"vendor/bindings/zlib.ny\""
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#install-a-package-ny-sqlite",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#install-a-package-ny-sqlite",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "Install a package (ny-sqlite)",
-      "body": "Install a package (ny-sqlite) nyra pkg init nyra pkg install ny-sqlite@^0.1.0 # semver, cache, link sqlite3 + rt/sqlite.c import \"pkg/ny-sqlite\""
+      "body": "Install a package (ny-sqlite) nyrapkg init nyrapkg install ny-sqlite@^0.1.0 # semver, cache, link sqlite3 + rt/sqlite.c import \"pkg/ny-sqlite\""
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#serialization-packages-ny-serde-ny-toml",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#serialization-packages-ny-serde-ny-toml",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "Serialization packages (ny-serde, ny-toml)",
-      "body": "Serialization packages (ny-serde, ny-toml) Full JSON/TOML via Rust bridges — nyra bind rust serde_json / toml under the hood. Stdlib serialize/mod.ny stays a lightweight MVP; use NyraPkg for production serde. nyra pkg install ny-serde@^0.1.0 nyra bind rust serde_json --template # once per project import \"pkg/ny-serde/serde.ny\" let obj = parse_json(\"{\\\"ok\\\":true}\") print(stringify_json(obj)) nyra pkg install ny-toml@^0.1.0 import \"pkg/ny-toml/toml.ny\" Example: examples/serde_json_pkg.ny · bundled sources: examples/packages/ny-serde , examples/packages/ny-toml . Packages land in .nyra/cache/<name>/ inside your project. Sources: bundled examples (dev), pkg-registry (default http://127.0.0.1:9470 ), or Git URLs. Native link lines merge into your nyra.mod ; link-source .c files compile at nyra build ."
+      "body": "Serialization packages (ny-serde, ny-toml) Full JSON/TOML via Rust bridges — nyra bind rust serde_json / toml under the hood. Stdlib serialize/mod.ny stays a lightweight MVP; use packages for production serde. nyrapkg install ny-serde@^0.1.0 nyra bind rust serde_json --template # once per project import \"pkg/ny-serde/serde.ny\" let obj = parse_json(\"{\\\"ok\\\":true}\") print(stringify_json(obj)) nyrapkg install ny-toml@^0.1.0 import \"pkg/ny-toml/toml.ny\" Example: examples/serde_json_pkg.ny · bundled sources: examples/packages/ny-serde , examples/packages/ny-toml . Packages land in .nyra/cache/<name>/ inside your project. Sources: bundled examples (dev with NYRA_HOME ), HTTP registry (default http://127.0.0.1:9470 in ~/.nyra/config ), or Git URLs. Native link lines merge into your nyra.mod ; link-source .c files compile at nyra build ."
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#design-v1",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#design-v1",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "Design (v1)",
-      "body": "Design (v1) Semver constraints ( ^ , ~ , >= ), persistent registry ( pkg-registry on port 9470), and package link-source for automatic .c linking at build time."
+      "body": "Design (v1) Semver constraints ( ^ , ~ , >= ), optional HTTP registry, and package link-source for automatic .c linking at build time. nyrapkg is implemented in Nyra; the compiler reads the resulting lock files at link time."
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#nyramod-example",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#nyramod-example",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "nyra.mod example",
       "body": "nyra.mod example module github.com/you/myapp version 1.0.0 require ny-sqlite ^0.1.0 require https://github.com/example/ny-lib link sqlite3 link-source vendor/shim.c"
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#git-dependencies",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#git-dependencies",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "Git dependencies",
       "body": "Git dependencies URLs in require trigger git clone / git fetch into .nyra/cache/ . nyra pkg build verifies nyra.sum against nyra.lock before compiling."
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#import-paths",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#import-paths",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "Import paths",
-      "body": "Import paths Import Resolves to import \"pkg/ny-sqlite\" .nyra/cache/ny-sqlite/ after pkg install import \"pkg/ny-serde/serde.ny\" JSON parse_json / stringify_json via rust::serde_json import \"pkg/ny-toml/toml.ny\" TOML parse_toml / stringify_toml via rust::toml import \"stdlib/vec.ny\" $NYRA_HOME/share/stdlib/ or repo stdlib/"
+      "body": "Import paths Import Resolves to import \"pkg/ny-sqlite\" .nyra/cache/ny-sqlite/ after nyrapkg install import \"pkg/ny-serde/serde.ny\" JSON parse_json / stringify_json via rust::serde_json import \"pkg/ny-toml/toml.ny\" TOML parse_toml / stringify_toml via rust::toml import \"stdlib/vec.ny\" $NYRA_HOME/share/stdlib/ or repo stdlib/"
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#registry",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#registry",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "Registry",
-      "body": "Registry cargo run -p pkg-registry # ~/.nyra/registry/index.json nyra pkg login --token nyra-dev-token # ~/.nyra/config: registry=http://127.0.0.1:9470"
+      "body": "Registry Configure in ~/.nyra/config : registry=http://127.0.0.1:9470 nyrapkg resolves packages over HTTP/JSONL or from Git URLs. A local registry server may ship with the pkg repository when needed for development."
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#reference-packages-v12",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#reference-packages-v12",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "Reference packages (v1.2)",
-      "body": "Reference packages (v1.2) Bundled under examples/packages/ for development — same pattern as production NyraPkg: Package Native lib Import ny-sqlite libsqlite3 import \"pkg/ny-sqlite\" ny-serde rust::serde_json import \"pkg/ny-serde/serde.ny\" ny-toml rust::toml import \"pkg/ny-toml/toml.ny\" ny-redis hiredis import \"pkg/ny-redis\" ny-postgres libpq import \"pkg/ny-postgres\" ny-mysql libmysqlclient import \"pkg/ny-mysql\" Each ships link-source rt/*.c shims — Nyra app code calls extern fn ; heavy work stays in the C library. See C Bindgen and FFI & ABI ."
+      "body": "Reference packages (v1.2) Bundled under examples/packages/ in the Nyra repo for development — same pattern as production packages: Package Native lib Import ny-sqlite libsqlite3 import \"pkg/ny-sqlite\" ny-serde rust::serde_json import \"pkg/ny-serde/serde.ny\" ny-toml rust::toml import \"pkg/ny-toml/toml.ny\" ny-redis hiredis import \"pkg/ny-redis\" ny-postgres libpq import \"pkg/ny-postgres\" ny-mysql libmysqlclient import \"pkg/ny-mysql\" Each ships link-source rt/*.c shims — Nyra app code calls extern fn ; heavy work stays in the C library. See C Bindgen and FFI & ABI ."
     },
     {
-      "pageTitle": "NyraPkg",
+      "pageTitle": "nyrapkg",
       "url": "packages.html#bindings-reference",
       "section": "Toolchain",
       "kind": "content",
       "id": "packages.html#bindings-reference",
-      "title": "NyraPkg",
+      "title": "nyrapkg",
       "heading": "Bindings reference",
       "body": "Bindings reference Runtime extern fn map (ABI manifest + stdlib modules): bindings.html · repo copy docs/bindings.md — regenerate with python3 scripts/gen-bindings-doc.py . Roadmap →"
     },
@@ -6219,7 +6269,7 @@
       "id": "sitemap.html",
       "title": "Sitemap",
       "heading": "",
-      "body": "Sitemap All documentation pages. Page Topic Overview Start here Getting started First project Installation Install guide Learning path Curriculum AI skill nyra-skill.md for LLMs Language basics Variables, loops, structs, imports Syntax Core syntax Types Types & data Reference Keywords Spec Normative spec Generics Monomorphization Comptime Compile-time evaluation (optional) Match Pattern matching Memory Ownership Ownership UX Auto-borrow, auto-Copy, inference, f64 Async async/await Traits Traits & macros Stdlib API reference Built-in methods Strings, arrays, numbers, maps — one-page lookup Concurrency spawn & channels Examples Sample apps OS, files & hardware Filesystem, platform, FFI, bridge Toolchain CLI Performance Release flags, LTO PGO Automated profile-guided optimization Diagnostics Errors FFI ABI policy C Bindgen C header → extern fn ; nyra pkg c add Targets Native & Wasm Editor Grammar NyraPkg Packages Roadmap Status Changelog History Overview →"
+      "body": "Sitemap All documentation pages. Page Topic Overview Start here Getting started First project Installation Install guide Learning path Curriculum AI skill nyra-skill.md for LLMs Language basics Variables, loops, structs, imports Syntax Core syntax Types Types & data Reference Operators, literals, quick lookup Keywords Reserved words, @ raw identifiers, #[…] attributes Spec Normative spec Generics Monomorphization Comptime Compile-time evaluation (optional) Match Pattern matching Memory Ownership Ownership UX Auto-borrow, auto-Copy, inference, f64 Async async/await Traits Traits & macros Stdlib API reference Built-in methods Strings, arrays, numbers, maps — one-page lookup Concurrency spawn & channels Examples Sample apps OS, files & hardware Filesystem, platform, FFI, bridge Toolchain CLI Performance Release flags, LTO PGO Automated profile-guided optimization Diagnostics Errors FFI ABI policy C Bindgen C header → extern fn ; nyra pkg c add Targets Native & Wasm Editor Grammar NyraPkg Packages Roadmap Status Changelog History Overview →"
     },
     {
       "pageTitle": "Language specification",
@@ -6369,7 +6419,7 @@
       "id": "stdlib.html#json-serialize",
       "title": "Standard library",
       "heading": "JSON & serialization",
-      "body": "JSON & serialization Import API stdlib/json/mod.ny decode_string , decode_i32 , encode_field , encode_i32 , encode_object (multi-key via Vec_str handles) stdlib/serialize/mod.ny encode_object , toml_encode_object , yaml_encode_object ; serialize / deserialize by SerializeFormat Examples: examples/json/decode_i32.ny · examples/serialize/toml.ny · examples/serde_json_pkg.ny (NyraPkg full serde). For production JSON/TOML beyond stdlib MVP, see NyraPkg ( ny-serde , ny-toml )."
+      "body": "JSON & serialization Import API stdlib/json/mod.ny decode_string , decode_i32 , encode_field , encode_i32 , encode_object (multi-key via Vec_str handles) stdlib/serialize/mod.ny encode_object , toml_encode_object , yaml_encode_object ; serialize / deserialize by SerializeFormat Examples: examples/json/decode_i32.ny · examples/serialize/toml.ny · examples/serde_json_pkg.ny (full serde via packages). For production JSON/TOML beyond stdlib MVP, see nyrapkg ( ny-serde , ny-toml )."
     },
     {
       "pageTitle": "Standard library",
@@ -6409,7 +6459,7 @@
       "id": "stdlib.html#database",
       "title": "Standard library",
       "heading": "Database",
-      "body": "Database SQLite is native when you add link sqlite3 in nyra.mod . Postgres and MySQL expose stable import paths with stub drivers today. Import API stdlib/db/sqlite.ny Sqlite_open , .exec , .query_rows , .prepare / SqliteStmt.step , .last_error , .close — requires link sqlite3 stdlib/db/resp.ny Resp_decode_array , Resp_encode_bulk , Resp_cmd_name stdlib/db/sstable.ny SsTable_write_sorted , SsTable_get , sstable_merge_files , SsTable_fsync stdlib/db/lsm.ny LsmTree_put , LsmTree_lookup , LsmTree_get , LsmTree_delete , LsmTree_recover — WAL + leveled compaction stdlib/db/sql_parse.ny SqlParse_parse , SqlParse_format — SELECT , INSERT , UPDATE , DELETE stdlib/collections/btree_map.ny BTreeMap_str_str_* sorted key map stdlib/collections/btree_pages.ny BTreePaged_* — internal descent, BTreePaged_range , BTreePaged_keys stdlib/pkg.ny pkg_verify , pkg_publish , pkg_install stdlib/db/sql.ny Sql_open , .query_rows — unified entry ( sqlite , postgres , mysql backends) stdlib/db/postgres.ny Stub — native driver in progress stdlib/db/mysql.ny Stub — native driver in progress import \"stdlib/db/sqlite.ny\" fn main() { let db = Sqlite_open(\"app.db\") db.exec(\"CREATE TABLE IF NOT EXISTS kv (k TEXT, v TEXT)\") db.exec(\"INSERT INTO kv VALUES ('hello', 'world')\") db.close() } NyraPkg bindings: examples/packages/ny-sqlite/ · NyraPkg"
+      "body": "Database SQLite is native when you add link sqlite3 in nyra.mod . Postgres and MySQL expose stable import paths with stub drivers today. Import API stdlib/db/sqlite.ny Sqlite_open , .exec , .query_rows , .prepare / SqliteStmt.step , .last_error , .close — requires link sqlite3 stdlib/db/resp.ny Resp_decode_array , Resp_encode_bulk , Resp_cmd_name stdlib/db/sstable.ny SsTable_write_sorted , SsTable_get , sstable_merge_files , SsTable_fsync stdlib/db/lsm.ny LsmTree_put , LsmTree_lookup , LsmTree_get , LsmTree_delete , LsmTree_recover — WAL + leveled compaction stdlib/db/sql_parse.ny SqlParse_parse , SqlParse_format — SELECT , INSERT , UPDATE , DELETE stdlib/collections/btree_map.ny BTreeMap_str_str_* sorted key map stdlib/collections/btree_pages.ny BTreePaged_* — internal descent, BTreePaged_range , BTreePaged_keys stdlib/db/sql.ny Sql_open , .query_rows — unified entry ( sqlite , postgres , mysql backends) stdlib/db/postgres.ny Stub — native driver in progress stdlib/db/mysql.ny Stub — native driver in progress import \"stdlib/db/sqlite.ny\" fn main() { let db = Sqlite_open(\"app.db\") db.exec(\"CREATE TABLE IF NOT EXISTS kv (k TEXT, v TEXT)\") db.exec(\"INSERT INTO kv VALUES ('hello', 'world')\") db.close() } NyraPkg bindings: examples/packages/ny-sqlite/ · nyrapkg"
     },
     {
       "pageTitle": "Standard library",
@@ -7259,7 +7309,7 @@
       "id": "stdlib.html#paths",
       "title": "Standard library",
       "heading": "Where stdlib lives",
-      "body": "Where stdlib lives Short imports: import \"stdlib/vec.ny\" or import \"std/json/mod\" — resolves from install tree or repo stdlib/ Prelude: import \"stdlib/prelude.ny\" — vec, map, strings/ops, log Packages: nyra pkg install ny-sqlite@^0.1.0 then import \"pkg/ny-sqlite\" · Runtime bindings Demos: examples/stdlib/demo/main.ny , examples/stdlib/extended/main.ny Installed Nyra: $NYRA_HOME/share/stdlib/ — run ./scripts/updateLang.sh after pulling new runtime symbols WASI: nyra build --for wasm — limited subset via nyra_rt_wasi.c Examples NYRA_HOME= nyra run examples/stdlib/demo/main.ny NYRA_HOME= nyra run examples/stdlib/extended/main.ny Concurrency →"
+      "body": "Where stdlib lives Short imports: import \"stdlib/vec.ny\" or import \"std/json/mod\" — resolves from install tree or repo stdlib/ Prelude: import \"stdlib/prelude.ny\" — vec, map, strings/ops, log Packages: nyrapkg install ny-sqlite@^0.1.0 then import \"pkg/ny-sqlite\" · Runtime bindings Demos: examples/stdlib/demo/main.ny , examples/stdlib/extended/main.ny Installed Nyra: $NYRA_HOME/share/stdlib/ — run ./scripts/updateLang.sh after pulling new runtime symbols WASI: nyra build --for wasm — limited subset via nyra_rt_wasi.c Examples NYRA_HOME= nyra run examples/stdlib/demo/main.ny NYRA_HOME= nyra run examples/stdlib/extended/main.ny Concurrency →"
     },
     {
       "pageTitle": "Compilation targets",
@@ -7319,7 +7369,7 @@
       "id": "tooling.html#quick-reference",
       "title": "Toolchain",
       "heading": "Quick reference",
-      "body": "Quick reference Command Job nyra run Compile + execute (dev loop) nyra build Emit binary under target/ nyra check Type-check + borrow without codegen nyra test Run test fn / *_test.ny nyra fmt Format sources (AST-based) nyra diag Print diagnostics (JSON for editors) nyra explain Explain stable diagnostic codes (E003, P001, …) nyra watch Re-check / rebuild on save nyra debug Build with symbols + launch lldb/gdb nyra lsp Language Server (stdio) nyra dap Debug Adapter Protocol (stdio) nyra ide Goto-definition / references (CLI) nyra pkg … Manifests, deps, lockfiles — see NyraPkg nyra pkg c add NAME System C lib — install + bind + link (raylib, zlib, …) nyra pkg c remove NAME Remove C lib from project nyra pkg c list List installed C libs nyra bind c C header → extern fn — see C Bindgen"
+      "body": "Quick reference Command Job nyra run Compile + execute (dev loop) nyra build Emit binary under target/ nyra check Type-check + borrow without codegen nyra test Run test fn / *_test.ny nyra fmt Format sources (AST-based) nyra diag Print diagnostics (JSON for editors) nyra explain Explain stable diagnostic codes (E003, P001, …) nyra watch Re-check / rebuild on save nyra debug Build with symbols + launch lldb/gdb nyra lsp Language Server (stdio) nyra dap Debug Adapter Protocol (stdio) nyra ide Goto-definition / references (CLI) nyrapkg … Dependencies — init , add , install , verify — see nyrapkg nyra pkg … Build helpers — build , prune , c , bind — see packages nyra pkg c add NAME System C lib — install + bind + link (raylib, zlib, …) nyra pkg c remove NAME Remove C lib from project nyra pkg c list List installed C libs nyra bind c C header → extern fn — see C Bindgen"
     },
     {
       "pageTitle": "Toolchain",
@@ -7339,7 +7389,7 @@
       "id": "tooling.html#start-a-project",
       "title": "Toolchain",
       "heading": "Start a project",
-      "body": "Start a project Job: Scaffold main.ny , nyra.mod , and lockfiles before your first build. mkdir myapp && cd myapp nyra pkg init nyra run . Multi-file layout (imports resolved from project root): Without types With types myapp/ main.ny # import \"src/helper.ny\" src/helper.ny nyra.mod target/debug/main myapp/ main.ny # import \"src/helper.ny\" src/helper.ny nyra.mod target/debug/main"
+      "body": "Start a project Job: Scaffold main.ny , nyra.mod , and lockfiles before your first build. mkdir myapp && cd myapp nyrapkg init nyra run . Multi-file layout (imports resolved from project root): Without types With types myapp/ main.ny # import \"src/helper.ny\" src/helper.ny nyra.mod target/debug/main myapp/ main.ny # import \"src/helper.ny\" src/helper.ny nyra.mod target/debug/main"
     },
     {
       "pageTitle": "Toolchain",
@@ -7488,8 +7538,8 @@
       "kind": "content",
       "id": "tooling.html#pkg",
       "title": "Toolchain",
-      "heading": "nyra pkg",
-      "body": "nyra pkg Job: Manage dependencies and reproducible builds. Full guide: NyraPkg · unused-code cleanup: nyra pkg prune . nyra pkg init nyra pkg add ny-sqlite@^0.1.0 nyra pkg install https://github.com/you/ny-lib nyra pkg verify nyra pkg build . nyra pkg prune # remove unused imports, prefix unused locals (W002/W003) nyra pkg prune --check # dry run — report only nyra pkg login --token <token> nyra pkg publish my-lib 0.1.0 https://github.com/you/my-lib"
+      "heading": "nyrapkg & nyra pkg",
+      "body": "nyrapkg & nyra pkg Dependencies: use nyrapkg ( full guide ). Build / C libs / prune: use nyra pkg . nyrapkg init nyrapkg install ny-sqlite@^0.1.0 nyrapkg verify nyra pkg build . nyra pkg prune --check nyra pkg c add raylib"
     },
     {
       "pageTitle": "Toolchain",
@@ -7569,7 +7619,7 @@
       "id": "tooling.html#editor-ide",
       "title": "Toolchain",
       "heading": "Editor & IDE",
-      "body": "Editor & IDE Job: Syntax, LSP, and debugging in VS Code / Cursor. Tool Command / path Job VS Code extension extensions/nyra Grammar + LSP + DAP + Test Explorer + tasks Test discovery nyra test --list-json IDE test explorer JSON TextMate grammar grammar/nyra.tmLanguage.json Syntax highlighting only Language server nyra lsp Completion, hover, goto-def, refs, rename Debug adapter nyra dap VS Code debugger — breakpoints, stack, locals, stepping CLI navigation nyra ide goto-def Terminal / CI symbol lookup # settings.json (extension defaults) { \"nyra.languageServerPath\": \"nyra\", \"nyra.languageServerArgs\": [\"lsp\"], \"nyra.debugAdapterPath\": \"nyra\" } Setup guide: Editor setup · Grammar: grammar/README.md NyraPkg →"
+      "body": "Editor & IDE Job: Syntax, LSP, and debugging in VS Code / Cursor. Tool Command / path Job VS Code extension extensions/nyra Grammar + LSP + DAP + Test Explorer + tasks Test discovery nyra test --list-json IDE test explorer JSON TextMate grammar grammar/nyra.tmLanguage.json Syntax highlighting only Language server nyra lsp Completion, hover, goto-def, refs, rename Debug adapter nyra dap VS Code debugger — breakpoints, stack, locals, stepping CLI navigation nyra ide goto-def Terminal / CI symbol lookup # settings.json (extension defaults) { \"nyra.languageServerPath\": \"nyra\", \"nyra.languageServerArgs\": [\"lsp\"], \"nyra.debugAdapterPath\": \"nyra\" } Setup guide: Editor setup · Grammar: grammar/README.md nyrapkg →"
     },
     {
       "pageTitle": "Traits & macros",
@@ -8384,10 +8434,10 @@
     {
       "id": "nav:packages.html",
       "url": "packages.html",
-      "pageTitle": "NyraPkg",
-      "title": "NyraPkg",
+      "pageTitle": "nyrapkg",
+      "title": "nyrapkg",
       "heading": "Navigation",
-      "body": "NyraPkg NyraPkg Ecosystem المنظومة",
+      "body": "nyrapkg nyrapkg Ecosystem المنظومة",
       "section": "Toolchain",
       "kind": "nav"
     },

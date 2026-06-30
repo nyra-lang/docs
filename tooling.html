@@ -164,7 +164,8 @@
           <tr><td><code>nyra lsp</code></td><td>Language Server (stdio)</td></tr>
           <tr><td><code>nyra dap</code></td><td>Debug Adapter Protocol (stdio)</td></tr>
           <tr><td><code>nyra ide</code></td><td>Goto-definition / references (CLI)</td></tr>
-          <tr><td><code>nyra pkg …</code></td><td>Manifests, deps, lockfiles — see <a href="packages.html">NyraPkg</a></td></tr>
+          <tr><td><code>nyrapkg …</code></td><td>Dependencies — <code>init</code>, <code>add</code>, <code>install</code>, <code>verify</code> — see <a href="packages.html">nyrapkg</a></td></tr>
+          <tr><td><code>nyra pkg …</code></td><td>Build helpers — <code>build</code>, <code>prune</code>, <code>c</code>, <code>bind</code> — see <a href="packages.html">packages</a></td></tr>
           <tr><td><code>nyra pkg c add NAME</code></td><td>System C lib — install + bind + link (raylib, zlib, …)</td></tr>
           <tr><td><code>nyra pkg c remove NAME</code></td><td>Remove C lib from project</td></tr>
           <tr><td><code>nyra pkg c list</code></td><td>List installed C libs</td></tr>
@@ -181,7 +182,7 @@ nyra run examples/toolchain/comptime_import_main.ny</code></pre>
       <h2>Start a project</h2>
       <p><strong>Job:</strong> Scaffold <code>main.ny</code>, <code>nyra.mod</code>, and lockfiles before your first build.</p>
       <pre><code>mkdir myapp &amp;&amp; cd myapp
-nyra pkg init
+nyrapkg init
 nyra run .</code></pre>
       <p>Multi-file layout (imports resolved from project root):</p>
       <!-- NYRA_SNIPPET_START -->
@@ -339,17 +340,15 @@ nyra ide goto-def myapp/main.ny 0 --character 20
 nyra ide references myapp/main.ny 0 --character 20
 # → JSON array of { file, start, end, name }</code></pre>
 
-      <h2 id="pkg"><code>nyra pkg</code></h2>
-      <p><strong>Job:</strong> Manage dependencies and reproducible builds. Full guide: <a href="packages.html">NyraPkg</a> · unused-code cleanup: <a href="packages.html#prune"><code>nyra pkg prune</code></a>.</p>
-      <pre><code>nyra pkg init
-nyra pkg add ny-sqlite@^0.1.0
-nyra pkg install https://github.com/you/ny-lib
-nyra pkg verify
+      <h2 id="pkg"><code>nyrapkg</code> &amp; <code>nyra pkg</code></h2>
+      <p><strong>Dependencies:</strong> use <strong>nyrapkg</strong> (<a href="packages.html">full guide</a>). <strong>Build / C libs / prune:</strong> use <code>nyra pkg</code>.</p>
+      <pre><code>nyrapkg init
+nyrapkg install ny-sqlite@^0.1.0
+nyrapkg verify
+
 nyra pkg build .
-nyra pkg prune              # remove unused imports, prefix unused locals (W002/W003)
-nyra pkg prune --check      # dry run — report only
-nyra pkg login --token &lt;token&gt;
-nyra pkg publish my-lib 0.1.0 https://github.com/you/my-lib</code></pre>
+nyra pkg prune --check
+nyra pkg c add raylib</code></pre>
 
       <h2 id="pkg-c">System C libraries — <code>nyra pkg c</code></h2>
       <p><strong>Job:</strong> Add or remove a system C library in one command. Full guide: <a href="c-bindgen.html#pkg-c">C Bindgen → nyra pkg c</a>.</p>
@@ -491,7 +490,7 @@ nyra build . --no-std</code></pre>
 }</code></pre>
       <p>Setup guide: <a href="editor-setup.html">Editor setup</a> · Grammar: <a href="https://github.com/nyra-lang/nyra/blob/main/grammar/README.md"><code>grammar/README.md</code></a></p>
 
-      <footer class="site-footer"><a href="packages.html">NyraPkg →</a></footer>
+      <footer class="site-footer"><a href="packages.html">nyrapkg →</a></footer>
     </main>
   </div>
     <script src="vendor/lunr.min.js"></script>

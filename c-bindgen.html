@@ -158,7 +158,7 @@ nyra pkg bind c vendor/api.h --lib mylib --update-mod</code></pre>
       <h2 id="pkg-c"><code>nyra pkg c</code> — one command per library</h2>
       <p>The recommended way to add system C libraries to a NyraPkg project. No manual <code>-I</code> paths, no Homebrew keg paths, no hand-editing <code>nyra.mod</code>.</p>
 
-      <pre><code>nyra pkg init &amp;&amp; cd myapp
+      <pre><code>nyrapkg init &amp;&amp; cd myapp
 
 nyra pkg c add raylib     # brew install + full bind + nyra.mod
 nyra pkg c add zlib
@@ -237,7 +237,7 @@ nyra toolchain install   # alternative</code></pre>
 
       <h2 id="tutorial-zlib">Tutorial: zlib</h2>
       <p><strong>Recommended:</strong></p>
-      <pre><code>nyra pkg init &amp;&amp; cd myapp
+      <pre><code>nyrapkg init &amp;&amp; cd myapp
 nyra pkg c add zlib
 nyra run .</code></pre>
       <!-- NYRA_SNIPPET_START -->
@@ -262,7 +262,7 @@ fn main() -&gt; void {
 
       <h3>1 — Prerequisites</h3>
       <pre><code>brew install zlib llvm
-nyra pkg init
+nyrapkg init
 cd myapp</code></pre>
 
       <h3>2 — Generate bindings</h3>
@@ -342,7 +342,7 @@ import "vendor/bindings/sqlite3.ny"
 fn main() {
     print(sqlite3_libversion())
 }</code></pre>
-      <p>Alternatively: <code>nyra pkg install ny-sqlite@^0.1.0</code> — see <a href="packages.html">NyraPkg</a>.</p>
+      <p>Alternatively: <code>nyrapkg install ny-sqlite@^0.1.0</code> — see <a href="packages.html">nyrapkg</a>.</p>
 
       <h2 id="tutorial-raylib">Tutorial: Raylib graphics &amp; games 🎮</h2>
       <p><a href="https://www.raylib.com/">Raylib</a> — 2D/3D games in C. One command gives you the <strong>full</strong> API (~556 functions):</p>
@@ -572,12 +572,12 @@ extern fn geom_add(a, b) -&gt; i32</code></pre></div>
       <h2>See also</h2>
       <ul>
         <li><a href="ffi-abi.html">FFI &amp; ABI</a> — boundary types and <code>repr(C)</code></li>
-        <li><a href="packages.html">NyraPkg</a> — <code>link</code> and <code>link-source</code></li>
+        <li><a href="packages.html">nyrapkg</a> — <code>link</code> and <code>link-source</code></li>
         <li><a href="tooling.html">Toolchain</a> — <code>nyra cc</code>, <code>nyra toolchain install</code></li>
         <li><code>docs/c-bindgen.md</code> in the repository</li>
       </ul>
 
-      <footer class="site-footer"><a href="packages.html">NyraPkg →</a></footer>
+      <footer class="site-footer"><a href="packages.html">nyrapkg →</a></footer>
     </main>
   </div>
   <script src="vendor/lunr.min.js"></script>

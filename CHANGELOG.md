@@ -7,6 +7,19 @@ This repository is independent from the [Nyra compiler](https://github.com/nyra-
 
 ---
 
+## v1.39.0 (2026-06-30)
+
+**nyrapkg split — package manager documentation**
+
+- **Updated** — `packages.html`: nyrapkg as standalone tool ([github.com/nyra-lang/pkg](https://github.com/nyra-lang/pkg)); split from `nyra pkg` (build/prune/c/bind only)
+- **Updated** — `install.html`, `getting-started.html`, `examples.html`, `tooling.html`, `imports.html`, `language-vs-ecosystem.html`, `c-bindgen.html`, `backend.html`, `stdlib.html`, `bindings.html`, `modules.html`
+- **Updated** — `locales/en.json`, `locales/ar.json`: nav + packages page strings (`nyrapkg`)
+- **Updated** — `_includes/sidebar-nav.html` (synced to all pages)
+- **Added** — `changelog.html` entry v1.39.0
+- **Regenerated** — `search-index.json`
+
+---
+
 ## v1.36.18 (2026-06-28)
 
 **Production-ready status — remove MVP / pre-production banner**

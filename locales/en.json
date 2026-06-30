@@ -87,7 +87,7 @@
     "ffi": "FFI & ABI",
     "targets": "Targets",
     "editor": "Editor setup",
-    "packages": "NyraPkg",
+    "packages": "nyrapkg",
     "roadmap": "Roadmap",
     "changelog": "Changelog",
     "sitemap": "Sitemap"
@@ -102,7 +102,7 @@
   "pages": {
     "index": {
       "metaTitle": "Nyra — Programming Language Documentation",
-      "pill": "Documentation v1.36.x",
+      "pill": "Documentation v1.39.x",
       "titleSub": "Programming Language",
       "tagline": "Fast like a panther. Sharp by design.",
       "lead": "Go’s simplicity. Rust’s safety. C++’s speed — one toolchain, LLVM under the hood.",
@@ -347,9 +347,9 @@
       "lead": "Nyra is a <strong>general-purpose language</strong>. Frameworks and packages complete it for each domain — the compiler does not bake in backend-only stacks."
     },
     "packages": {
-      "metaTitle": "NyraPkg — Nyra Docs",
-      "h1": "NyraPkg",
-      "lead": "Manifests, lockfiles, and Git-backed dependencies."
+      "metaTitle": "nyrapkg — Nyra Docs",
+      "h1": "nyrapkg",
+      "lead": "Standalone package manager for Nyra — manifests, lockfiles, and dependencies. Repository: <a href=\"https://github.com/nyra-lang/pkg\">github.com/nyra-lang/pkg</a>."
     },
     "memory": {
       "metaTitle": "Memory & ownership — Nyra Docs",

@@ -156,7 +156,7 @@
         <div class="toc-title">Examples</div>
         <ul>
           <li><a href="#hello">1. Hello World (single file)</a></li>
-          <li><a href="#pkg-init">2. Project scaffold (<code>pkg init</code>)</a></li>
+          <li><a href="#pkg-init">2. Project scaffold (<code>nyrapkg init</code>)</a></li>
           <li><a href="#greet-app">3. Multi-file greet app</a></li>
           <li><a href="#sum-loop">4. Sum loop (arithmetic)</a></li>
           <li><a href="#calculator">5. Calculator (structs + imports)</a></li>
@@ -191,9 +191,9 @@
       <!-- 2 -->
       <article class="example-block" id="pkg-init">
         <h2>2. Project scaffold <span class="badge">tooling</span></h2>
-        <p class="example-meta">NyraPkg · auto <code>main.ny</code></p>
+        <p class="example-meta">nyrapkg · auto <code>main.ny</code></p>
         <pre><code>mkdir myapp &amp;&amp; cd myapp
-nyra pkg init
+nyrapkg init
 nyra run .</code></pre>
         <p>Creates <code>nyra.mod</code>, <code>nyra.lock</code>, <code>nyra.sum</code>, and <code>main.ny</code> (Hello World).</p>
       </article>
@@ -253,7 +253,7 @@ fn main() -&gt; void {
     hello_twice()
 }</code></pre></div>
 </div><!-- NYRA_SNIPPET_END -->        <ol class="steps">
-          <li><code>nyra pkg init</code> in <code>greet-app</code> (or create files manually).</li>
+          <li><code>nyrapkg init</code> in <code>greet-app</code> (or create files manually).</li>
           <li>Add <code>src/hello.ny</code> and update <code>main.ny</code> as above.</li>
           <li>From project root: <code>nyra run .</code></li>
         </ol>
@@ -493,7 +493,7 @@ NYRA_HOME= nyra run examples/stdlib/extended/main.ny</code></pre>
         <p>Nyra calls real native code (zlib, SQLite, OpenSSL, …) with one bind command. Full walkthrough: <a href="c-bindgen.html#tutorial-zlib">C Bindgen → zlib tutorial</a>.</p>
 
         <h3>Commands</h3>
-        <pre><code>nyra pkg init &amp;&amp; cd myapp
+        <pre><code>nyrapkg init &amp;&amp; cd myapp
 nyra pkg c add zlib
 nyra run .</code></pre>
 

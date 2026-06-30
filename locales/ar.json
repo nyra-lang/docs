@@ -87,7 +87,7 @@
     "ffi": "FFI و ABI",
     "targets": "أهداف البناء",
     "editor": "إعداد المحرر",
-    "packages": "NyraPkg",
+    "packages": "nyrapkg",
     "roadmap": "خارطة الطريق",
     "changelog": "سجل التغييرات",
     "sitemap": "خريطة الموقع"
@@ -102,7 +102,7 @@
   "pages": {
     "index": {
       "metaTitle": "Nyra — توثيق لغة البرمجة",
-      "pill": "التوثيق v1.36.x",
+      "pill": "التوثيق v1.39.x",
       "titleSub": "لغة برمجة",
       "tagline": "سريعة كالنمر. حادة في التصميم.",
       "lead": "بساطة Go. أمان Rust. سرعة C++ — منصة واحدة، و LLVM في القلب.",
@@ -342,9 +342,9 @@
       "lead": "Nyra <strong>لغة عامة الغرض</strong>. الأطر والحزم تكملها لكل مجال — المترجم لا يضم stacks خاصة بالـ backend."
     },
     "packages": {
-      "metaTitle": "NyraPkg — توثيق Nyra",
-      "h1": "NyraPkg",
-      "lead": "بيانات الحزم وملفات القفل وتبعيات Git."
+      "metaTitle": "nyrapkg — توثيق Nyra",
+      "h1": "nyrapkg",
+      "lead": "مدير حزم مستقل لـ Nyra — nyra.mod وملفات القفل والتبعيات. المستودع: <a href=\"https://github.com/nyra-lang/pkg\">github.com/nyra-lang/pkg</a>."
     },
     "memory": {
       "metaTitle": "الذاكرة والملكية — توثيق Nyra",

@@ -379,7 +379,7 @@ fn main() {
           <tr><td><code>stdlib/serialize/mod.ny</code></td><td><code>encode_object</code>, <code>toml_encode_object</code>, <code>yaml_encode_object</code>; <code>serialize</code>/<code>deserialize</code> by <code>SerializeFormat</code></td></tr>
         </tbody>
       </table>
-      <p>Examples: <code>examples/json/decode_i32.ny</code> · <code>examples/serialize/toml.ny</code> · <code>examples/serde_json_pkg.ny</code> (NyraPkg full serde). For production JSON/TOML beyond stdlib MVP, see <a href="packages.html">NyraPkg</a> (<code>ny-serde</code>, <code>ny-toml</code>).</p>
+      <p>Examples: <code>examples/json/decode_i32.ny</code> · <code>examples/serialize/toml.ny</code> · <code>examples/serde_json_pkg.ny</code> (full serde via packages). For production JSON/TOML beyond stdlib MVP, see <a href="packages.html">nyrapkg</a> (<code>ny-serde</code>, <code>ny-toml</code>).</p>
 
       <h2 id="crypto">Crypto, random &amp; encoding</h2>
       <table>
@@ -451,7 +451,6 @@ fn main() {
           <tr><td><code>stdlib/db/sql_parse.ny</code></td><td><code>SqlParse_parse</code>, <code>SqlParse_format</code> — <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></td></tr>
           <tr><td><code>stdlib/collections/btree_map.ny</code></td><td><code>BTreeMap_str_str_*</code> sorted key map</td></tr>
           <tr><td><code>stdlib/collections/btree_pages.ny</code></td><td><code>BTreePaged_*</code> — internal descent, <code>BTreePaged_range</code>, <code>BTreePaged_keys</code></td></tr>
-          <tr><td><code>stdlib/pkg.ny</code></td><td><code>pkg_verify</code>, <code>pkg_publish</code>, <code>pkg_install</code></td></tr>
           <tr><td><code>stdlib/db/sql.ny</code></td><td><code>Sql_open</code>, <code>.query_rows</code> — unified entry (<code>sqlite</code>, <code>postgres</code>, <code>mysql</code> backends)</td></tr>
           <tr><td><code>stdlib/db/postgres.ny</code></td><td>Stub — native driver in progress</td></tr>
           <tr><td><code>stdlib/db/mysql.ny</code></td><td>Stub — native driver in progress</td></tr>
@@ -465,7 +464,7 @@ fn main() {
     db.exec("INSERT INTO kv VALUES ('hello', 'world')")
     db.close()
 }</code></pre>
-      <p>NyraPkg bindings: <code>examples/packages/ny-sqlite/</code> · <a href="packages.html">NyraPkg</a></p>
+      <p>NyraPkg bindings: <code>examples/packages/ny-sqlite/</code> · <a href="packages.html">nyrapkg</a></p>
 
       <h2 id="terminal">Terminal &amp; console</h2>
       <p><strong>Preferred:</strong> use built-in <code>print(msg, color: red)</code> and <code>input("prompt")</code> — see <a href="#builtins-io">I/O built-ins</a>.</p>
@@ -2131,7 +2130,7 @@ let r = Result.Ok("ok")</code></pre>
       <ul>
         <li><strong>Short imports:</strong> <code>import "stdlib/vec.ny"</code> or <code>import "std/json/mod"</code> — resolves from install tree or repo <code>stdlib/</code></li>
         <li><strong>Prelude:</strong> <code>import "stdlib/prelude.ny"</code> — vec, map, strings/ops, log</li>
-        <li><strong>Packages:</strong> <code>nyra pkg install ny-sqlite@^0.1.0</code> then <code>import "pkg/ny-sqlite"</code> · <a href="bindings.html">Runtime bindings</a></li>
+        <li><strong>Packages:</strong> <code>nyrapkg install ny-sqlite@^0.1.0</code> then <code>import "pkg/ny-sqlite"</code> · <a href="bindings.html">Runtime bindings</a></li>
         <li><strong>Demos:</strong> <code>examples/stdlib/demo/main.ny</code>, <code>examples/stdlib/extended/main.ny</code></li>
         <li><strong>Installed Nyra:</strong> <code>$NYRA_HOME/share/stdlib/</code> — run <code>./scripts/updateLang.sh</code> after pulling new runtime symbols</li>
         <li><strong>WASI:</strong> <code>nyra build --for wasm</code> — limited subset via <code>nyra_rt_wasi.c</code></li>

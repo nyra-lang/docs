@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#06090d">
   <meta name="color-scheme" content="dark light">
-  <title>NyraPkg — Nyra Docs</title>
+  <title>nyrapkg — Nyra Docs</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/search.css">
 </head>
@@ -145,8 +145,52 @@
 </nav>
     </aside>
     <main class="content">
-      <h1 data-i18n="pages.packages.h1">NyraPkg</h1>
-      <p class="lead" data-i18n-html="pages.packages.lead">Manifests, lockfiles, and Git-backed dependencies.</p>
+      <h1 data-i18n="pages.packages.h1">nyrapkg</h1>
+      <p class="lead" data-i18n-html="pages.packages.lead">Standalone package manager for Nyra — like <code>cargo</code> for Rust. Repository: <a href="https://github.com/nyra-lang/pkg">github.com/nyra-lang/pkg</a>.</p>
+
+      <div class="callout">
+        <p><strong>Split (v1.39+):</strong> Dependency management moved out of the <code>nyra</code> compiler CLI into <strong>nyrapkg</strong>. The <code>nyra pkg</code> command remains for <strong>build helpers</strong> only (<code>build</code>, <code>prune</code>, <code>c</code>, <code>bind</code>) — not <code>init</code> / <code>add</code> / <code>install</code> / <code>verify</code>.</p>
+      </div>
+
+      <h2>Install layout</h2>
+      <p>nyrapkg shares the Nyra install root (default <code>~/.nyra</code>):</p>
+      <pre><code>~/.nyra/
+├── bin/
+│   ├── nyra       # compiler (nyra-lang/nyra)
+│   └── nyrapkg    # package manager (nyra-lang/pkg)
+├── config         # registry=http://127.0.0.1:9470
+└── lib/           # optional LLVM / WASI toolchain</code></pre>
+      <pre><code># Install nyrapkg (when a GitHub release is published)
+curl -fsSL https://raw.githubusercontent.com/nyra-lang/pkg/main/scripts/install.sh | sh
+
+# Or from source
+export NYRA_HOME=~/.nyra
+nyra build --release -o nyrapkg /path/to/pkg
+nyrapkg bootstrap
+
+export PATH="$HOME/.nyra/bin:$PATH"
+nyrapkg --version</code></pre>
+
+      <h2>nyrapkg commands (dependencies)</h2>
+      <pre><code>nyrapkg init [path]                 # scaffold nyra.mod + main.ny + lock files
+nyrapkg add ny-sqlite ^0.1.0        # add require + fetch + update lock
+nyrapkg install ny-serde@^0.1.0     # alias for add
+nyrapkg verify [path]               # nyra.mod ↔ nyra.lock ↔ nyra.sum
+
+nyrapkg --version                   # nyrapkg + nyra versions
+nyrapkg which                       # NYRA_HOME, bin paths
+nyrapkg bootstrap                   # copy binary → ~/.nyra/bin/nyrapkg
+nyrapkg self update [version]       # update nyrapkg from releases
+nyrapkg toolchain update [version]  # update nyra compiler (~/.nyra)
+nyrapkg update nyra|self [version]  # aliases</code></pre>
+
+      <h2><code>nyra pkg</code> commands (toolchain)</h2>
+      <p>Still part of the compiler — native linking, C bindings, and project build:</p>
+      <pre><code>nyra pkg build [path]              # verify lock + compile
+nyra pkg prune [--check]           # remove unused imports / prefix locals
+nyra pkg c add raylib              # system C lib (one command)
+nyra pkg c list | c remove NAME
+nyra pkg bind c vendor/api.h --lib foo --update-mod</code></pre>
 
       <h2>Files</h2>
       <table>
@@ -159,20 +203,18 @@
         </tbody>
       </table>
 
-      <h2>CLI commands</h2>
-      <pre><code>nyra pkg init                        # scaffold nyra.mod + main.ny
-nyra pkg c add raylib                # system C lib (one command)
-nyra pkg c list                      # installed C libs
-nyra pkg c remove raylib             # unlink + delete bindings
-nyra pkg bind c vendor/api.h --lib foo --update-mod   # manual C header
-nyra pkg install ny-sqlite@^0.1.0    # semver + fetch + merge link lines
-nyra pkg add URL                     # add Git dependency (alias: install)
-nyra pkg verify                      # checksums + semver constraints
-nyra pkg publish NAME VER URL        # publish to registry
-nyra pkg build                       # verify lock + compile
-nyra pkg prune                       # remove unused imports, prefix unused locals
-nyra pkg prune --check               # dry run (report only, no edits)
-nyra run .                           # run from project root</code></pre>
+      <h2>CLI commands (historical reference)</h2>
+      <p>The block below listed the old monolithic <code>nyra pkg</code> surface. Use the split above in new projects.</p>
+      <pre><code># Dependencies → nyrapkg
+nyrapkg init
+nyrapkg install ny-sqlite@^0.1.0
+nyrapkg verify
+
+# Toolchain → nyra pkg
+nyra pkg c add raylib
+nyra pkg build
+nyra pkg prune --check
+nyra run .</code></pre>
 
       <h2 id="prune"><code>nyra pkg prune</code></h2>
       <p>Removes unused code from a project — similar to <strong>cargo fix</strong> for lint warnings. Applies safe, automatic edits based on <code>W002</code> (unused import) and <code>W003</code> (unused variable).</p>
@@ -253,27 +295,27 @@ link -L /opt/homebrew/opt/zlib/lib
 import "vendor/bindings/zlib.ny"</code></pre>
 
       <h2>Install a package (ny-sqlite)</h2>
-      <pre><code>nyra pkg init
-nyra pkg install ny-sqlite@^0.1.0   # semver, cache, link sqlite3 + rt/sqlite.c
+      <pre><code>nyrapkg init
+nyrapkg install ny-sqlite@^0.1.0   # semver, cache, link sqlite3 + rt/sqlite.c
 
 import "pkg/ny-sqlite"</code></pre>
 
       <h2>Serialization packages (ny-serde, ny-toml)</h2>
-      <p>Full JSON/TOML via Rust bridges — <code>nyra bind rust serde_json</code> / <code>toml</code> under the hood. Stdlib <code>serialize/mod.ny</code> stays a lightweight MVP; use NyraPkg for production serde.</p>
-      <pre><code>nyra pkg install ny-serde@^0.1.0
+      <p>Full JSON/TOML via Rust bridges — <code>nyra bind rust serde_json</code> / <code>toml</code> under the hood. Stdlib <code>serialize/mod.ny</code> stays a lightweight MVP; use packages for production serde.</p>
+      <pre><code>nyrapkg install ny-serde@^0.1.0
 nyra bind rust serde_json --template   # once per project
 
 import "pkg/ny-serde/serde.ny"
 let obj = parse_json("{\"ok\":true}")
 print(stringify_json(obj))
 
-nyra pkg install ny-toml@^0.1.0
+nyrapkg install ny-toml@^0.1.0
 import "pkg/ny-toml/toml.ny"</code></pre>
       <p>Example: <code>examples/serde_json_pkg.ny</code> · bundled sources: <code>examples/packages/ny-serde</code>, <code>examples/packages/ny-toml</code>.</p>
-      <p>Packages land in <code>.nyra/cache/&lt;name&gt;/</code> inside your project. Sources: bundled examples (dev), <code>pkg-registry</code> (default <code>http://127.0.0.1:9470</code>), or Git URLs. Native <code>link</code> lines merge into your <code>nyra.mod</code>; <code>link-source</code> <code>.c</code> files compile at <code>nyra build</code>.</p>
+      <p>Packages land in <code>.nyra/cache/&lt;name&gt;/</code> inside your project. Sources: bundled examples (dev with <code>NYRA_HOME</code>), HTTP registry (default <code>http://127.0.0.1:9470</code> in <code>~/.nyra/config</code>), or Git URLs. Native <code>link</code> lines merge into your <code>nyra.mod</code>; <code>link-source</code> <code>.c</code> files compile at <code>nyra build</code>.</p>
 
       <h2>Design (v1)</h2>
-      <p>Semver constraints (<code>^</code>, <code>~</code>, <code>&gt;=</code>), persistent registry (<code>pkg-registry</code> on port 9470), and package <code>link-source</code> for automatic <code>.c</code> linking at build time.</p>
+      <p>Semver constraints (<code>^</code>, <code>~</code>, <code>&gt;=</code>), optional HTTP registry, and package <code>link-source</code> for automatic <code>.c</code> linking at build time. nyrapkg is implemented in Nyra; the compiler reads the resulting lock files at link time.</p>
 
       <h2>nyra.mod example</h2>
       <pre><code>module github.com/you/myapp
@@ -292,7 +334,7 @@ link-source vendor/shim.c</code></pre>
       <table>
         <thead><tr><th>Import</th><th>Resolves to</th></tr></thead>
         <tbody>
-          <tr><td><code>import "pkg/ny-sqlite"</code></td><td><code>.nyra/cache/ny-sqlite/</code> after <code>pkg install</code></td></tr>
+          <tr><td><code>import "pkg/ny-sqlite"</code></td><td><code>.nyra/cache/ny-sqlite/</code> after <code>nyrapkg install</code></td></tr>
           <tr><td><code>import "pkg/ny-serde/serde.ny"</code></td><td>JSON <code>parse_json</code> / <code>stringify_json</code> via <code>rust::serde_json</code></td></tr>
           <tr><td><code>import "pkg/ny-toml/toml.ny"</code></td><td>TOML <code>parse_toml</code> / <code>stringify_toml</code> via <code>rust::toml</code></td></tr>
           <tr><td><code>import "stdlib/vec.ny"</code></td><td><code>$NYRA_HOME/share/stdlib/</code> or repo <code>stdlib/</code></td></tr>
@@ -300,12 +342,12 @@ link-source vendor/shim.c</code></pre>
       </table>
 
       <h2>Registry</h2>
-      <pre><code>cargo run -p pkg-registry          # ~/.nyra/registry/index.json
-nyra pkg login --token nyra-dev-token
-# ~/.nyra/config: registry=http://127.0.0.1:9470</code></pre>
+      <p>Configure in <code>~/.nyra/config</code>:</p>
+      <pre><code>registry=http://127.0.0.1:9470</code></pre>
+      <p>nyrapkg resolves packages over HTTP/JSONL or from Git URLs. A local registry server may ship with the <a href="https://github.com/nyra-lang/pkg">pkg</a> repository when needed for development.</p>
 
       <h2>Reference packages (v1.2)</h2>
-      <p>Bundled under <code>examples/packages/</code> for development — same pattern as production NyraPkg:</p>
+      <p>Bundled under <code>examples/packages/</code> in the Nyra repo for development — same pattern as production packages:</p>
       <table>
         <thead><tr><th>Package</th><th>Native lib</th><th>Import</th></tr></thead>
         <tbody>
