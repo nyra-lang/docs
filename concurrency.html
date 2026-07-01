@@ -151,6 +151,8 @@
         <div class="toc-title">On this page</div>
         <ul>
           <li><a href="#spawn">spawn</a></li>
+          <li><a href="#allow-extended">allow_extended</a></li>
+          <li><a href="#join-handle">JoinHandle &amp; .join()</a></li>
           <li><a href="#parallel-for">parallel for</a></li>
           <li><a href="#progress-for">progress for</a></li>
           <li><a href="#captures">Captures &amp; ownership</a></li>
@@ -161,10 +163,79 @@
       </nav>
 
       <h2 id="spawn">spawn</h2>
-      <pre><code>spawn {
-    print("runs concurrently")
+      <p>Nyra offers two concurrency backends, selected with a suffix on <code>spawn</code>:</p>
+      <table>
+        <thead><tr><th>Syntax</th><th>Backend</th><th>When to use</th></tr></thead>
+        <tbody>
+          <tr><td><code>spawn { }</code> or <code>spawn:task { }</code></td><td><strong>Lightweight tasks</strong> (global worker pool, Tokio-style)</td><td>Default — many concurrent jobs; queue up to 65k tasks; workers ≈ <code>cpu_count()</code></td></tr>
+          <tr><td><code>spawn:thread { }</code></td><td><strong>OS thread</strong> (<code>pthread</code> / <code>CreateThread</code>)</td><td>Blocking work, long-running isolation, or when you need a real 1:1 thread</td></tr>
+        </tbody>
+      </table>
+      <p>Both forms support:</p>
+      <ul>
+        <li><strong>Statement</strong> — fire-and-forget (handle detached at end of statement).</li>
+        <li><strong>Expression</strong> — <code>let h = spawn { ... }</code> returns <code>JoinHandle</code>; call <code>h.join()</code> to wait (consumes handle).</li>
+      </ul>
+      <pre><code>// Lightweight task (default) — queued on runtime pool
+spawn {
+    print("many tasks OK")
+}
+
+let h = spawn:task {
+    print(99)
+}
+h.join()
+
+// Dedicated OS thread — ~MB stack, true parallel isolation
+let t = spawn:thread {
+    heavy_blocking_work()
+}
+t.join()</code></pre>
+      <p><strong>Task vs thread:</strong> tasks are cheap (bytes–KB of bookkeeping, shared worker pool); OS threads cost ~MB of stack each. Use <code>spawn</code> / <code>spawn:task</code> for high fan-out (thousands+ jobs). Use <code>spawn:thread</code> when you need a real thread or blocking syscall isolation. Captures must be <code>Send</code> in both modes.</p>
+      <p>Lowering: codegen emits a closure entry + <code>spawn_task_capture</code> (tasks) or <code>spawn_capture</code> (threads). Captures are packed into a struct and copied to the heap. Dropped handles without <code>.join()</code> detach (tasks keep running on the pool; threads are <code>pthread_detach</code>ed).</p>
+
+      <h3 id="allow-extended"><code>allow_extended</code> (file directive)</h3>
+      <p><code>spawn</code> is a <strong>Stable Extended</strong> feature. Examples and production code that use <code>spawn</code> should start with:</p>
+      <pre><code>allow_extended</code></pre>
+      <ul>
+        <li><strong>What:</strong> a file-level directive (one line at the top), not a function attribute.</li>
+        <li><strong>Why:</strong> declares that this unit intentionally uses Extended-tier APIs (<code>spawn</code>, <code>parallel for</code>, <code>async</code>, <code>defer</code>, …).</li>
+        <li><strong>Effect:</strong> suppresses <code>warning[W001]</code> for Extended features in that file — helpful when building with stricter CI flags (<code>--deny-extended</code> gates Core-only crates).</li>
+        <li><strong>Not required</strong> for Core-only programs (no spawn/async/defer). Omit it in minimal tutorials that do not use Extended syntax.</li>
+      </ul>
+      <p>Without <code>allow_extended</code>, <code>spawn</code> may still compile in default builds (v1.39+ ships Extended in prebuilt releases), but keeping the directive makes intent explicit and keeps CI configurations predictable.</p>
+
+      <h3 id="join-handle"><code>JoinHandle</code> and <code>.join()</code></h3>
+      <p>Two ways to use <code>spawn</code>:</p>
+      <table>
+        <thead><tr><th>Style</th><th>Example</th><th>Behavior</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Statement</strong></td><td><code>spawn { work() }</code></td><td>Start background work and <strong>return immediately</strong>. No handle; runtime detaches (fire-and-forget).</td></tr>
+          <tr><td><strong>Expression</strong></td><td><code>let h = spawn { work() }</code></td><td>Returns <code>JoinHandle</code> — an opaque token representing the in-flight task or thread.</td></tr>
+        </tbody>
+      </table>
+      <p><strong><code>.join()</code></strong> — method on <code>JoinHandle</code>; signature <code>h.join() -&gt; void</code> (no arguments).</p>
+      <ul>
+        <li><strong>Blocks</strong> the calling thread until the spawned body completes.</li>
+        <li><strong>Consumes</strong> the handle (move semantics) — after <code>h.join()</code>, <code>h</code> cannot be used again.</li>
+        <li>Works for both <code>spawn</code>/<code>spawn:task</code> (task pool) and <code>spawn:thread</code> (OS thread); codegen picks <code>spawn_task_join</code> or <code>spawn_join</code> automatically.</li>
+        <li>If a <code>JoinHandle</code> goes out of scope without <code>.join()</code>, the runtime <strong>detaches</strong> — same effect as the statement form.</li>
+      </ul>
+      <pre><code>allow_extended
+fn main() {
+    // Wait for task — output order: 99, then 0
+    let h = spawn {
+        print(99)
+    }
+    h.join()
+    print(0)
+
+    // Fire-and-forget — main does not wait
+    spawn {
+        print("background")
+    }
 }</code></pre>
-      <p>The compiler lowers each <code>spawn</code> to a thread entry function plus a call to <code>spawn_capture</code>. Captured outer variables are packed into a struct, copied to the heap, and passed to a new thread (<code>pthread</code> on Unix; <code>CreateThread</code> on Windows).</p>
+      <p>Full runnable examples: <a href="methods.html#join-handle">Built-in methods → JoinHandle</a> · <a href="methods.html#ex-spawn-join"><code>.join()</code> example</a>.</p>
 
       <h2 id="parallel-for">parallel for</h2>
       <p>Use <code>parallel for</code> when iterations are <strong>independent</strong>. Nyra schedules <strong>worker threads</strong>; the OS maps them to CPU cores (P-cores, E-cores, etc.).</p>
@@ -253,7 +324,12 @@ Running parser tests...</code></pre>
       <table>
         <thead><tr><th>Symbol</th><th>Role</th></tr></thead>
         <tbody>
-          <tr><td><code>spawn_capture(body, data, nbytes)</code></td><td>Spawn thread; <code>body(void*)</code> receives heap copy of captures</td></tr>
+          <tr><td><code>spawn_capture(body, data, nbytes)</code></td><td><code>spawn:thread</code> — create joinable OS thread; returns <code>JoinHandle</code></td></tr>
+          <tr><td><code>spawn_join(handle)</code></td><td>Block until OS thread completes</td></tr>
+          <tr><td><code>spawn_handle_drop(handle)</code></td><td>Detach OS thread if handle dropped without <code>.join()</code></td></tr>
+          <tr><td><code>spawn_task_capture(body, data, nbytes)</code></td><td><code>spawn</code> / <code>spawn:task</code> — enqueue on global task pool; returns <code>JoinHandle</code></td></tr>
+          <tr><td><code>spawn_task_join(handle)</code></td><td>Block until pooled task completes</td></tr>
+          <tr><td><code>spawn_task_handle_drop(handle)</code></td><td>Fire-and-forget task (no wait)</td></tr>
           <tr><td><code>parallel_for_range(...)</code></td><td>Fork-join parallel loop</td></tr>
           <tr><td><code>progress_update(cur, total, label)</code></td><td>Draw progress bar + status line</td></tr>
           <tr><td><code>progress_finish()</code></td><td>Final newline after <code>progress for</code></td></tr>

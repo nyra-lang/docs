@@ -53,7 +53,7 @@ export function methodLabel(relPlain) {
       return "JSON_stringify";
     }
     if (file === "random") {
-      return "random / Random / random_range / random_f64";
+      return "random / random_f64";
     }
     return file;
   }

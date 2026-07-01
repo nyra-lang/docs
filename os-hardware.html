@@ -604,13 +604,13 @@ fn main() -&gt; void {
 </div><!-- NYRA_SNIPPET_END -->      <p><strong>Linux:</strong> POSIX mqueue (<code>librt</code>). <strong>macOS:</strong> in-process best-effort queue (name ignored). <strong>Windows:</strong> mailslot best-effort queue (local IPC).</p>
 
       <h2 id="security">Hardware crypto &amp; permissions</h2>
-      <p>Modules: <code>hw_crypto.ny</code>, <code>permissions.ny</code> — OS-level hardware RNG and privilege drop. For everyday app randomness (dice, shuffles, simulations), use <a href="stdlib.html#random"><code>stdlib/random.ny</code></a> (<code>random()</code>, <code>Random()</code>, <code>random_range</code>, <code>random_f64</code>) — ChaCha20 seeded from the same OS/hardware entropy. For application crypto (SHA, HMAC, AES), use <a href="stdlib.html#crypto"><code>stdlib/crypto/mod.ny</code></a> (portable C in <code>rt_crypto.c</code>).</p>
+      <p>Modules: <code>hw_crypto.ny</code>, <code>permissions.ny</code> — OS-level hardware RNG and privilege drop. For everyday app randomness (dice, shuffles, simulations), use <code>random()</code>, <code>random(min, max)</code>, <code>random_f64()</code> — ChaCha20 seeded from OS/hardware entropy. Import <a href="stdlib.html#random"><code>stdlib/random.ny</code></a> for <code>shuffle_pick</code>. For application crypto (SHA, HMAC, AES), use <a href="stdlib.html#crypto"><code>stdlib/crypto/mod.ny</code></a>.</p>
 
       <h3>Everyday random vs hardware TRNG</h3>
       <table>
         <thead><tr><th>API</th><th>Module</th><th>Use when</th></tr></thead>
         <tbody>
-          <tr><td><code>random()</code> / <code>Random()</code></td><td><code>stdlib/random.ny</code></td><td>Games, shuffles, quick numeric random — fast ChaCha20 stream</td></tr>
+          <tr><td><code>random(min, max)</code></td><td>builtin / <code>random.ny</code></td><td>Games, shuffles — ChaCha20 stream</td></tr>
           <tr><td><code>random_bytes(n)</code></td><td><code>stdlib/crypto/random.ny</code></td><td>Hex-encoded random bytes (same ChaCha20 backend)</td></tr>
           <tr><td><code>hw_random_bytes(n)</code></td><td><code>stdlib/os/hw_crypto.ny</code></td><td>Raw OS TRNG for keys, tokens, crypto seeds</td></tr>
         </tbody>

@@ -148,7 +148,7 @@
 
 <h2>v1.39.0 (systems &amp; stdlib — 2026-07-01)</h2>
 <ul>
-<li><strong><code>stdlib/random.ny</code></strong> — ChaCha20 CSPRNG seeded from OS/hardware entropy; <code>random()</code>, <code>Random()</code>, unbiased <code>random_range</code>, 53-bit <code>random_f64</code>; <code>Math_random()</code> uses same backend</li>
+<li><strong><code>random()</code> / <code>random(min, max)</code></strong> — generic integer ChaCha20 CSPRNG builtins (type follows bounds); <code>random_f64(min, max)</code></li>
 <li><strong>Metaprogramming docs</strong> — comptime + macros + struct JSON synthesis; <code>examples/toolchain/metaprogramming.ny</code>, <code>stdlib/meta/mod.ny</code></li>
 <li><strong>Systems features</strong> — C <code>union</code>, <code>size_of</code>/<code>align_of</code>, <code>bytes</code> type, SIMD, arena allocator (see <code>CHANGELOG.md</code>)</li>
 </ul>

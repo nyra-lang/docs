@@ -331,13 +331,51 @@
       <table>
         <thead><tr><th>Call</th><th>Returns / effect</th><th>Notes</th><th>Example</th></tr></thead>
         <tbody>
+          <tr id="random-int"><td><code>random()</code> / <code>random(min, max)</code></td><td>generic integer</td><td>ChaCha20 CSPRNG; return type follows bounds (<code>i32</code>, <code>i64</code>, <code>u64</code>, …). No-arg defaults to <code>i32</code>.</td><td><code>random(1, 6)</code> · <code>random&lt;i64&gt;(50, 100)</code></td></tr>
+          <tr id="random-f64-builtin"><td><code>random_f64()</code> / <code>random_f64(min, max)</code></td><td><code>f64</code></td><td>Unit interval <code>[0, 1)</code> or range <code>[min, max)</code></td><td><code>random_f64(0.0, 1.0)</code></td></tr>
           <tr id="date"><td><code>date()</code></td><td><code>Date</code> struct</td><td>Local clock fields</td><td><code>let d = date(); print(d.year)</code></td></tr>
-          <tr id="spawn"><td><code>spawn { ... }</code></td><td>new thread</td><td>Captures must be <code>Send</code></td><td><code>spawn { print("bg") }</code></td></tr>
+          <tr id="spawn"><td><code>spawn { ... }</code> / <code>spawn:task { ... }</code></td><td><code>JoinHandle</code> (expr) / none (stmt)</td><td>Lightweight task pool; needs <code>allow_extended</code>; not on wasm32</td><td><code>spawn { print(1) }</code></td></tr>
+          <tr id="spawn-thread"><td><code>spawn:thread { ... }</code></td><td><code>JoinHandle</code> (expr)</td><td>Dedicated OS thread (~MB stack)</td><td><code>spawn:thread { heavy() }</code></td></tr>
+          <tr id="join-handle-method"><td><code>h.join()</code></td><td><code>void</code></td><td>On <code>JoinHandle</code>; blocks until spawn completes; consumes handle</td><td><code>let h = spawn { … }; h.join()</code></td></tr>
           <tr id="parallel-for"><td><code>parallel for i in 0..n { ... }</code></td><td>parallel loop</td><td><code>max_threads</code>, <code>cpu = N%</code></td><td><code>parallel for i in 0..100 { work(i) }</code></td></tr>
           <tr id="progress-for"><td><code>progress for x in items { ... }</code></td><td>loop + progress bar</td><td>Optional <code>label</code></td><td><code>progress for x in items { … }</code></td></tr>
         </tbody>
       </table>
-      <p>Examples: <a href="#ex-date"><code>date()</code></a> · <a href="#ex-spawn"><code>spawn</code></a></p>
+      <p>Examples: <a href="#allow-extended"><code>allow_extended</code></a> · <a href="#join-handle"><code>JoinHandle</code></a> · <a href="#ex-random"><code>random</code></a> · <a href="#ex-date"><code>date()</code></a> · <a href="#ex-spawn"><code>spawn:task</code></a> · <a href="#ex-spawn-thread"><code>spawn:thread</code></a> · <a href="#ex-spawn-join"><code>JoinHandle.join()</code></a></p>
+
+      <h3 id="allow-extended">File directive: <code>allow_extended</code></h3>
+      <p><code>spawn</code>, <code>parallel for</code>, <code>async</code>/<code>await</code>, <code>defer</code>, and related APIs live in Nyra’s <strong>Stable Extended</strong> tier. Put this line at the <strong>top of the file</strong> (before <code>fn main</code> or imports) when the unit intentionally uses those features:</p>
+      <pre><code>allow_extended</code></pre>
+      <table>
+        <thead><tr><th>What it does</th><th>Why use it</th></tr></thead>
+        <tbody>
+          <tr><td>Marks the file as an Extended-tier program</td><td>Documents intent for readers and reviewers</td></tr>
+          <tr><td>Suppresses <code>warning[W001]</code></td><td>Extended-feature warnings are silenced in this file (useful when CI runs with stricter flags)</td></tr>
+          <tr><td>One line per file</td><td>Not per-function — applies to the whole compilation unit</td></tr>
+        </tbody>
+      </table>
+      <p>You do <strong>not</strong> need <code>allow_extended</code> for Core-only code (plain <code>print</code>, structs, loops, etc.). All spawn examples below include it because they use <code>spawn</code>. See also <a href="concurrency.html#spawn">Concurrency → spawn</a> and <a href="roadmap.html">Roadmap</a> (Core vs Extended).</p>
+      <p><strong>Platform:</strong> <code>spawn</code> is unavailable on <code>wasm32-wasi</code> (compile error). Native Linux, macOS, and Windows only.</p>
+
+      <h3 id="join-handle"><code>JoinHandle</code> and <code>.join()</code></h3>
+      <p>When <code>spawn</code> appears as an <strong>expression</strong> (<code>let h = spawn { … }</code>), the type of <code>h</code> is <code>JoinHandle</code> — an opaque handle to a background task or thread. It is <strong>not</strong> a numeric ID; you cannot print it or compare it. You either wait on it or drop it.</p>
+      <table>
+        <thead><tr><th>Method</th><th>Signature</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr id="join-handle-join"><td><code>.join()</code></td><td><code>h.join() -&gt; void</code></td><td><strong>Blocks</strong> the current thread until the spawned work finishes. <strong>Consumes</strong> the handle (move) — you cannot call <code>.join()</code> twice on the same variable.</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>Form</th><th>Syntax</th><th>Wait for completion?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Statement</strong></td><td><code>spawn { … }</code></td><td>No — fire-and-forget; runtime detaches immediately</td></tr>
+          <tr><td><strong>Expression + join</strong></td><td><code>let h = spawn { … }; h.join()</code></td><td>Yes — <code>main</code> waits at <code>h.join()</code></td></tr>
+          <tr><td><strong>Drop without join</strong></td><td><code>let h = spawn { … }</code> then scope ends</td><td>No — handle dropped → detach (same as statement form)</td></tr>
+        </tbody>
+      </table>
+      <p><code>.join()</code> takes <strong>no arguments</strong>. Works the same for <code>spawn</code>, <code>spawn:task</code>, and <code>spawn:thread</code>; the compiler calls the correct runtime (<code>spawn_task_join</code> vs <code>spawn_join</code>) based on how the handle was created. See <a href="#ex-spawn-join">example</a>.</p>
+
+      <h3 id="spawn-examples">Spawn examples</h3>
 
       <h2 id="js-helpers">JS-style helpers <span class="badge">import required</span></h2>
       <p>Ergonomic wrappers with familiar names — import when you want function-style APIs over <code>ptr</code> handles.</p>
@@ -371,16 +409,17 @@
       </table>
       <p>Example: <a href="#ex-string-split"><code>String_split</code></a></p>
 
-      <h3 id="js-random"><code>stdlib/random.ny</code></h3>
+      <h3 id="js-random"><code>stdlib/random.ny</code> <span class="badge">import for shuffle only</span></h3>
+      <p><code>random()</code>, <code>random(min, max)</code>, and <code>random_f64()</code> are <strong>compiler builtins</strong> — no import. Import this module for <code>shuffle_pick</code>.</p>
       <table>
         <thead><tr><th>Function</th><th>Description</th><th>Example</th></tr></thead>
         <tbody>
-          <tr id="random-i32"><td><code>random()</code> / <code>Random()</code></td><td>Random <code>i32</code> — ChaCha20, HW-seeded</td><td><code>Random()</code></td></tr>
-          <tr id="random-range"><td><code>random_range(min, max)</code></td><td>Inclusive <code>i32</code> range</td><td><code>random_range(1, 6)</code></td></tr>
-          <tr id="random-f64"><td><code>random_f64()</code></td><td>Random <code>f64</code> in [0, 1)</td><td><code>random_f64()</code></td></tr>
+          <tr id="random-i32"><td><code>random()</code> / <code>random(min, max)</code></td><td>Generic integer random (ChaCha20, HW-seeded) — type from bounds</td><td><code>random(1, 6)</code></td></tr>
+          <tr id="random-f64"><td><code>random_f64()</code> / <code>random_f64(min, max)</code></td><td>Random <code>f64</code> — unit or range</td><td><code>random_f64(0.0, 1.0)</code></td></tr>
+          <tr id="shuffle-pick"><td><code>shuffle_pick(vec)</code></td><td>Random <code>i32</code> from vector handle</td><td><code>shuffle_pick(v)</code></td></tr>
         </tbody>
       </table>
-      <p>Example: <a href="#ex-random"><code>random / Random</code></a></p>
+      <p>Example: <a href="#ex-random"><code>random</code></a></p>
 
       <h3 id="js-math"><code>stdlib/builtins_math.ny</code></h3>
       <table>
@@ -626,9 +665,9 @@ fn main() -&gt; void {
 2026
 7
 1
-20
-52
-54
+21
+29
+15
 …</code></pre>
 
 <h4 class="builtin-ex-title" id="ex-range"><code>for i in 0..n</code></h4>
@@ -932,9 +971,9 @@ fn main() -&gt; void {
 7
 10
 3
-0.384824</code></pre>
+0.0360552</code></pre>
 
-<h4 class="builtin-ex-title" id="ex-spawn"><code>spawn</code></h4>
+<h4 class="builtin-ex-title" id="ex-spawn"><code>spawn</code> / <code>spawn:task</code> (lightweight tasks)</h4>
 <div class="code-tabs" data-code-tabs>
   <div class="code-tabs-bar" role="tablist">
     <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
@@ -951,7 +990,7 @@ fn main() {
   <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>allow_extended
 fn main() -&gt; void {
     let n: i32 = 42
-    spawn {
+    spawn:task {
         print(n)
     }
     print(0)
@@ -959,6 +998,69 @@ fn main() -&gt; void {
 </div>
 <p class="example-output-label">Output</p>
 <pre class="example-output"><code>0</code></pre>
+<p><strong><code>allow_extended</code></strong> — first line opts this file into Extended features (<code>spawn</code>). <strong>Statement <code>spawn</code></strong> — no handle; work runs on the task pool while <code>main</code> continues (output <code>0</code> may appear before <code>42</code> from the task). <code>spawn</code> and <code>spawn:task</code> are equivalent.</p>
+
+<h4 class="builtin-ex-title" id="ex-spawn-thread"><code>spawn:thread</code> (OS thread)</h4>
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>allow_extended
+fn main() {
+    let h = spawn:thread {
+        print(88)
+    }
+    h.join()
+    print(1)
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>allow_extended
+fn main() -&gt; void {
+    let h = spawn:thread {
+        print(88)
+    }
+    h.join()
+    print(1)
+}</code></pre></div>
+</div>
+<p class="example-output-label">Output</p>
+<pre class="example-output"><code>88
+1</code></pre>
+<p><strong><code>spawn:thread</code></strong> — creates a real OS thread (~MB stack). <strong><code>let h = …</code></strong> — expression form returns <code>JoinHandle</code>. <strong><code>h.join()</code></strong> — blocks until the thread prints <code>88</code>, then <code>main</code> prints <code>1</code>. Order is deterministic here because of <code>join</code>.</p>
+
+<h4 class="builtin-ex-title" id="ex-spawn-join"><code>JoinHandle.join()</code></h4>
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>allow_extended
+fn main() {
+    let h = spawn {
+        print(99)
+    }
+    h.join()
+    print(0)
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>allow_extended
+fn main() -&gt; void {
+    let h = spawn {
+        print(99)
+    }
+    h.join()
+    print(0)
+}</code></pre></div>
+</div>
+<p class="example-output-label">Output</p>
+<pre class="example-output"><code>99
+0</code></pre>
+<p>This example shows the <strong>expression + join</strong> pattern on the default <strong>task pool</strong> (<code>spawn { }</code> without <code>:thread</code>):</p>
+<ul>
+  <li><code>let h = spawn { … }</code> — starts a lightweight task and stores a <code>JoinHandle</code> in <code>h</code>.</li>
+  <li><code>h.join()</code> — blocks until the task body finishes (here, after <code>print(99)</code>). The handle is <strong>moved</strong>; a second <code>h.join()</code> would be a compile error.</li>
+  <li><code>print(0)</code> runs only after the task completes — hence output order <code>99</code> then <code>0</code>.</li>
+</ul>
+<p>Contrast with the <a href="#ex-spawn">statement example</a>: bare <code>spawn { … }</code> without assigning to a handle does <strong>not</strong> wait. Use <code>.join()</code> when you need happens-before ordering or must read shared results after background work.</p>
 
 <h4 class="builtin-ex-title" id="ex-for-in"><code>for s in split_list</code></h4>
 <div class="code-tabs" data-code-tabs>
@@ -1369,7 +1471,7 @@ fn main() -&gt; void {
 </div>
 <p class="example-output-label">Output</p>
 <pre class="example-output"><code>(varies each run — ChaCha20 stream)
-0.186063
+0.596374
 …</code></pre>
 
 <h4 class="builtin-ex-title" id="ex-math-round"><code>Math_round</code></h4>
@@ -1392,7 +1494,7 @@ fn main() -&gt; void {
 <p class="example-output-label">Output</p>
 <pre class="example-output"><code>7</code></pre>
 
-<h4 class="builtin-ex-title" id="ex-random"><code>random / Random / random_range / random_f64</code></h4>
+<h4 class="builtin-ex-title" id="ex-random"><code>random / random_f64</code></h4>
 <div class="code-tabs" data-code-tabs>
   <div class="code-tabs-bar" role="tablist">
     <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
@@ -1402,25 +1504,28 @@ fn main() -&gt; void {
 
 fn main() {
     print(random())
-    print(Random())
-    print(random_range(1, 6))
+    print(random(1, 6))
     print(random_f64())
+    print(random_f64(0.0, 1.0))
 }</code></pre></div>
   <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>import &quot;stdlib/random.ny&quot;
 
 fn main() {
     print(random())
-    print(Random())
-    print(random_range(1, 6))
+    print(random(1, 6))
+    let min: i64 = 50
+    let max: i64 = 100
+    print(random(min, max))
     print(random_f64())
+    print(random_f64(0.0, 1.0))
 }</code></pre></div>
 </div>
 <p class="example-output-label">Output</p>
 <pre class="example-output"><code>(varies each run — ChaCha20 stream)
--1215619282
-974859375
+-1606881436
 6
-0.307241
+0.451006
+0.846264
 …</code></pre>
 
 <h4 class="builtin-ex-title" id="ex-string-includes"><code>String_includes</code></h4>

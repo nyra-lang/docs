@@ -387,7 +387,7 @@ fn main() {
           <tr><td><code>stdlib/crypto/mod.ny</code></td><td><code>random_bytes</code>, <code>sha256</code>, <code>sha512</code>, <code>hmac_sha256</code>, <code>aes_encrypt</code>/<code>aes_decrypt</code> — portable C in <code>rt_crypto.c</code>/<code>rt_aes.c</code></td></tr>
           <tr><td><code>stdlib/crypto/rsa.ny</code></td><td><code>rsa_encrypt_pem</code>, <code>rsa_sign_sha256_pem</code> (OpenSSL when linked)</td></tr>
           <tr><td><code>stdlib/crypto/x509.ny</code></td><td><code>x509_subject</code>, <code>x509_valid_now</code> (OpenSSL)</td></tr>
-          <tr><td><code>stdlib/random.ny</code></td><td><code>random</code>, <code>Random</code>, <code>random_range</code>, <code>random_f64</code>, <code>shuffle_pick</code> — ChaCha20 CSPRNG, hardware-seeded (<code>rt_random.c</code>)</td></tr>
+          <tr><td><code>stdlib/random.ny</code></td><td><code>random</code>, <code>random(min, max)</code>, <code>random_f64</code>, <code>shuffle_pick</code> — ChaCha20 CSPRNG (<code>rt_random.c</code>)</td></tr>
           <tr><td><code>stdlib/uuid/mod.ny</code></td><td><code>UUID_v4()</code> (MVP formatting)</td></tr>
           <tr><td><code>stdlib/encoding/mod.ny</code></td><td><code>hex_encode_byte</code>, <code>url_encode</code></td></tr>
           <tr><td><code>stdlib/encoding/base64.ny</code></td><td><code>base64_encode</code>, <code>base64_decode</code> — pure Nyra</td></tr>
@@ -405,14 +405,16 @@ fn main() {
       <p>Examples: <code>examples/crypto/sha256.ny</code> · <code>examples/compress/gzip_roundtrip.ny</code> · <code>examples/stdlib_medium_smoke.ny</code> · <code>examples/builtins/stdlib/random.ny</code></p>
 
       <h2 id="random">Random (ChaCha20, hardware-seeded)</h2>
-      <p><code>import "stdlib/random.ny"</code> — fast everyday RNG for games, simulations, and shuffling. The runtime seeds a <strong>ChaCha20</strong> stream from OS/hardware entropy (<code>getentropy</code>, <code>arc4random_buf</code>, <code>BCryptGenRandom</code>, Intel <code>RDRAND</code> when available, else <code>/dev/urandom</code>). No runtime type info; LLVM can dead-strip unused helpers.</p>
+      <p><code>random()</code>, <code>random(min, max)</code>, <code>random_f64()</code>, and <code>random_f64(min, max)</code> are <strong>compiler builtins</strong> (ChaCha20, hardware-seeded). Integer <code>random</code> is <strong>generic</strong> — return type follows the bounds (Rust <code>gen_range</code> style): <code>i32</code>, <code>i64</code>, <code>u64</code>, etc. No-arg <code>random()</code> defaults to <code>i32</code>; use <code>random&lt;i64&gt;()</code> for other widths. <code>import "stdlib/random.ny"</code> for <code>shuffle_pick</code>.</p>
       <table>
-        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <thead><tr><th>Call</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>random()</code> / <code>Random()</code></td><td>Random <code>i32</code> — JS-style alias <code>Random()</code> matches familiar naming</td></tr>
-          <tr><td><code>random_range(min, max)</code></td><td>Inclusive <code>i32</code> range; rejection sampling avoids modulo bias</td></tr>
+          <tr><td><code>random()</code></td><td>Random <code>i32</code> — full 32-bit stream</td></tr>
+          <tr><td><code>random(min, max)</code></td><td>Inclusive integer range; type inferred from bounds (rejection sampling, no modulo bias)</td></tr>
+          <tr><td><code>random&lt;T&gt;()</code> / <code>random&lt;T&gt;(min, max)</code></td><td>Explicit integer type (<code>i64</code>, <code>u64</code>, …)</td></tr>
           <tr><td><code>random_f64()</code></td><td>Random <code>f64</code> in <code>[0, 1)</code> — 53-bit precision</td></tr>
-          <tr><td><code>shuffle_pick(vec)</code></td><td>Random element from an <code>i32</code> vector handle</td></tr>
+          <tr><td><code>random_f64(min, max)</code></td><td>Random <code>f64</code> in <code>[min, max)</code></td></tr>
+          <tr><td><code>shuffle_pick(vec)</code></td><td>Random element from an <code>i32</code> vector handle (import required)</td></tr>
         </tbody>
       </table>
       <p><code>Math_random()</code> from <code>stdlib/builtins_math.ny</code> delegates to the same <code>rand_f64()</code> backend. For raw OS TRNG bytes (tokens, keys), use <a href="os-hardware.html#security"><code>hw_random_bytes</code></a> or <code>stdlib/crypto/random.ny</code> → <code>random_bytes</code>.</p>
@@ -425,20 +427,22 @@ fn main() {
   <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>import "stdlib/random.ny"
 
 fn main() {
-    let dice = random_range(1, 6)
+    let dice = random(1, 6)
     let unit = random_f64()
-    print(Random())
+    print(random())
     print(dice)
     print(unit)
+    print(random_f64(0.0, 1.0))
 }</code></pre></div>
   <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>import "stdlib/random.ny"
 
 fn main() {
-    let dice = random_range(1, 6)
+    let dice = random(1, 6)
     let unit = random_f64()
-    print(Random())
+    print(random())
     print(dice)
     print(unit)
+    print(random_f64(0.0, 1.0))
 }</code></pre></div>
 </div><!-- NYRA_SNIPPET_END -->
       <p>Example: <code>examples/builtins/stdlib/random.ny</code> · tests: <code>tests/nyra/random_test.ny</code></p>
@@ -616,7 +620,7 @@ fn main() {
           <tr><td><code>stdlib/option.ny</code></td><td><code>Option</code> helpers — see <a href="match.html">Match</a></td></tr>
           <tr><td><code>stdlib/box.ny</code></td><td>Heap box — see <a href="memory.html">Memory</a></td></tr>
           <tr><td><code>stdlib/math.ny</code></td><td><code>abs_i32</code>, <code>pow_i32</code>, <code>sqrt_i32</code>, <code>sin</code>, <code>cos</code>, <code>atan2</code>, <code>tan</code> (<code>rt_math.c</code> / libm)</td></tr>
-          <tr><td><code>stdlib/random.ny</code></td><td><code>random</code>, <code>Random</code>, <code>random_range</code>, <code>random_f64</code> — ChaCha20 + HW seed</td></tr>
+          <tr><td><code>stdlib/random.ny</code></td><td><code>shuffle_pick</code>; builtins <code>random</code>, <code>random_f64</code></td></tr>
           <tr><td><code>stdlib/terminal/raw.ny</code></td><td><code>terminal_raw_on</code>, <code>terminal_read_key</code></td></tr>
           <tr><td><code>stdlib/time/fixed_step.ny</code></td><td><code>FixedStep_new</code>, <code>FixedStep_tick</code></td></tr>
           <tr><td><code>stdlib/testing.ny</code></td><td><code>assert_eq</code>, <code>assert_ne</code>, <code>assert_true</code>, <code>assert</code>, <code>assert_bool</code> — see <a href="#testing">testing</a></td></tr>
@@ -1161,6 +1165,7 @@ fn main() -&gt; void {
     print(0)
 }</code></pre></div>
 </div>
+<p><strong><code>allow_extended</code></strong> — required at file top when using <code>spawn</code> (Extended tier); suppresses W001 and documents intent. <strong>Statement <code>spawn</code></strong> — fire-and-forget on the task pool; <code>main</code> does not wait for the spawned body.</p>
 
 <h4 class="builtin-ex-title" id="ex-examples-builtins-split-list-for-in-ny"><code>examples/builtins/split_list/for_in.ny</code></h4>
 <div class="code-tabs" data-code-tabs>
@@ -1566,17 +1571,20 @@ fn main() -&gt; void {
 
 fn main() {
     print(random())
-    print(Random())
-    print(random_range(1, 6))
+    print(random(1, 6))
     print(random_f64())
+    print(random_f64(0.0, 1.0))
 }</code></pre></div>
   <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>import &quot;stdlib/random.ny&quot;
 
 fn main() {
     print(random())
-    print(Random())
-    print(random_range(1, 6))
+    print(random(1, 6))
+    let min: i64 = 50
+    let max: i64 = 100
+    print(random(min, max))
     print(random_f64())
+    print(random_f64(0.0, 1.0))
 }</code></pre></div>
 </div>
 
@@ -2163,10 +2171,9 @@ fn main() {
       <table>
         <thead><tr><th>Function</th><th>Description</th><th>Example</th></tr></thead>
         <tbody>
-          <tr><td><code>random()</code> / <code>Random()</code></td><td>Random <code>i32</code> (ChaCha20, HW-seeded)</td><td><code>examples/builtins/stdlib/random.ny</code></td></tr>
-          <tr><td><code>random_range(min, max)</code></td><td>Inclusive range, unbiased</td><td><code>examples/builtins/stdlib/random.ny</code></td></tr>
-          <tr><td><code>random_f64()</code></td><td>Unit interval <code>f64</code>, 53-bit</td><td><code>examples/builtins/stdlib/random.ny</code></td></tr>
-          <tr><td><code>shuffle_pick(vec)</code></td><td>Random <code>i32</code> from vector</td><td>—</td></tr>
+          <tr><td><code>random()</code> / <code>random(min, max)</code></td><td>Generic integer random (ChaCha20, HW-seeded)</td><td><code>examples/builtins/stdlib/random.ny</code></td></tr>
+          <tr><td><code>random_f64()</code> / <code>random_f64(min, max)</code></td><td>Unit or range <code>f64</code></td><td><code>examples/builtins/stdlib/random.ny</code></td></tr>
+          <tr><td><code>shuffle_pick(vec)</code></td><td>Random <code>i32</code> from vector (import required)</td><td>—</td></tr>
         </tbody>
       </table>
       <p>See also <a href="#random">Random (ChaCha20)</a> · <a href="os-hardware.html#security">Hardware TRNG</a></p>

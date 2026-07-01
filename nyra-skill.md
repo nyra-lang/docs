@@ -6,7 +6,7 @@
 Use this file as the **sole authoritative reference** for Nyra syntax, semantics, stdlib, toolchain, PGO, and escape analysis.
 Do not invent features not listed here. Supplementary guides live at **https://nyra-lang.github.io/docs/**.
 
-> **Project status — v1.39.x production-ready tier:** **Core** and **Stable Extended** (async, traits, macros, lifetimes, defer, serde, `?`, spawn, enum payloads) ship **without W001**. Prebuilt Linux, macOS, and Windows releases. See [Stability](#stability-v10) · [roadmap](https://nyra-lang.github.io/docs/roadmap.html).
+> **Project status — v1.39.x production-ready tier:** **Core** and **Stable Extended** (async, traits, macros, lifetimes, defer, serde, `?`, `spawn` / `spawn:task` / `spawn:thread`, `JoinHandle`, enum payloads, generic `random()`) ship **without W001**. Prebuilt Linux, macOS, and Windows releases. See [Stability](#stability-v10) · [roadmap](https://nyra-lang.github.io/docs/roadmap.html).
 
 ## Table of contents
 
@@ -106,7 +106,7 @@ Nyra has **two shipped tiers** (see [roadmap & stability](https://nyra-lang.gith
 | Tier | Status | Examples | CI flag |
 |------|--------|----------|---------|
 | **Core** | Semver-stable | types, control flow, `match`, tag-only enums, `impl`, ownership, FFI, `unsafe`/`no_std`, monomorph generics (`fn id<T>`, `Vec_i32`), optional annotations | `nyra check --deny-extended` |
-| **Stable Extended** | Shipped in v1.39+ **without W001** in default builds | enum payloads, `async`/`await`, traits, `dyn`, macros, `defer`, explicit lifetimes, `spawn`, arrow fns, spread | default `nyra build` |
+| **Stable Extended** | Shipped in v1.39+ **without W001** in default builds | enum payloads, `async`/`await`, traits, `dyn`, macros, `defer`, explicit lifetimes, `spawn` / `spawn:task` / `spawn:thread`, `JoinHandle`, arrow fns, spread, compiler `random()` | default `nyra build` |
 
 - **Legacy note:** older docs called Extended "experimental" with **`warning[W001]`**. Current production tier (v1.39.x) ships Extended features in prebuilt releases; use `--deny-extended` only for Core-only CI gates.
 - **Core-stable generics:** `fn id<T>`, `Option<T>`, `Result<T,E>`, `Arc<T>`, `Box<T>` monomorph at compile time.
@@ -355,7 +355,8 @@ Quick lookup for syntax the lexer and parser accept today. Types are optional un
 | `extern` / `export` | FFI declare / export C symbol |
 | `test` | Test function |
 | `print` | Built-in stdout; optional `color:` |
-| `spawn` | Concurrent block (Extended) |
+| `spawn` / `spawn:task` / `spawn:thread` | Concurrent block — task pool (default) or OS thread (Extended) |
+| `allow_extended` | File directive — marks Extended-tier unit (see [spawn](#spawn--spawntask--spawnthread-extended--no-import-keyword)) |
 | `parallel for` | Parallel loop over range or array (Extended) |
 | `progress for` | Progress bar loop (Extended) |
 | `benchmark` | Timed block with Time/Memory/CPU report (Extended) |
@@ -418,7 +419,9 @@ for c in "hi" { print(c) }       // char codes per byte
 return x
 print("ok", color: green)
 defer close_handle(h)          // Extended — prefer impl Drop RAII when possible
-spawn { print(1) }               // Extended
+allow_extended                   // optional file directive when using Extended APIs
+spawn { print(1) }               // Extended — default = task pool; use spawn:thread for OS thread
+let h = spawn { work() }         // returns JoinHandle; h.join() blocks until done
 unsafe { let p = &x as *i32; *p = 7 }
 import "stdlib/fs.ny"
 ```
@@ -1018,7 +1021,7 @@ Further builtins reference: [https://nyra-lang.github.io/docs/methods.html](http
 
 | Category | Import? | Receiver / type |
 |----------|---------|-----------------|
-| I/O, `date()`, timing, `spawn`, `parallel for`, math intrinsics | **No** | Global functions |
+| I/O, `date()`, timing, `spawn`, `JoinHandle.join()`, `parallel for`, `random()` / `random_f64()` | **No** | Global functions / methods |
 | String `.split()` / `.trim()` / … | **No** | `string` — borrows receiver |
 | Fixed array `.len()` / `.sort()` / `.sort_by()` | **No** | `[T; N]` |
 | Split list `.len()` / `for s in parts` | **No** | result of `.split()` |
@@ -1226,15 +1229,74 @@ mem_start("label")
 mem_end("label")     // prints RSS delta (platform-dependent)
 ```
 
-### `spawn { }` (Extended — no import keyword)
+### `spawn { }` / `spawn:task` / `spawn:thread` (Extended — no import keyword)
 
-Runs block on new thread. Captures must be **Send**; no `&` captures.
+**Platform:** native Linux, macOS, Windows only — **`spawn` is a compile error on `wasm32-wasi`**. Requires runtime link (`nyra_rt`); rejected in `no_std`.
+
+#### File directive: `allow_extended`
+
+Put on the **first line** of a file (before `fn` / imports) when the unit uses Extended-tier APIs (`spawn`, `parallel for`, `async`, `defer`, …):
 
 ```ny
-spawn {
-    print(42)
+allow_extended
+```
+
+| What | Detail |
+|------|--------|
+| **Purpose** | Documents that this file intentionally uses **Stable Extended** features |
+| **Effect today (v1.39+)** | Extended ships **without `warning[W001]`** in default builds — `spawn` compiles with or without the directive |
+| **When skipped** | If `extended_tier_warnings` runs, files **without** `allow_extended` may get W001 for Extended syntax; files **with** it suppress W001 in that unit |
+| **CI** | Pair with `nyra check --deny-extended` for Core-only gates (converts W001 → error when preview warnings return) |
+| **Scope** | One line per **compilation unit** — not per-function |
+
+**Not a compile switch:** `allow_extended` does **not** enable `spawn`; it declares intent and integrates with stability warnings. Omit it in Core-only tutorials.
+
+#### Task pool vs OS thread
+
+| Syntax | Backend | When to use |
+|--------|---------|-------------|
+| `spawn { }` | **Task pool** (default) | Many concurrent jobs — queued on global workers (~`cpu_count()`); queue cap 65k; cheap (bytes–KB bookkeeping) |
+| `spawn:task { }` | **Task pool** (alias) | Same as bare `spawn` |
+| `spawn:thread { }` | **OS thread** | Blocking I/O, isolation, or true 1:1 thread (~MB stack); `pthread` / `CreateThread` |
+
+Captures must be **Send**; no `&` / `&mut` captures.
+
+#### `JoinHandle` and `.join()`
+
+| Form | Syntax | Waits? |
+|------|--------|--------|
+| **Statement** | `spawn { … }` | **No** — fire-and-forget; runtime detaches immediately |
+| **Expression** | `let h = spawn { … }` | Returns opaque **`JoinHandle`** (not printable) |
+| **Join** | `h.join()` | **Yes** — blocks caller until work finishes; **consumes** `h` (move; no second `.join()`) |
+| **Drop** | `h` goes out of scope unused | **No** — same as statement form (detach) |
+
+`.join()` — method on `JoinHandle`; signature `h.join() -> void`; **no arguments**. Codegen calls `spawn_task_join` or `spawn_join` depending on whether the handle came from `spawn`/`spawn:task` or `spawn:thread`.
+
+```ny
+allow_extended
+
+fn main() {
+    // Task pool (default) — output order: 99, then 0
+    let h = spawn {
+        print(99)
+    }
+    h.join()
+    print(0)
+
+    // Fire-and-forget — main does not wait
+    spawn {
+        print("background")
+    }
+
+    // OS thread when you need real thread isolation
+    let t = spawn:thread {
+        blocking_syscall()
+    }
+    t.join()
 }
 ```
+
+**Async note:** `async fn` desugar runs the state machine body on **`spawn:thread`** internally (blocking `async_await` inside spawn remains possible).
 
 Channels: `stdlib/sync/channel.ny`
 
@@ -1324,7 +1386,7 @@ fn main() {
 
 | Topic | Behavior |
 |-------|----------|
-| **`async fn` desugar (v1.5)** | Body runs in `spawn`; call site gets promise handle immediately |
+| **`async fn` desugar (v1.5)** | Body runs on **`spawn:thread`**; call site gets promise handle immediately |
 | **State machine (v1.6–v1.7)** | Top-level `await` in `async fn`; **`await` inside `if` / `while` / range `for`** (CFG lowering) |
 | **`await` in `spawn` / `unsafe`** | Uses blocking `async_await` — not cooperative |
 | **Runtime symbols** | `async_promise_new`, `async_promise_complete`, `async_poll`, `async_await`, `runtime_executor_tick` |
@@ -1336,13 +1398,14 @@ fn main() {
 
 ## Concurrency & sync primitives
 
-Beyond `spawn { }` and `parallel for` (see [I/O & builtins](#io--builtins)):
+Beyond `spawn { }` / `spawn:task` / `spawn:thread` and `parallel for` (see [I/O & builtins](#io--builtins)):
 
 ### Send / Sync (spawn captures)
 
 | Rule | Detail |
 |------|--------|
 | **`spawn` captures** | Must be **Send**; **no `&` / `&mut` captures** |
+| **`JoinHandle`** | **Send**, not **Sync** (move between threads; do not share by reference) |
 | **Shared refs across threads** | Inner type must be **Sync** |
 | **Active borrows** | Rejected in closure env |
 
@@ -1379,7 +1442,10 @@ import "stdlib/sync/atomic.ny"
 
 | Symbol | Role |
 |--------|------|
-| `spawn_capture` | Thread spawn with heap capture copy |
+| `spawn_capture` | OS thread (`spawn:thread`); returns `JoinHandle` |
+| `spawn_join` / `spawn_handle_drop` | Join / detach OS thread handle |
+| `spawn_task_capture` | Task pool (`spawn` / `spawn:task`); returns `JoinHandle` |
+| `spawn_task_join` / `spawn_task_handle_drop` | Join / fire-and-forget task handle |
 | `parallel_for_range` | Fork-join `parallel for` |
 | `progress_update` / `progress_finish` | Progress bar |
 
@@ -1421,7 +1487,23 @@ import "stdlib/builtins_string.ny"
 
 Prefer built-in `.split()` / `.trim()` on `string` when you do not need the import.
 
-### `stdlib/random.ny` — ChaCha20 CSPRNG (hardware-seeded)
+### Random — compiler builtins (no import)
+
+`random()` / `random(min, max)` and `random_f64()` / `random_f64(min, max)` are **compiler builtins** (ChaCha20 CSPRNG in `stdlib/rt/rt_random.c`). **No import required.**
+
+| Call | Returns | Notes |
+|------|---------|-------|
+| `random()` | `i32` by default | Full-range integer |
+| `random(min, max)` | **Generic integer** | Return type follows bounds (`i32`, `i64`, `u64`, …); inclusive range; rejection sampling (no modulo bias) |
+| `random<T>()` / `random<T>(min, max)` | `T` | Explicit type when inference is ambiguous |
+| `random_f64()` | `f64` | Unit interval `[0, 1)` — 53-bit precision |
+| `random_f64(min, max)` | `f64` | Half-open `[min, max)` |
+
+**Removed (v1.39):** `Random()` alias and `random_range()` as public API — use `random()` / `random(min, max)` instead.
+
+Seeding: OS/hardware entropy (`getentropy`, `arc4random`, `BCryptGenRandom`, `RDRAND` when available). Raw TRNG bytes: `stdlib/os/hw_crypto.ny` → `hw_random_bytes`.
+
+### `stdlib/random.ny` — shuffle helper (import required)
 
 ```ny
 import "stdlib/random.ny"
@@ -1429,11 +1511,9 @@ import "stdlib/random.ny"
 
 | Function | Description |
 |----------|-------------|
-| `random()` / `Random()` | Random `i32` — ChaCha20 stream seeded from OS/hardware entropy |
-| `random_range(min, max)` | Inclusive range with rejection sampling (no modulo bias) |
-| `random_f64()` | Random `f64` in `[0, 1)` — 53-bit precision |
+| `shuffle_pick(vec)` | Random element from an `i32` vector handle |
 
-Seeding uses `getentropy` / `arc4random_buf` / `BCryptGenRandom` / Intel `RDRAND` (when available), mixed into ChaCha20. For raw OS TRNG bytes use `stdlib/os/hw_crypto.ny` → `hw_random_bytes`.
+The module re-exports the same ChaCha20 runtime; **`random()` itself is a builtin** — import only for `shuffle_pick`.
 
 ### `stdlib/builtins_math.ny` — JS-style math
 
@@ -1908,7 +1988,7 @@ fn main() {
 | `stdlib/process.ny` | `exec(program, args)`, `Command` |
 | `stdlib/collections/set.ny` | `HashSet_str` — `.insert`, `.contains` |
 
-**Low-level runtime** (still valid): `read_file`, `vec_i32_*`, `map_str_i32_*`, `channel_*`, `bridge_exec`, `spawn { }`.
+**Low-level runtime** (still valid): `read_file`, `vec_i32_*`, `map_str_i32_*`, `channel_*`, `bridge_exec`, `spawn { }`, `spawn:thread { }`, `h.join()`.
 
 Crypto, SQLite, WebSocket, gzip, and full serde are **stdlib domains** — native implementations in `stdlib/rt/`; NyraPkg remains for community extensions.
 
@@ -2413,7 +2493,7 @@ in repo.
 - **`?` operator** — `Result`/`Option` propagate on `let`/`const`/`return`/expr stmt, nested expressions (`print(f()?)`, call args), `return match` arm bodies, and `let n = match { Ok(v) => f(v)?, … }`. Enclosing function must return the same enum for propagation; in `void` test fns the inner `Err` payload becomes the `i32` binding. `??` nullish coalesce and `?.` optional chain are separate.
 - No **`defer free(x)`** for owned `string` — auto-drop handles it; use **`impl Drop` RAII** for handles, not `defer`, when possible (`defer` is Extended).
 - No `extern export fn` — use `extern fn` or `export fn` separately.
-- Async/`await`: promise handles + **executor v1.4** + **state-machine v1.6** + **v1.7 CFG** (`await` in `if`/`while`/range `for`). `spawn`/`unsafe` with `await` still blocking. **`nyra build --race`** enables TSan. See [async guide](https://nyra-lang.github.io/docs/async.html).
+- Async/`await`: promise handles + **executor v1.4** + **state-machine v1.6** + **v1.7 CFG** (`await` in `if`/`while`/range `for`). `async fn` body runs on **`spawn:thread`**. `spawn`/`unsafe` with `await` still blocking. **`JoinHandle.join()`** blocks on task/thread completion. **`nyra build --race`** enables TSan. See [async guide](https://nyra-lang.github.io/docs/async.html) · [concurrency](https://nyra-lang.github.io/docs/concurrency.html).
 - **Struct JSON** — `{Struct}_json_encode/decode` after monomorph; fields: `string`/`i32`/`bool`/nested struct/**`ptr` Vec_i32/fixed `[T; N]`**.
 - **`Serialize` trait (v1.38+)** — `u.to_json()` / `u.to_bytes()`; import `stdlib/serde/mod.ny` for trait defs; decode via `{Struct}_json_decode`.
 - Arrow functions are **Extended** tier — use `nyra check --deny-extended` in Core-only CI if you avoid them.
@@ -2444,7 +2524,7 @@ Stable codes — explain with `nyra explain E003` or `nyra explain --list`. JSON
 
 | Code | Title | Fix |
 |------|-------|-----|
-| **W001** | extended tier feature | Remove feature or drop `--deny-extended` |
+| **W001** | extended tier feature | Add `allow_extended` at file top, remove Extended syntax, or drop `--deny-extended` |
 | **W002** | unused import | Remove import or `nyra pkg prune` |
 | **W003** | unused variable | Prefix `_` or remove |
 

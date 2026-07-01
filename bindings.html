@@ -192,7 +192,7 @@
 <tr><td><code>async_promise_complete</code></td><td><code>void async_promise_complete(int handle, int value)</code></td><td><code>rt_async.c</code></td><td>0.2.0</td><td>stdlib/async.ny, stdlib/async_v1.ny</td></tr>
 <tr><td><code>async_promise_complete_bool</code></td><td><code>void async_promise_complete_bool(int handle, int value)</code></td><td><code>rt_async.c</code></td><td>1.22.0</td><td>stdlib/async/future.ny</td></tr>
 <tr><td><code>async_promise_complete_ptr</code></td><td><code>void async_promise_complete_ptr(int handle, void *value)</code></td><td><code>rt_async.c</code></td><td>1.22.0</td><td>stdlib/async/future.ny</td></tr>
-<tr><td><code>async_promise_new</code></td><td><code>int async_promise_new(void)</code></td><td><code>rt_async.c</code></td><td>0.2.0</td><td>stdlib/async.ny, stdlib/async_v1.ny, stdlib/net/poll.ny</td></tr>
+<tr><td><code>async_promise_new</code></td><td><code>int async_promise_new(void)</code></td><td><code>rt_async.c</code></td><td>0.2.0</td><td>stdlib/async.ny, stdlib/async_v1.ny, stdlib/net/poll.ny, stdlib/os/event_loop.ny</td></tr>
 <tr><td><code>async_run</code></td><td><code>int async_run(int result)</code></td><td><code>rt_async.c</code></td><td>0.2.0</td><td>stdlib/async.ny</td></tr>
 <tr><td><code>async_select2_bool</code></td><td><code>int async_select2_bool(int h0, int h1, int *out_index)</code></td><td><code>rt_async.c</code></td><td>1.26.0</td><td>—</td></tr>
 <tr><td><code>async_select2_i32</code></td><td><code>int async_select2_i32(int h0, int h1, int *out_index)</code></td><td><code>rt_async.c</code></td><td>1.26.0</td><td>—</td></tr>
@@ -274,7 +274,7 @@
 <tr><td><code>i64_to_string</code></td><td><code>char *i64_to_string(long long n)</code></td><td><code>rt_strings.c</code></td><td>1.17.0</td><td>stdlib/strings.ny</td></tr>
 <tr><td><code>instant_elapsed_ms</code></td><td><code>int instant_elapsed_ms(int64_t start)</code></td><td><code>rt_time.c</code></td><td>1.1.0</td><td>stdlib/time/instant.ny</td></tr>
 <tr><td><code>instant_now</code></td><td><code>int64_t instant_now(void)</code></td><td><code>rt_time.c</code></td><td>1.1.0</td><td>stdlib/time/date.ny, stdlib/time/instant.ny</td></tr>
-<tr><td><code>io_register</code></td><td><code>int io_register(int fd, int task_id)</code></td><td><code>rt_async.c</code></td><td>0.2.0</td><td>stdlib/net/poll.ny</td></tr>
+<tr><td><code>io_register</code></td><td><code>int io_register(int fd, int task_id)</code></td><td><code>rt_async.c</code></td><td>0.2.0</td><td>stdlib/net/poll.ny, stdlib/os/event_loop.ny, stdlib/terminal/pty.ny</td></tr>
 <tr><td><code>io_wait_once</code></td><td><code>int io_wait_once(int timeout_ms)</code></td><td><code>rt_async.c</code></td><td>0.2.0</td><td>stdlib/net/poll.ny</td></tr>
 <tr><td><code>json_decode_i32_array</code></td><td><code>void *json_decode_i32_array(const char *array_json)</code></td><td><code>rt_json.c</code></td><td>1.3.4</td><td>stdlib/json/mod.ny</td></tr>
 <tr><td><code>json_decode_ptr_token</code></td><td><code>void *json_decode_ptr_token(const char *json, const char *key)</code></td><td><code>rt_json.c</code></td><td>1.9.0</td><td>stdlib/json/mod.ny</td></tr>
@@ -322,7 +322,7 @@
 <tr><td><code>os_arg_count</code></td><td><code>int os_arg_count(void)</code></td><td><code>rt_args.c</code></td><td>1.3.0</td><td>stdlib/fs/file.ny, stdlib/fs.ny</td></tr>
 <tr><td><code>parallel_for_range</code></td><td><code>void parallel_for_range(int32_t start, int32_t end, void (*body)(int32_t, void *), void *ctx, int32_t max_workers, int32_t exact_workers, int32_t mode, int32_t cpu_percent)</code></td><td><code>rt_parallel.c</code></td><td>1.3.0</td><td>—</td></tr>
 <tr><td><code>path_is_dir</code></td><td><code>int path_is_dir(const char *path)</code></td><td><code>rt_fs.c</code></td><td>1.3.0</td><td>stdlib/fs/file.ny, stdlib/fs.ny, stdlib/gui/picker.ny</td></tr>
-<tr><td><code>println</code></td><td><code>int println(const char *msg)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>stdlib/io.ny</td></tr>
+<tr><td><code>println</code></td><td><code>int println(const char *msg)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>—</td></tr>
 <tr><td><code>process_exit</code></td><td><code>void process_exit(int code)</code></td><td><code>rt_args.c</code></td><td>1.3.0</td><td>stdlib/flag/mod.ny, stdlib/process/exit.ny</td></tr>
 <tr><td><code>progress_finish</code></td><td><code>void progress_finish(void)</code></td><td><code>rt_progress.c</code></td><td>1.3.0</td><td>—</td></tr>
 <tr><td><code>progress_update</code></td><td><code>void progress_update(int32_t current, int32_t total, const char *label)</code></td><td><code>rt_progress.c</code></td><td>1.3.0</td><td>—</td></tr>
@@ -338,9 +338,9 @@
 <tr><td><code>pty_spawn</code></td><td><code>int pty_spawn(const char *shell, int rows, int cols)</code></td><td><code>rt_pty.c</code></td><td>1.3.0</td><td>stdlib/terminal/pty.ny</td></tr>
 <tr><td><code>pty_wait</code></td><td><code>int pty_wait(int master)</code></td><td><code>rt_pty.c</code></td><td>1.3.0</td><td>stdlib/terminal/pty.ny</td></tr>
 <tr><td><code>pty_write</code></td><td><code>int pty_write(int master, const char *data)</code></td><td><code>rt_pty.c</code></td><td>1.3.0</td><td>stdlib/terminal/pty.ny</td></tr>
-<tr><td><code>rand_f64</code></td><td><code>double rand_f64(void)</code></td><td><code>rt_random.c</code></td><td>1.16.0</td><td>stdlib/random.ny</td></tr>
-<tr><td><code>rand_i32</code></td><td><code>int rand_i32(void)</code></td><td><code>rt_random.c</code></td><td>1.1.0</td><td>stdlib/random.ny</td></tr>
-<tr><td><code>rand_range</code></td><td><code>int rand_range(int min_val, int max_val)</code></td><td><code>rt_random.c</code></td><td>1.1.0</td><td>stdlib/builtins_math.ny, stdlib/random.ny</td></tr>
+<tr><td><code>rand_f64</code></td><td><code>double rand_f64(void)</code></td><td><code>rt_random.c</code></td><td>1.16.0</td><td>stdlib/builtins_math.ny</td></tr>
+<tr><td><code>rand_i32</code></td><td><code>int rand_i32(void)</code></td><td><code>rt_random.c</code></td><td>1.1.0</td><td>—</td></tr>
+<tr><td><code>rand_range</code></td><td><code>int rand_range(int min_val, int max_val)</code></td><td><code>rt_random.c</code></td><td>1.1.0</td><td>stdlib/random.ny</td></tr>
 <tr><td><code>random_hex</code></td><td><code>char *random_hex(int byte_count)</code></td><td><code>rt_random.c</code></td><td>1.1.0</td><td>stdlib/crypto/random.ny, stdlib/uuid/mod.ny</td></tr>
 <tr><td><code>read_file</code></td><td><code>char *read_file(const char *path)</code></td><td><code>rt_fs.c</code></td><td>0.2.0</td><td>stdlib/compress/mod.ny, stdlib/fs/file.ny, stdlib/fs.ny</td></tr>
 <tr><td><code>read_file_limit</code></td><td><code>char *read_file_limit(const char *path, int max_bytes)</code></td><td><code>rt_fs.c</code></td><td>1.13.0</td><td>stdlib/fs/file.ny, stdlib/fs.ny</td></tr>
@@ -427,12 +427,12 @@
 <tr><td><code>stdin_read_key</code></td><td><code>int stdin_read_key(void)</code></td><td><code>rt_io.c</code></td><td>1.16.0</td><td>stdlib/terminal/raw.ny</td></tr>
 <tr><td><code>stdin_read_line</code></td><td><code>char *stdin_read_line(const char *prompt)</code></td><td><code>rt_io.c</code></td><td>1.1.0</td><td>stdlib/bufio/mod.ny, stdlib/terminal/mod.ny</td></tr>
 <tr><td><code>stdin_set_raw_mode</code></td><td><code>void stdin_set_raw_mode(int enable)</code></td><td><code>rt_io.c</code></td><td>1.16.0</td><td>stdlib/terminal/raw.ny</td></tr>
-<tr><td><code>stdout_flush</code></td><td><code>void stdout_flush(void)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>stdlib/io.ny</td></tr>
+<tr><td><code>stdout_flush</code></td><td><code>void stdout_flush(void)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>—</td></tr>
 <tr><td><code>stdout_write_bytes</code></td><td><code>void stdout_write_bytes(void *handle)</code></td><td><code>rt_bytes.c</code></td><td>1.3.0</td><td>stdlib/fs/bytes.ny</td></tr>
-<tr><td><code>stdout_write_i32</code></td><td><code>void stdout_write_i32(int n)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>stdlib/io.ny</td></tr>
-<tr><td><code>stdout_write_str</code></td><td><code>void stdout_write_str(const char *s)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>stdlib/io.ny</td></tr>
-<tr><td><code>stdout_writeln_i32</code></td><td><code>void stdout_writeln_i32(int n)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>stdlib/io.ny</td></tr>
-<tr><td><code>stdout_writeln_str</code></td><td><code>void stdout_writeln_str(const char *s)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>stdlib/io.ny, stdlib/log.ny</td></tr>
+<tr><td><code>stdout_write_i32</code></td><td><code>void stdout_write_i32(int n)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>—</td></tr>
+<tr><td><code>stdout_write_str</code></td><td><code>void stdout_write_str(const char *s)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>—</td></tr>
+<tr><td><code>stdout_writeln_i32</code></td><td><code>void stdout_writeln_i32(int n)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>—</td></tr>
+<tr><td><code>stdout_writeln_str</code></td><td><code>void stdout_writeln_str(const char *s)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>stdlib/log.ny</td></tr>
 <tr><td><code>str_cat</code></td><td><code>char *str_cat(const char *a, const char *b)</code></td><td><code>rt_strings.c</code></td><td>0.2.0</td><td>—</td></tr>
 <tr><td><code>str_clone</code></td><td><code>char *str_clone(const char *s)</code></td><td><code>rt_alloc.c</code></td><td>3.0.0</td><td>—</td></tr>
 <tr><td><code>str_cmp</code></td><td><code>int str_cmp(const char *a, const char *b)</code></td><td><code>rt_strings.c</code></td><td>0.3.0</td><td>—</td></tr>
