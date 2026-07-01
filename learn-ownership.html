@@ -5,25 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#06090d">
   <meta name="color-scheme" content="dark light">
-  <title>Nyra Ownership — Learn</title>
+  <title>Nyra Ownership — Nyra Docs</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/search.css">
 </head>
 <body data-page="learn-ownership">
   <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
   <header class="site-header">
+    <a class="logo" href="index.html">
+      <img src="../assets/Nyrabgremoved.png" alt="Nyra">
+    </a>
     <div class="site-toolbar">
-      <div class="toolbar-group"><button type="button" class="toolbar-btn search-btn" id="search-open" title="Search"><span>⌕</span><kbd>Ctrl+K</kbd></button></div>
-      <div class="toolbar-group"><button type="button" class="toolbar-btn" id="theme-toggle" title="Theme"><span class="theme-icon theme-icon-sun">☀</span><span class="theme-icon theme-icon-moon">☽</span></button></div>
-      <div class="toolbar-group lang-switch"><button type="button" class="toolbar-btn lang-btn active" data-lang="en">EN</button><button type="button" class="toolbar-btn lang-btn" data-lang="ar">عربي</button></div>
+      <div class="toolbar-group" role="group" aria-label="Search">
+        <button type="button" class="toolbar-btn search-btn" id="search-open" data-i18n-title="ui.searchOpen" title="Search (Ctrl+K)">
+          <span aria-hidden="true">⌕</span>
+          <kbd>Ctrl+K</kbd>
+        </button>
+      </div>
+      <div class="toolbar-group" role="group" aria-label="Theme">
+        <button type="button" class="toolbar-btn" id="theme-toggle" data-i18n-title="ui.themeToggle" title="Toggle theme">
+          <span class="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
+          <span class="theme-icon theme-icon-moon" aria-hidden="true">☽</span>
+        </button>
+      </div>
+      <div class="toolbar-group lang-switch" role="group" aria-label="Language">
+        <button type="button" class="toolbar-btn lang-btn active" data-lang="en" id="lang-en">EN</button>
+        <button type="button" class="toolbar-btn lang-btn" data-lang="ar" id="lang-ar">عربي</button>
+      </div>
     </div>
-    <label for="nav-check" class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></label>
-    <span class="tagline">Fast · Safe · Minimal</span>
+    <label for="nav-check" class="nav-toggle" data-i18n-aria-label="ui.menuOpen" aria-label="Open navigation menu">
+      <span></span><span></span><span></span>
+    </label>
+    <span class="tagline" data-i18n="common.tagline">Fast · Safe · Minimal</span>
   </header>
   <label for="nav-check" class="sidebar-backdrop" aria-hidden="true"></label>
   <div class="layout">
     <aside class="sidebar">
-      <nav>
+<nav>
   <section>
     <div class="nav-label" data-i18n="nav.start">Start</div>
     <ul>
@@ -125,141 +143,34 @@
 </nav>
     </aside>
     <main class="content">
-      <h1>Nyra Ownership</h1>
-      <p class="lead">Every value in Nyra has exactly one owner. When the owner goes away, the value is cleaned up automatically — no garbage collector required.</p>
+      <h1 data-i18n="pages.learn-ownership.h1">Nyra Ownership</h1>
+      <p class="lead" data-i18n-html="pages.learn-ownership.lead">Copy vs Move — how Nyra tracks who owns heap data.</p>
 
-      <h2>Why ownership?</h2>
-      <p>In languages with manual memory management (C), forgetting <code>free</code> causes <strong>memory leaks</strong>. In languages with garbage collection (Java, Go), you pay runtime overhead and unpredictable pauses.</p>
-      <p>Nyra picks a third path: the <strong>compiler</strong> tracks who owns each value and inserts cleanup code before your program ever runs.</p>
-
-      <h2>The two kinds of values</h2>
-      <h3>Copy types — cheap duplicates</h3>
-      <p>Numbers, booleans, <code>f64</code>, and structs whose fields are all Copy (like <code>Point</code>) duplicate on assign:</p>
-      <!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>let x = 42
-let y = x       // y gets a copy of 42
-print(x)        // still works — x was not stolen
-print(y)
-
-let p1 = { x: 1, y: 2 }
-let p2 = p1     // auto-Copy — both usable (v3.0)
-print(p1.x)</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>let x: i32 = 42
-let y = x       // y gets a copy of 42
-print(x)        // still works — x was not stolen
-print(y)
-
-let p1 = { x: 1, y: 2 }
-let p2 = p1     // auto-Copy — both usable (v3.0)
-print(p1.x)</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->      <h3>Move types — one owner only</h3>
-      <p>Strings in Nyra live on the heap. When you assign or pass a string, <strong>ownership moves</strong> to the new binding:</p>
-      <!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>let greeting = &quot;Hello&quot;
-let copy = greeting   // MOVE — greeting is now invalid
-print(copy)           // OK
-// print(greeting)     // COMPILE ERROR: use of moved value</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>let greeting: string = &quot;Hello&quot;
-let copy = greeting   // MOVE — greeting is now invalid
-print(copy)           // OK
-// print(greeting)     // COMPILE ERROR: use of moved value</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->      <p>This prevents two parts of your program from both thinking they should free the same memory.</p>
-
-      <h2>Who cleans up?</h2>
-      <p>When a binding goes out of scope, Nyra automatically frees heap memory:</p>
-      <!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
-    let name = &quot;Nyra&quot;     // heap string allocated
-    print(name)
-}                         // compiler inserts free(name) here</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn main() -&gt; void {
-    let name = &quot;Nyra&quot;     // heap string allocated
-    print(name)
-}                         // compiler inserts free(name) here</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->      <p>You never write <code>free</code> in normal Nyra code. If your program compiles, every owned string gets freed exactly once.</p>
-
-      <h2>Moving into functions</h2>
-      <!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn show(msg) {
-    print(msg)
-}                       // show() frees msg when it returns
-
-fn main() {
-    let text = &quot;Hi&quot;
-    show(text)          // text moved into show — main no longer owns it
-}</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn show(msg: string) {
-    print(msg)
-}                       // show() frees msg when it returns
-
-fn main() -&gt; void {
-    let text: string = &quot;Hi&quot;
-    show(text)          // text moved into show — main no longer owns it
-}</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->      <p>When the callee takes <code>&amp;T</code> instead of <code>T</code>, Nyra <strong>auto-borrows</strong> — you write <code>save(user)</code> and the compiler passes <code>&amp;user</code>. See <a href="learn-borrowing.html">Borrowing</a>.</p>
-
-      <h2>Functions that create heap values</h2>
-      <!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>extern fn strcat(a, b){
-    let hello = strcat(&quot;Hello, &quot;, &quot;world&quot;)
-    print(hello)
-}                       // hello freed automatically</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>extern fn strcat(a, b){
-    let hello = strcat(&quot;Hello, &quot;, &quot;world&quot;)
-    print(hello)
-}                       // hello freed automatically</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->      <p>The return value of <code>strcat</code> is a <strong>new</strong> owned string. You are responsible for it from the moment it returns — but cleanup is still automatic at scope end.</p>
-
-      <h2>What you cannot do</h2>
-      <ul>
-        <li>Use a value after moving it</li>
-        <li>Free the same string twice (compiler prevents this)</li>
-        <li>Return a reference to a local variable (see <a href="learn-borrowing.html">Borrowing</a>)</li>
-      </ul>
-
-      <h2>Next steps</h2>
-      <ul>
-        <li><a href="learn-borrowing.html">Nyra Borrowing</a> — share access with <code>&amp;</code> and <code>&amp;mut</code></li>
-        <li><a href="ownership-ux.html">Ownership UX</a> — auto-borrow, auto-Copy, inference (full guide)</li>
-        <li><a href="memory.html">Memory &amp; ownership</a> — full technical guide (NLL, Drop plan, leaks, FFI)</li>
-        <li><a href="learn-strings.html">Nyra Strings</a> — string API and ownership at the boundary</li>
-      </ul>
-
-      <nav class="lesson-nav">
-        <a class="lesson-nav-prev" href="learn-strings.html">← Nyra Strings</a>
-        <a class="lesson-nav-hub" href="learn-intro.html">Learn overview</a>
-        <a class="lesson-nav-next" href="learn-borrowing.html">Nyra Borrowing →</a>
-      </nav>
+      <table>
+        <thead><tr><th>Type</th><th>Kind</th><th>Behavior</th></tr></thead>
+        <tbody>
+          <tr><td><code>i32</code>, <code>bool</code>, enums</td><td><strong>Copy</strong></td><td>Both bindings stay valid after assign</td></tr>
+          <tr><td><code>string</code> (heap)</td><td><strong>Move</strong></td><td>Single owner; source invalidated on move</td></tr>
+          <tr><td><code>struct</code></td><td>Copy or Move</td><td>Move if any field is Move</td></tr>
+        </tbody>
+      </table>
+<h2>Move example</h2><pre><code>fn main() {
+    let a = "hello"
+    let b = a
+    // print(a)  // error: use of moved value
+    print(b)
+}</code></pre>
+      <p>Owned heap strings are <strong>auto-dropped</strong> at scope end. Deep dive: <a href="memory.html">Memory &amp; ownership</a>.</p>
+<nav class="lesson-nav" aria-label="Learn navigation">
+<a class="lesson-nav-prev" href="learn-strings.html">← Nyra Strings</a>
+<a class="lesson-nav-hub" href="learn-intro.html">Learn overview</a>
+<a class="lesson-nav-next" href="learn-borrowing.html">Nyra Borrowing →</a>
+</nav>
+      <footer class="site-footer"></footer>
     </main>
   </div>
-  <script src="vendor/lunr.min.js"></script>
-  <script src="js/search.js"></script>
-  <script src="js/typed-transform.js"></script>
+    <script src="vendor/lunr.min.js"></script>
+    <script src="js/search.js"></script>
     <script src="js/site.js"></script>
 </body>
 </html>

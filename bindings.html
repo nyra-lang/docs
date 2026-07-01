@@ -14,6 +14,7 @@
   <header class="site-header">
     <a class="logo" href="index.html">
       <img src="../assets/Nyrabgremoved.png" alt="Nyra">
+      <span>Nyra</span>
     </a>
     <div class="site-toolbar">
       <div class="toolbar-group" role="group" aria-label="Search">
@@ -143,7 +144,19 @@
       <p class="lead">C runtime symbols mapped to Nyra <code>extern fn</code> in stdlib and NyraPkg packages.</p>
       <p>Generated from <code>docs/abi-manifest.toml</code> + stdlib scan. Regenerate: <code>make gen-bindings-doc</code>. C header: <code>stdlib/nyra_rt.h</code>.</p>
 
-      <h2>Stable bindings (340)</h2>
+      <h2 id="hashmap-naming">HashMap runtime naming</h2>
+      <p>Hash-map symbols follow <code>map_&lt;key_type&gt;_&lt;value_type&gt;_&lt;operation&gt;</code>. The first type is the <strong>key</strong>, the second is the <strong>value</strong>, then the operation (<code>new</code>, <code>insert</code>, <code>get</code>, <code>contains</code>, <code>remove</code>, <code>keys</code>, <code>free</code>, <code>retain</code>).</p>
+      <table>
+        <thead><tr><th>Family</th><th>Example symbols</th><th>Use case</th></tr></thead>
+        <tbody>
+          <tr><td><code>map_str_i32_*</code></td><td><code>map_str_i32_insert</code>, <code>map_str_i32_get</code></td><td>String keys, integer values</td></tr>
+          <tr><td><code>map_str_str_*</code></td><td><code>map_str_str_insert</code>, <code>map_str_str_get</code></td><td>String keys, string values</td></tr>
+          <tr><td><code>map_i32_i32_*</code></td><td><code>map_i32_i32_insert</code>, <code>map_i32_i32_get</code></td><td>Integer keys and values (<code>map[int]int</code> parity)</td></tr>
+        </tbody>
+      </table>
+      <p>When key and value types match, both appear in the name (e.g. <code>map_i32_i32_get</code>) so each C entry point has an unambiguous signature. Tutorial and examples: <a href="learn-hashmap.html">Learn → HashMap</a>. Stdlib wrappers: <code>stdlib/map.ny</code> (<code>HashMap_str_i32</code>, <code>HashMap_str_str</code>).</p>
+
+      <h2>Stable bindings (347)</h2>
       <table>
         <thead><tr><th>Symbol</th><th>C signature</th><th>RT module</th><th>Since</th><th>Nyra stdlib</th></tr></thead>
         <tbody>
@@ -231,10 +244,13 @@
 <tr><td><code>color_ansi</code></td><td><code>const char *color_ansi(const char *spec)</code></td><td><code>rt_io.c</code></td><td>1.2.0</td><td>—</td></tr>
 <tr><td><code>command_exec_capture</code></td><td><code>char *command_exec_capture(const char *program, void *args_handle)</code></td><td><code>rt_process.c</code></td><td>1.14.0</td><td>—</td></tr>
 <tr><td><code>command_run</code></td><td><code>int command_run(const char *program, void *args_handle)</code></td><td><code>rt_process.c</code></td><td>1.0.0</td><td>—</td></tr>
+<tr><td><code>copy_dir</code></td><td><code>int copy_dir(const char *src, const char *dst)</code></td><td><code>rt_fs.c</code></td><td>1.38.0</td><td>stdlib/fs/file.ny, stdlib/fs.ny</td></tr>
+<tr><td><code>copy_dir_contents</code></td><td><code>int copy_dir_contents(const char *src, const char *dst)</code></td><td><code>rt_fs.c</code></td><td>1.38.0</td><td>stdlib/fs/file.ny, stdlib/fs.ny</td></tr>
 <tr><td><code>copy_file</code></td><td><code>long long copy_file(const char *src, const char *dst)</code></td><td><code>rt_fs.c</code></td><td>1.0.0</td><td>stdlib/fs/file.ny, stdlib/fs.ny</td></tr>
 <tr><td><code>cos_f64</code></td><td><code>double cos_f64(double x)</code></td><td><code>rt_math.c</code></td><td>1.16.0</td><td>stdlib/math.ny</td></tr>
 <tr><td><code>cpu_count</code></td><td><code>int32_t cpu_count(void)</code></td><td><code>rt_parallel.c</code></td><td>1.3.0</td><td>—</td></tr>
 <tr><td><code>create_dir</code></td><td><code>int create_dir(const char *path)</code></td><td><code>rt_fs.c</code></td><td>1.1.0</td><td>stdlib/fs/file.ny, stdlib/fs.ny</td></tr>
+<tr><td><code>create_dir_all</code></td><td><code>int create_dir_all(const char *path)</code></td><td><code>rt_fs.c</code></td><td>1.38.0</td><td>stdlib/fs/file.ny, stdlib/fs.ny</td></tr>
 <tr><td><code>date_now</code></td><td><code>void date_now(int *out)</code></td><td><code>rt_time.c</code></td><td>1.3.0</td><td>—</td></tr>
 <tr><td><code>f64_to_string</code></td><td><code>char *f64_to_string(double n)</code></td><td><code>rt_strings.c</code></td><td>1.3.3</td><td>stdlib/strconv/mod.ny</td></tr>
 <tr><td><code>file_exists</code></td><td><code>int file_exists(const char *path)</code></td><td><code>rt_fs.c</code></td><td>1.1.0</td><td>stdlib/compress/mod.ny, stdlib/fs/file.ny, stdlib/fs.ny, stdlib/gui/picker.ny</td></tr>
@@ -251,6 +267,7 @@
 <tr><td><code>gzip_file</code></td><td><code>int gzip_file(const char *src, const char *dst)</code></td><td><code>rt_gzip.c</code></td><td>1.3.0</td><td>stdlib/compress/gzip.ny</td></tr>
 <tr><td><code>heap_free</code></td><td><code>void heap_free(void *p)</code></td><td><code>rt_alloc.c</code></td><td>0.2.0</td><td>—</td></tr>
 <tr><td><code>hmac_sha256_hex</code></td><td><code>char *hmac_sha256_hex(const char *key, const char *data)</code></td><td><code>rt_crypto.c</code></td><td>1.3.3</td><td>stdlib/crypto/hmac.ny</td></tr>
+<tr><td><code>http_download_file</code></td><td><code>int http_download_file(const char *url, const char *path)</code></td><td><code>rt_http.c</code></td><td>1.38.0</td><td>stdlib/http/download.ny</td></tr>
 <tr><td><code>http_get</code></td><td><code>char *http_get(const char *url)</code></td><td><code>rt_http.c</code></td><td>0.3.0</td><td>—</td></tr>
 <tr><td><code>http_status</code></td><td><code>int http_status(const char *response_header)</code></td><td><code>rt_http.c</code></td><td>0.3.0</td><td>—</td></tr>
 <tr><td><code>i32_to_string</code></td><td><code>char *i32_to_string(int n)</code></td><td><code>rt_strings.c</code></td><td>0.2.0</td><td>stdlib/bridge/mod.ny, stdlib/json/mod.ny, stdlib/strconv/mod.ny, stdlib/strings.ny, stdlib/time/date.ny</td></tr>
@@ -271,6 +288,8 @@
 <tr><td><code>json_get_i32</code></td><td><code>int json_get_i32(const char *json, const char *key)</code></td><td><code>rt_json.c</code></td><td>1.3.2</td><td>stdlib/json/mod.ny, stdlib/json.ny, stdlib/process.ny</td></tr>
 <tr><td><code>json_get_object</code></td><td><code>char *json_get_object(const char *json, const char *key)</code></td><td><code>rt_json.c</code></td><td>1.3.2</td><td>stdlib/json/mod.ny</td></tr>
 <tr><td><code>json_get_string</code></td><td><code>char *json_get_string(const char *json, const char *key)</code></td><td><code>rt_json.c</code></td><td>0.3.0</td><td>stdlib/bridge/mod.ny, stdlib/json/mod.ny, stdlib/json.ny, stdlib/process.ny</td></tr>
+<tr><td><code>json_join_raw_array</code></td><td><code>char *json_join_raw_array(void *handle)</code></td><td><code>rt_json.c</code></td><td>1.38.0</td><td>stdlib/json/mod.ny</td></tr>
+<tr><td><code>json_split_array_elements</code></td><td><code>void *json_split_array_elements(const char *array_json)</code></td><td><code>rt_json.c</code></td><td>1.38.0</td><td>stdlib/json/jsonl.ny, stdlib/json/mod.ny</td></tr>
 <tr><td><code>list_dir</code></td><td><code>char *list_dir(const char *path)</code></td><td><code>rt_fs.c</code></td><td>1.3.0</td><td>stdlib/fs/file.ny, stdlib/fs.ny, stdlib/gui/picker.ny</td></tr>
 <tr><td><code>map_str_i32_contains</code></td><td><code>int map_str_i32_contains(void *handle, const char *key)</code></td><td><code>rt_map.c</code></td><td>0.4.0</td><td>stdlib/map.ny</td></tr>
 <tr><td><code>map_str_i32_free</code></td><td><code>void map_str_i32_free(void *handle)</code></td><td><code>rt_map.c</code></td><td>0.4.0</td><td>stdlib/map.ny</td></tr>
@@ -329,6 +348,7 @@
 <tr><td><code>regex_free</code></td><td><code>void regex_free(void *handle)</code></td><td><code>rt_regex.c</code></td><td>1.3.0</td><td>stdlib/strings/regex.ny</td></tr>
 <tr><td><code>regex_is_match</code></td><td><code>int regex_is_match(void *handle, const char *text)</code></td><td><code>rt_regex.c</code></td><td>1.3.0</td><td>stdlib/strings/regex.ny</td></tr>
 <tr><td><code>remove_dir</code></td><td><code>int remove_dir(const char *path)</code></td><td><code>rt_fs.c</code></td><td>1.1.0</td><td>stdlib/fs/file.ny, stdlib/fs.ny</td></tr>
+<tr><td><code>remove_dir_all</code></td><td><code>int remove_dir_all(const char *path)</code></td><td><code>rt_fs.c</code></td><td>1.38.0</td><td>stdlib/fs/file.ny, stdlib/fs.ny</td></tr>
 <tr><td><code>remove_file</code></td><td><code>int remove_file(const char *path)</code></td><td><code>rt_fs.c</code></td><td>1.1.0</td><td>stdlib/fs/file.ny, stdlib/fs.ny</td></tr>
 <tr><td><code>rsa_available</code></td><td><code>int rsa_available(void)</code></td><td><code>rt_crypto_openssl.c</code></td><td>1.3.3</td><td>stdlib/crypto/rsa.ny</td></tr>
 <tr><td><code>rsa_public_encrypt_pem</code></td><td><code>char *rsa_public_encrypt_pem(const char *pem_pub, const char *plaintext)</code></td><td><code>rt_crypto_openssl.c</code></td><td>1.3.3</td><td>stdlib/crypto/rsa.ny</td></tr>
@@ -405,7 +425,7 @@
 <tr><td><code>sqlite_step</code></td><td><code>int sqlite_step(void *stmt)</code></td><td><code>rt_sqlite.c</code></td><td>1.21.0</td><td>stdlib/db/sqlite.ny</td></tr>
 <tr><td><code>stdin_read_bytes</code></td><td><code>void *stdin_read_bytes(int max_bytes)</code></td><td><code>rt_bytes.c</code></td><td>1.3.0</td><td>stdlib/fs/bytes.ny</td></tr>
 <tr><td><code>stdin_read_key</code></td><td><code>int stdin_read_key(void)</code></td><td><code>rt_io.c</code></td><td>1.16.0</td><td>stdlib/terminal/raw.ny</td></tr>
-<tr><td><code>stdin_read_line</code></td><td><code>char *stdin_read_line(const char *prompt)</code></td><td><code>rt_io.c</code></td><td>1.1.0</td><td>stdlib/terminal/mod.ny</td></tr>
+<tr><td><code>stdin_read_line</code></td><td><code>char *stdin_read_line(const char *prompt)</code></td><td><code>rt_io.c</code></td><td>1.1.0</td><td>stdlib/bufio/mod.ny, stdlib/terminal/mod.ny</td></tr>
 <tr><td><code>stdin_set_raw_mode</code></td><td><code>void stdin_set_raw_mode(int enable)</code></td><td><code>rt_io.c</code></td><td>1.16.0</td><td>stdlib/terminal/raw.ny</td></tr>
 <tr><td><code>stdout_flush</code></td><td><code>void stdout_flush(void)</code></td><td><code>rt_io.c</code></td><td>0.2.0</td><td>stdlib/io.ny</td></tr>
 <tr><td><code>stdout_write_bytes</code></td><td><code>void stdout_write_bytes(void *handle)</code></td><td><code>rt_bytes.c</code></td><td>1.3.0</td><td>stdlib/fs/bytes.ny</td></tr>
@@ -420,7 +440,7 @@
 <tr><td><code>str_ends_with</code></td><td><code>int str_ends_with(const char *s, const char *suffix)</code></td><td><code>rt_strings.c</code></td><td>1.3.0</td><td>stdlib/strings/ops.ny</td></tr>
 <tr><td><code>str_len</code></td><td><code>int str_len(const char *s)</code></td><td><code>rt_strings.c</code></td><td>0.2.0</td><td>stdlib/strings/ops.ny</td></tr>
 <tr><td><code>str_pop</code></td><td><code>char *str_pop(const char *s)</code></td><td><code>rt_strings.c</code></td><td>1.3.0</td><td>stdlib/gui/buffer.ny, stdlib/strings.ny</td></tr>
-<tr><td><code>str_push_char</code></td><td><code>char *str_push_char(const char *s, int ch)</code></td><td><code>rt_strings.c</code></td><td>1.3.0</td><td>stdlib/gui/buffer.ny, stdlib/strings/builder.ny, stdlib/strings.ny</td></tr>
+<tr><td><code>str_push_char</code></td><td><code>char *str_push_char(const char *s, int ch)</code></td><td><code>rt_strings.c</code></td><td>1.3.0</td><td>stdlib/gui/buffer.ny, stdlib/strings.ny</td></tr>
 <tr><td><code>str_replace</code></td><td><code>char *str_replace(const char *s, const char *from, const char *to)</code></td><td><code>rt_strings.c</code></td><td>1.3.0</td><td>stdlib/strings/ops.ny</td></tr>
 <tr><td><code>str_replacen</code></td><td><code>char *str_replacen(const char *s, const char *from, const char *to, int count)</code></td><td><code>rt_strings.c</code></td><td>1.5.0</td><td>stdlib/strings/ops.ny</td></tr>
 <tr><td><code>str_split</code></td><td><code>void *str_split(const char *s, const char *sep)</code></td><td><code>rt_strings.c</code></td><td>1.3.0</td><td>stdlib/builtins_string.ny</td></tr>
@@ -578,16 +598,16 @@
         </tbody>
       </table>
 
-      <h2>Package bindings</h2>
+      <h2>Package bindings (NyraPkg)</h2>
       <table>
         <thead><tr><th>Package</th><th>Nyra module</th><th>C shim</th><th>Native lib</th></tr></thead>
         <tbody>
           <tr><td><code>ny-sqlite</code></td><td><code>sqlite.ny</code></td><td><code>rt/sqlite.c</code></td><td><code>-lsqlite3</code></td></tr>
         </tbody>
       </table>
-      <p>Install: <code>nyrapkg install ny-sqlite@^0.1.0</code> then <code>import "pkg/ny-sqlite"</code>. See <a href="packages.html">nyrapkg</a>.</p>
+      <p>Install: <code>nyra pkg install ny-sqlite@^0.1.0</code> then <code>import "pkg/ny-sqlite"</code>. See <a href="packages.html">NyraPkg</a>.</p>
 
-      <footer class="site-footer"><a href="packages.html">nyrapkg →</a></footer>
+      <footer class="site-footer"><a href="packages.html">NyraPkg →</a></footer>
     </main>
   </div>
   <script src="vendor/lunr.min.js"></script>

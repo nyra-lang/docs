@@ -13,7 +13,7 @@
   <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
   <header class="site-header">
     <a class="logo" href="index.html">
-      <img src="./assets/Nyrabgremoved.png" alt="Nyra">
+      <img src="../assets/Nyrabgremoved.png" alt="Nyra">
     </a>
     <div class="site-toolbar">
       <div class="toolbar-group" role="group" aria-label="Search">
@@ -145,68 +145,9 @@
     <main class="content">
       <h1 data-i18n="pages.learn-strings.h1">Nyra Strings</h1>
       <p class="lead" data-i18n-html="pages.learn-strings.lead">Text literals, concatenation, and template strings.</p>
-<h2>String literal</h2><!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>let greeting = &quot;Hello&quot;
-print(greeting)</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>let greeting: string = &quot;Hello&quot;
-print(greeting)</code></pre></div>
-</div><!-- NYRA_SNIPPET_END --><h2>Built-in methods (no import)</h2>
-<table>
-<thead><tr><th>Method</th><th>Example</th></tr></thead>
-<tbody>
-<tr><td><code>.length()</code></td><td><code>name.length()</code></td></tr>
-<tr><td><code>.split(sep)</code></td><td><code>"a,b".split(",")</code></td></tr>
-<tr><td><code>.trim()</code></td><td><code>"  hi  ".trim()</code></td></tr>
-<tr><td><code>.contains(s)</code></td><td><code>name.contains("Ny")</code></td></tr>
-<tr><td><code>.replace(from, to)</code></td><td><code>"foo".replace("o", "a")</code> — all matches</td></tr>
-<tr><td><code>.replacen(from, to, count)</code></td><td><code>"foo".replacen("o", "a", 1)</code> — first match only</td></tr>
-<tr><td><code>.to_upper()</code> / <code>.to_lower()</code></td><td>ASCII case</td></tr>
-</tbody>
-</table>
-<!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>let parts = &quot;one,two,three&quot;.split(&quot;,&quot;)
-for part in parts {
-    print(part)
-}</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>let parts: VecStr = &quot;one,two,three&quot;.split(&quot;,&quot;)
-for part in parts {
-    print(part)
-}</code></pre></div>
-</div><!-- NYRA_SNIPPET_END --><p>Full list: <a href="methods.html#strings">Built-in methods → Strings</a> · <a href="stdlib.html#builtins-strings">Standard library → String methods</a>.</p>
-<h2 id="escapes">Escape sequences</h2>
-<p>Inside double-quoted strings:</p>
-<table>
-<thead><tr><th>Escape</th><th>Meaning</th></tr></thead>
-<tbody>
-<tr><td><code>\n</code> <code>\r</code> <code>\t</code></td><td>Newline, carriage return, tab</td></tr>
-<tr><td><code>\\</code> <code>\"</code></td><td>Backslash, double quote</td></tr>
-<tr><td><code>\033</code></td><td>Octal byte (e.g. ESC for ANSI)</td></tr>
-<tr><td><code>\x1b</code></td><td>Hex byte</td></tr>
-<tr><td><code>\u{1b}</code></td><td>Unicode code point</td></tr>
-</tbody>
-</table>
-<p>For terminal colors, prefer <code>print(msg, color: red)</code> — see <a href="learn-output.html">Nyra Output</a>.</p>
-<h2>Template strings</h2><!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>let name = &quot;Nyra&quot;
-print(`Hello, ${name}!`)</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>let name: string = &quot;Nyra&quot;
-print(`Hello, ${name}!`)</code></pre></div>
-</div><!-- NYRA_SNIPPET_END --><div class="callout">
+<h2>String literal</h2><pre><code>let greeting = "Hello"
+print(greeting)</code></pre><h2>Template strings</h2><pre><code>let name = "Nyra"
+print(`Hello, {name}!`)</code></pre><div class="callout">
 <strong>Try it</strong>
 <!-- NYRA_CODE_TABS examples/syntax/template_strings.ny -->
 <div class="code-tabs" data-code-tabs>
@@ -215,8 +156,8 @@ print(`Hello, ${name}!`)</code></pre></div>
     <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
   </div>
   <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
-    let name = &quot;hamdy&quot;
-    let age = 25
+    let name: string = &quot;hamdy&quot;
+    let age: i32 = 25
     print(&quot;Hello, &quot;, name)
     print(`Hello ${name}`)
     print(`Hello ${name}, age ${age}`)
@@ -228,7 +169,8 @@ print(`Hello, ${name}!`)</code></pre></div>
     print(`Hello ${name}`)
     print(`Hello ${name}, age ${age}`)
 }</code></pre></div>
-</div><!-- /NYRA_CODE_TABS -->
+</div>
+<!-- /NYRA_CODE_TABS -->
 <pre><code>nyra run examples/syntax/template_strings.ny</code></pre>
 <p><strong>Expected output:</strong></p>
 <pre><code>(template output)</code></pre>
@@ -245,7 +187,6 @@ print(`Hello, ${name}!`)</code></pre></div>
   </div>
     <script src="vendor/lunr.min.js"></script>
     <script src="js/search.js"></script>
-    <script src="js/typed-transform.js"></script>
     <script src="js/site.js"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
   <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
   <header class="site-header">
     <a class="logo" href="index.html">
-      <img src="./assets/Nyrabgremoved.png" alt="Nyra">
+      <img src="../assets/Nyrabgremoved.png" alt="Nyra">
     </a>
     <div class="site-toolbar">
       <div class="toolbar-group" role="group" aria-label="Search">
@@ -149,28 +149,15 @@
       <table>
         <thead><tr><th>Operator</th><th>Meaning</th><th>Example</th></tr></thead>
         <tbody>
-          <tr><td><code>+ - * / %</code></td><td>Arithmetic</td><td><code>3 + 4</code> → 7; <code>1 + 2.5</code> → <code>f64</code></td></tr>
+          <tr><td><code>+ - * / %</code></td><td>Arithmetic</td><td><code>3 + 4</code> → 7</td></tr>
           <tr><td><code>== != &lt; &gt; &lt;= &gt;=</code></td><td>Compare</td><td><code>5 == 5</code> → true</td></tr>
           <tr><td><code>&amp;&amp; || !</code></td><td>Logic</td><td><code>true &amp;&amp; false</code> → false</td></tr>
-          <tr><td><code>??</code></td><td>Nullish coalesce (v2.1)</td><td><code>x ?? 42</code> — if <code>Option.None</code>, use 42</td></tr>
-          <tr><td><code>?.</code></td><td>Optional chain (v2.1)</td><td><code>opt?.field</code> — <code>Option</code> field access</td></tr>
         </tbody>
       </table>
-<h2>Example</h2><!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
+<h2>Example</h2><pre><code>fn main() {
     print(10 + 5)
     print(10 == 5)
-}</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn main() -&gt; void {
-    print(10 + 5)
-    print(10 == 5)
-}</code></pre></div>
-</div><!-- NYRA_SNIPPET_END --><div class="callout">
+}</code></pre><div class="callout">
 <strong>Try it</strong>
 <!-- NYRA_CODE_TABS examples/syntax/math.ny -->
 <div class="code-tabs" data-code-tabs>
@@ -179,16 +166,13 @@
     <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
   </div>
   <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
-    let x = 10
-    let y = 20
-    print(x + y)
+    print(10 + 20)
 }</code></pre></div>
   <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn main() -&gt; void {
-    let x: i32 = 10
-    let y: i32 = 20
-    print(x + y)
+    print(10 + 20)
 }</code></pre></div>
-</div><!-- /NYRA_CODE_TABS -->
+</div>
+<!-- /NYRA_CODE_TABS -->
 <pre><code>nyra run examples/syntax/math.ny</code></pre>
 <p><strong>Expected output:</strong></p>
 <pre><code>(math demo)</code></pre>
@@ -203,7 +187,6 @@
   </div>
     <script src="vendor/lunr.min.js"></script>
     <script src="js/search.js"></script>
-    <script src="js/typed-transform.js"></script>
     <script src="js/site.js"></script>
 </body>
 </html>

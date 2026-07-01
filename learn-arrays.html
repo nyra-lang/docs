@@ -13,7 +13,7 @@
   <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
   <header class="site-header">
     <a class="logo" href="index.html">
-      <img src="./assets/Nyrabgremoved.png" alt="Nyra">
+      <img src="../assets/Nyrabgremoved.png" alt="Nyra">
     </a>
     <div class="site-toolbar">
       <div class="toolbar-group" role="group" aria-label="Search">
@@ -145,88 +145,11 @@
     <main class="content">
       <h1 data-i18n="pages.learn-arrays.h1">Nyra Arrays</h1>
       <p class="lead" data-i18n-html="pages.learn-arrays.lead">Fixed-size arrays and indexing.</p>
-<h2>Array</h2><!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
-    let nums = [1, 2, 3]
-    print(nums[0])
-    print(nums[1])
-}</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn main() -&gt; void {
+<h2>Array</h2><pre><code>fn main() {
     let nums: [i32; 3] = [1, 2, 3]
     print(nums[0])
     print(nums[1])
-}</code></pre></div>
-</div><!-- NYRA_SNIPPET_END --><h2>Print a whole array</h2>
-<p>Pass a fixed-size array directly to <code>print</code> — Nyra formats it like Rust debug output:</p>
-<!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>let nums = [20, 1, 4, 3, 5, 2]
-print(nums)   // [20, 1, 4, 3, 5, 2]</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>let nums: [i32; 6] = [20, 1, 4, 3, 5, 2]
-print(nums)   // [20, 1, 4, 3, 5, 2]</code></pre></div>
-</div><!-- NYRA_SNIPPET_END --><h2>Loop over elements</h2>
-<p>No need to know the size — use <code>for x in arr</code> or <code>arr.length()</code>:</p>
-<!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>let arr = [1, 2, 3, 4, 5]
-for n in arr {
-    print(n)
-}
-print(arr.length())</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>let arr: [i32; 5] = [1, 2, 3, 4, 5]
-for n in arr {
-    print(n)
-}
-print(arr.length())</code></pre></div>
-</div><!-- NYRA_SNIPPET_END --><div class="callout">
-<strong>Try it</strong>
-<!-- NYRA_CODE_TABS examples/syntax/for_in.ny -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
-    let nums = [10, 20, 30]
-    for n in nums {
-        print(n)
-    }
-
-    let label = &quot;Nyra&quot;
-    print(label.length())
-    for ch in label {
-        print(ch)
-    }
-}</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn main() -&gt; void {
-    let nums: [i32; 3] = [10, 20, 30]
-    for n in nums {
-        print(n)
-    }
-
-    let label: string = &quot;Nyra&quot;
-    print(label.length())
-    for ch in label {
-        print(ch)
-    }
-}</code></pre></div>
-</div><!-- /NYRA_CODE_TABS -->
-<pre><code>nyra run examples/syntax/for_in.ny</code></pre>
-</div>
-<div class="callout">
+}</code></pre><div class="callout">
 <strong>Try it</strong>
 <!-- NYRA_CODE_TABS examples/syntax/arrays.ny -->
 <div class="code-tabs" data-code-tabs>
@@ -235,7 +158,7 @@ print(arr.length())</code></pre></div>
     <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
   </div>
   <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
-    let nums = [1, 2, 3]
+    let nums: [i32; 3] = [1, 2, 3]
     print(nums[0])
     print(nums[1])
 }</code></pre></div>
@@ -244,7 +167,8 @@ print(arr.length())</code></pre></div>
     print(nums[0])
     print(nums[1])
 }</code></pre></div>
-</div><!-- /NYRA_CODE_TABS -->
+</div>
+<!-- /NYRA_CODE_TABS -->
 <pre><code>nyra run examples/syntax/arrays.ny</code></pre>
 <p><strong>Expected output:</strong></p>
 <pre><code>1
@@ -260,7 +184,6 @@ print(arr.length())</code></pre></div>
   </div>
     <script src="vendor/lunr.min.js"></script>
     <script src="js/search.js"></script>
-    <script src="js/typed-transform.js"></script>
     <script src="js/site.js"></script>
 </body>
 </html>

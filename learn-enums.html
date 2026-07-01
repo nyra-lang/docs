@@ -13,7 +13,7 @@
   <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
   <header class="site-header">
     <a class="logo" href="index.html">
-      <img src="./assets/Nyrabgremoved.png" alt="Nyra">
+      <img src="../assets/Nyrabgremoved.png" alt="Nyra">
     </a>
     <div class="site-toolbar">
       <div class="toolbar-group" role="group" aria-label="Search">
@@ -145,66 +145,18 @@
     <main class="content">
       <h1 data-i18n="pages.learn-enums.h1">Nyra Enums</h1>
       <p class="lead" data-i18n-html="pages.learn-enums.lead">Named variants and pattern matching.</p>
-<h2>enum + match</h2><!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>enum Status { Ok Err Pending }
+<h2>enum + match</h2><pre><code>enum Status { Ok Err Pending }
 
 fn main() {
     let s = Status.Ok
     let code = match s {
-        Status.Ok =&gt; 0
-        Status.Err =&gt; 1
-        Status.Pending =&gt; 2
+        Status.Ok => 0
+        Status.Err => 1
+        Status.Pending => 2
     }
     print(code)
-}</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>enum Status { Ok Err Pending }
-
-fn main() -&gt; void {
-    let s = Status.Ok
-    let code = match s {
-        Status.Ok =&gt; 0
-        Status.Err =&gt; 1
-        Status.Pending =&gt; 2
-    }
-    print(code)
-}</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->      <h2 id="result-errors">Result &amp; error handling</h2>
-      <p>Real <code>Result</code> payloads are supported via monomorph enums or <code>import "stdlib/option.ny"</code>. There is <strong>no <code>?</code> operator</strong> — each fallible step needs explicit <code>match</code>.</p>
-<!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>enum Result_i32_i32 { Ok(i32), Err(i32) }
-
-fn main() {
-    let code = match Result_i32_i32.Err(7) {
-        Result_i32_i32.Ok(_x) =&gt; 0
-        Result_i32_i32.Err(e) =&gt; e
-    }
-    print(code)
-}</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>enum Result_i32_i32 { Ok(i32), Err(i32) }
-
-fn main() -&gt; void {
-    let code = match Result_i32_i32.Err(7) {
-        Result_i32_i32.Ok(_x) =&gt; 0
-        Result_i32_i32.Err(e) =&gt; e
-    }
-    print(code)
-}</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->
-      <div class="callout callout-status" role="note">
-        <strong>Stable Extended — <code>?</code> shipped</strong>
-        <p>Result handling with <code>?</code> propagation is production-ready on Core + Stable Extended. Run: <code>nyra run examples/result_propagate_verbose.ny</code> · Tests: <code>tests/nyra/result_propagate_test.ny</code>.</p>
-      </div>
-      <p>Default enums are <strong>tag-only</strong> (no payloads). Payload rules: <a href="ai-skill.html#result-errors">AI skill → Result</a> · <a href="nyra-skill.md">nyra-skill.md</a>. Next: <a href="examples.html">Example apps</a> · <a href="dungeon-steps.html">Dungeon Steps</a>.</p>
+}</code></pre>
+      <p>v0.2 enums are <strong>tag-only</strong> (no payloads). Next: <a href="examples.html">Example apps</a> · <a href="dungeon-steps.html">Dungeon Steps</a>.</p>
 <div class="callout">
 <strong>Try it</strong>
 <pre><code>nyra run examples/language_features/demo.ny</code></pre>
@@ -221,7 +173,6 @@ fn main() -&gt; void {
   </div>
     <script src="vendor/lunr.min.js"></script>
     <script src="js/search.js"></script>
-    <script src="js/typed-transform.js"></script>
     <script src="js/site.js"></script>
 </body>
 </html>

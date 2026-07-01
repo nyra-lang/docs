@@ -28,6 +28,76 @@ def syntax_box(title, code):
     return f"<h2>{title}</h2><pre><code>{code}</code></pre>"
 
 
+def map_naming_docs():
+    """HashMap runtime symbol naming — map_<key>_<value>_<op>."""
+    return """
+      <h2>Runtime naming: <code>map_&lt;key&gt;_&lt;value&gt;_&lt;op&gt;</code></h2>
+      <p>Every hash-map C runtime symbol follows one pattern:</p>
+      <pre><code>map_&lt;key_type&gt;_&lt;value_type&gt;_&lt;operation&gt;</code></pre>
+      <ul>
+        <li><strong>Key type</strong> — first segment after <code>map_</code> (e.g. <code>str</code>, <code>i32</code>)</li>
+        <li><strong>Value type</strong> — second segment (e.g. <code>i32</code>, <code>str</code>)</li>
+        <li><strong>Operation</strong> — last segment: <code>new</code>, <code>insert</code>, <code>get</code>, <code>contains</code>, <code>remove</code>, <code>keys</code>, <code>free</code>, <code>retain</code></li>
+      </ul>
+      <p>Examples: <code>map_str_i32_insert</code>, <code>map_str_str_get</code>, <code>map_i32_i32_contains</code>. When key and value share the same type (like Go <code>map[int]int</code>), both appear in the name — <code>map_i32_i32_*</code> is intentional so the ABI stays explicit.</p>
+      <p>See the full symbol list in <a href="bindings.html">Runtime bindings</a>.</p>
+
+      <h3>String keys, i32 values — <code>map_str_i32_*</code></h3>
+      <pre><code>extern fn map_str_i32_new() -> ptr
+extern fn map_str_i32_insert(m: ptr, key: string, value: i32) -> void
+extern fn map_str_i32_get(m: ptr, key: string) -> i32
+extern fn map_str_i32_contains(m: ptr, key: string) -> i32
+extern fn map_str_i32_free(m: ptr) -> void
+
+fn main() {
+    let m = map_str_i32_new()
+    map_str_i32_insert(m, "score", 100)
+    print(map_str_i32_get(m, "score"))
+    print(map_str_i32_contains(m, "score"))
+    map_str_i32_free(m)
+}</code></pre>
+
+      <h3>String keys, string values — <code>map_str_str_*</code></h3>
+      <pre><code>extern fn map_str_str_new() -> ptr
+extern fn map_str_str_insert(m: ptr, key: string, value: string) -> void
+extern fn map_str_str_get(m: ptr, key: string) -> string
+extern fn map_str_str_contains(m: ptr, key: string) -> i32
+extern fn map_str_str_free(m: ptr) -> void
+
+fn main() {
+    let m = map_str_str_new()
+    map_str_str_insert(m, "lang", "Nyra")
+    print(map_str_str_get(m, "lang"))
+    map_str_str_free(m)
+}</code></pre>
+
+      <h3>Integer keys and values — <code>map_i32_i32_*</code></h3>
+      <pre><code>extern fn map_i32_i32_new() -> ptr
+extern fn map_i32_i32_insert(m: ptr, key: i32, value: i32) -> void
+extern fn map_i32_i32_get(m: ptr, key: i32) -> i32
+extern fn map_i32_i32_contains(m: ptr, key: i32) -> i32
+extern fn map_i32_i32_free(m: ptr) -> void
+
+fn main() {
+    let m = map_i32_i32_new()
+    map_i32_i32_insert(m, 42, 99)
+    print(map_i32_i32_get(m, 42))
+    print(map_i32_i32_contains(m, 42))
+    map_i32_i32_free(m)
+}</code></pre>
+
+      <h3>Stdlib wrappers (recommended)</h3>
+      <p>Import <code>stdlib/map.ny</code> for <code>HashMap_str_i32</code> and <code>HashMap_str_str</code> — method syntax and automatic cleanup via <code>Drop</code>. The low-level <code>map_*</code> names stay stable for <code>extern fn</code> and FFI.</p>
+      <pre><code>import "stdlib/map"
+
+fn main() {
+    let mut scores = HashMap_str_i32_new()
+    scores = scores.insert("ada", 100)
+    print(scores.get("ada"))
+}</code></pre>
+"""
+
+
 def learn_nav(prev_h, prev_l, next_h, next_l):
     prev = (
         f'<a class="lesson-nav-prev" href="{prev_h}">← {prev_l}</a>'
@@ -558,9 +628,10 @@ fn main() {
     page(
         "hashmap",
         "Nyra HashMap",
-        "Key-value maps with string keys.",
-        syntax_box(
-            "HashMap (runtime API)",
+        "Key-value maps: runtime naming map_<key>_<value>_<op> and stdlib wrappers.",
+        map_naming_docs()
+        + syntax_box(
+            "Runnable example",
             """extern fn map_str_i32_new() -> ptr
 extern fn map_str_i32_insert(m: ptr, key: string, value: i32) -> void
 extern fn map_str_i32_get(m: ptr, key: string) -> i32

@@ -13,7 +13,7 @@
   <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
   <header class="site-header">
     <a class="logo" href="index.html">
-      <img src="./assets/Nyrabgremoved.png" alt="Nyra">
+      <img src="../assets/Nyrabgremoved.png" alt="Nyra">
     </a>
     <div class="site-toolbar">
       <div class="toolbar-group" role="group" aria-label="Search">
@@ -145,33 +145,10 @@
     <main class="content">
       <h1 data-i18n="pages.learn-output.h1">Nyra Output</h1>
       <p class="lead" data-i18n-html="pages.learn-output.lead">Print text and numbers to the console with <code>print</code>.</p>
-<h2>print</h2>
-<p><code>print</code> accepts <code>string</code>, <code>i32</code>, <code>f64</code>, and <code>bool</code>. See also <code>write</code>, <code>println</code>, <code>flush</code>, and <code>input</code> in the <a href="stdlib.html#builtins-io">built-ins reference</a>.</p>
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
-    print(&quot;Hello, Nyra!&quot;)
+<h2>print</h2><pre><code>fn main() {
+    print("Hello, Nyra!")
     print(42)
-    print(3.14)
-}</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn main() -&gt; void {
-    print(&quot;Hello, Nyra!&quot;)
-    print(42)
-    print(3.14)
-}</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->
-<h2>Colored output</h2>
-<p>Pass <code>color:</code> as a named argument. Use a color name, a quoted string, or a <code>string</code> variable.</p>
-<pre><code>print("Success", color: green)
-print("Warning", color: yellow)
-print("Error", color: red)
-print("Brand", color: "#FF5733")
-print("Fine", color: "rgb(0,200,100)")</code></pre>
-<p>Requires a terminal that supports ANSI colors. For low-level ANSI strings in code, use escapes like <code>"\033[31m"</code> — see <a href="learn-strings.html#escapes">String escapes</a>.</p>
-<div class="callout">
+}</code></pre><div class="callout">
 <strong>Try it</strong>
 <!-- NYRA_CODE_TABS examples/syntax/hello.ny -->
 <div class="code-tabs" data-code-tabs>
@@ -187,7 +164,8 @@ print("Fine", color: "rgb(0,200,100)")</code></pre>
     print(&quot;Hello Nyra&quot;)
     print(&quot;Hello Nyra&quot;)
 }</code></pre></div>
-</div><!-- /NYRA_CODE_TABS -->
+</div>
+<!-- /NYRA_CODE_TABS -->
 <pre><code>nyra run examples/syntax/hello.ny</code></pre>
 <p><strong>Expected output:</strong></p>
 <pre><code>Hello, Nyra!</code></pre>
@@ -202,7 +180,6 @@ print("Fine", color: "rgb(0,200,100)")</code></pre>
   </div>
     <script src="vendor/lunr.min.js"></script>
     <script src="js/search.js"></script>
-    <script src="js/typed-transform.js"></script>
     <script src="js/site.js"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
   <input type="checkbox" id="nav-check" class="nav-check" hidden aria-hidden="true">
   <header class="site-header">
     <a class="logo" href="index.html">
-      <img src="./assets/Nyrabgremoved.png" alt="Nyra">
+      <img src="../assets/Nyrabgremoved.png" alt="Nyra">
     </a>
     <div class="site-toolbar">
       <div class="toolbar-group" role="group" aria-label="Search">
@@ -144,86 +144,16 @@
     </aside>
     <main class="content">
       <h1 data-i18n="pages.learn-structs.h1">Nyra Structs</h1>
-      <p class="lead" data-i18n-html="pages.learn-structs.lead">Group related fields with <strong>object literals</strong> (zero-types) or optional <code>struct</code> declarations when you want a named type.</p>
-<h2>Object literals (zero-types)</h2>
-<p>By default you do <strong>not</strong> need <code>struct</code>. Write a plain object — Nyra infers the field types and layout (like JavaScript objects, with static typing behind the scenes).</p>
-<!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
-    let family = {
-        name: &quot;hamdy&quot;,
-        age: 20,
-        city: &quot;cairo&quot;
-    }
-    print(family.name)
-    print(family.age)
-}</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn main() -&gt; void {
-    let family = {
-        name: &quot;hamdy&quot;,
-        age: 20,
-        city: &quot;cairo&quot;
-    }
-    print(family.name)
-    print(family.age)
-}</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->
-      <p>Repo example: <code>examples/syntax/anonymous_struct.ny</code> (and <code>.typed.ny</code>).</p>
-      <h2>Named <code>struct</code> (optional)</h2>
-      <p>Declare <code>struct Name { ... }</code> when you need <code>impl</code> methods, FFI (<code>repr(C)</code>), imports across files, or a public API name. Field lines in the <strong>definition</strong> are separated by newlines (no commas).</p>
-<!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
-    let p = { hp: 100, score: 0 }
-    let q = p              // Copy — both usable (all fields i32)
-    print(p.hp)
-}</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn main() -&gt; void {
-    let p = { hp: 100, score: 0 }
-    let q = p              // Copy — both usable (all fields i32)
-    print(p.hp)
-}</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->
-      <p><strong>Struct literals</strong> (values) separate fields with <strong>commas</strong>: <code>Player { hp: 100, score: 0 }</code>. After a call like <code>map_new()</code>, always use a comma before the next field.</p>
-      <h2>Constructor sugar (v2.8)</h2>
-      <!-- NYRA_SNIPPET_START -->
-<div class="code-tabs" data-code-tabs>
-  <div class="code-tabs-bar" role="tablist">
-    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
-    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
-  </div>
-  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>struct User {
-    name: string
-    age: i32
+      <p class="lead" data-i18n-html="pages.learn-structs.lead">Define custom types with named fields.</p>
+<h2>struct</h2><pre><code>struct Player {
+    hp: i32
+    score: i32
 }
 
 fn main() {
-    let u = User(&quot;Ada&quot;)    // → User { name: &quot;Ada&quot;, age: 0 }
-    let origin = Point()   // all fields defaulted
-}</code></pre></div>
-  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>struct User {
-    name: string
-    age: i32
-}
-
-fn main() -&gt; void {
-    let u: User = User(&quot;Ada&quot;)    // → User { name: &quot;Ada&quot;, age: 0 }
-    let origin = Point()   // all fields defaulted
-}</code></pre></div>
-</div><!-- NYRA_SNIPPET_END -->      <h2>Arrays of structs</h2>
-      <p>Build a fixed-size list with <code>[ ... ]</code>, then loop with <code>for item in arr</code>. Multiline arrays and an optional trailing comma before <code>]</code> are supported. Struct type names use <strong>PascalCase</strong> in literals (<code>NumberColor { ... }</code>).</p>
-      <p>Sort by a field with <code>.sort_by((a, b) =&gt; a.number - b.number)</code> (comparator returns <code>i32</code>: negative / zero / positive). See <a href="examples.html#ex-examples-syntax-array-sort-by-ny">array_sort_by</a> example.</p>
-      <!-- NYRA_CODE_TABS examples/syntax/array_of_structs.ny -->
-      <h2>Copy vs Move</h2>
-      <p>Structs with only Copy fields (<code>i32</code>, <code>f64</code>, <code>bool</code>, nested Copy structs) are <strong>auto-Copy</strong> — no <code>#[derive(Copy)]</code> required. Add <code>string</code> or custom <code>Drop</code> and the struct becomes Move. See <a href="ownership-ux.html">Ownership UX</a>.</p>
+    let p = Player { hp: 100, score: 0 }
+    print(p.hp)
+}</code></pre>
       <p>Methods: <code>impl Player { fn heal(self) -> void { ... } }</code>. See <a href="traits-macros.html">Traits</a>.</p>
 <nav class="lesson-nav" aria-label="Learn navigation">
 <a class="lesson-nav-prev" href="learn-hashmap.html">← Nyra HashMap</a>
@@ -235,7 +165,6 @@ fn main() -&gt; void {
   </div>
     <script src="vendor/lunr.min.js"></script>
     <script src="js/search.js"></script>
-    <script src="js/typed-transform.js"></script>
     <script src="js/site.js"></script>
 </body>
 </html>
