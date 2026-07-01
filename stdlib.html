@@ -387,7 +387,7 @@ fn main() {
           <tr><td><code>stdlib/crypto/mod.ny</code></td><td><code>random_bytes</code>, <code>sha256</code>, <code>sha512</code>, <code>hmac_sha256</code>, <code>aes_encrypt</code>/<code>aes_decrypt</code> — portable C in <code>rt_crypto.c</code>/<code>rt_aes.c</code></td></tr>
           <tr><td><code>stdlib/crypto/rsa.ny</code></td><td><code>rsa_encrypt_pem</code>, <code>rsa_sign_sha256_pem</code> (OpenSSL when linked)</td></tr>
           <tr><td><code>stdlib/crypto/x509.ny</code></td><td><code>x509_subject</code>, <code>x509_valid_now</code> (OpenSSL)</td></tr>
-          <tr><td><code>stdlib/random.ny</code></td><td><code>random</code>, <code>random_range</code></td></tr>
+          <tr><td><code>stdlib/random.ny</code></td><td><code>random</code>, <code>Random</code>, <code>random_range</code>, <code>random_f64</code>, <code>shuffle_pick</code> — ChaCha20 CSPRNG, hardware-seeded (<code>rt_random.c</code>)</td></tr>
           <tr><td><code>stdlib/uuid/mod.ny</code></td><td><code>UUID_v4()</code> (MVP formatting)</td></tr>
           <tr><td><code>stdlib/encoding/mod.ny</code></td><td><code>hex_encode_byte</code>, <code>url_encode</code></td></tr>
           <tr><td><code>stdlib/encoding/base64.ny</code></td><td><code>base64_encode</code>, <code>base64_decode</code> — pure Nyra</td></tr>
@@ -402,7 +402,46 @@ fn main() {
           <tr><td><code>stdlib/slog/mod.ny</code></td><td><code>slog_info_kv</code>, <code>slog_error_kv</code> — JSON log lines</td></tr>
         </tbody>
       </table>
-      <p>Examples: <code>examples/crypto/sha256.ny</code> · <code>examples/compress/gzip_roundtrip.ny</code> · <code>examples/stdlib_medium_smoke.ny</code></p>
+      <p>Examples: <code>examples/crypto/sha256.ny</code> · <code>examples/compress/gzip_roundtrip.ny</code> · <code>examples/stdlib_medium_smoke.ny</code> · <code>examples/builtins/stdlib/random.ny</code></p>
+
+      <h2 id="random">Random (ChaCha20, hardware-seeded)</h2>
+      <p><code>import "stdlib/random.ny"</code> — fast everyday RNG for games, simulations, and shuffling. The runtime seeds a <strong>ChaCha20</strong> stream from OS/hardware entropy (<code>getentropy</code>, <code>arc4random_buf</code>, <code>BCryptGenRandom</code>, Intel <code>RDRAND</code> when available, else <code>/dev/urandom</code>). No runtime type info; LLVM can dead-strip unused helpers.</p>
+      <table>
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>random()</code> / <code>Random()</code></td><td>Random <code>i32</code> — JS-style alias <code>Random()</code> matches familiar naming</td></tr>
+          <tr><td><code>random_range(min, max)</code></td><td>Inclusive <code>i32</code> range; rejection sampling avoids modulo bias</td></tr>
+          <tr><td><code>random_f64()</code></td><td>Random <code>f64</code> in <code>[0, 1)</code> — 53-bit precision</td></tr>
+          <tr><td><code>shuffle_pick(vec)</code></td><td>Random element from an <code>i32</code> vector handle</td></tr>
+        </tbody>
+      </table>
+      <p><code>Math_random()</code> from <code>stdlib/builtins_math.ny</code> delegates to the same <code>rand_f64()</code> backend. For raw OS TRNG bytes (tokens, keys), use <a href="os-hardware.html#security"><code>hw_random_bytes</code></a> or <code>stdlib/crypto/random.ny</code> → <code>random_bytes</code>.</p>
+      <!-- NYRA_SNIPPET_START -->
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>import "stdlib/random.ny"
+
+fn main() {
+    let dice = random_range(1, 6)
+    let unit = random_f64()
+    print(Random())
+    print(dice)
+    print(unit)
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>import "stdlib/random.ny"
+
+fn main() {
+    let dice = random_range(1, 6)
+    let unit = random_f64()
+    print(Random())
+    print(dice)
+    print(unit)
+}</code></pre></div>
+</div><!-- NYRA_SNIPPET_END -->
+      <p>Example: <code>examples/builtins/stdlib/random.ny</code> · tests: <code>tests/nyra/random_test.ny</code></p>
 
       <h2 id="env-config">Env &amp; config</h2>
       <table>
@@ -577,7 +616,7 @@ fn main() {
           <tr><td><code>stdlib/option.ny</code></td><td><code>Option</code> helpers — see <a href="match.html">Match</a></td></tr>
           <tr><td><code>stdlib/box.ny</code></td><td>Heap box — see <a href="memory.html">Memory</a></td></tr>
           <tr><td><code>stdlib/math.ny</code></td><td><code>abs_i32</code>, <code>pow_i32</code>, <code>sqrt_i32</code>, <code>sin</code>, <code>cos</code>, <code>atan2</code>, <code>tan</code> (<code>rt_math.c</code> / libm)</td></tr>
-          <tr><td><code>stdlib/random.ny</code></td><td><code>random</code>, <code>random_range</code>, <code>random_f64</code></td></tr>
+          <tr><td><code>stdlib/random.ny</code></td><td><code>random</code>, <code>Random</code>, <code>random_range</code>, <code>random_f64</code> — ChaCha20 + HW seed</td></tr>
           <tr><td><code>stdlib/terminal/raw.ny</code></td><td><code>terminal_raw_on</code>, <code>terminal_read_key</code></td></tr>
           <tr><td><code>stdlib/time/fixed_step.ny</code></td><td><code>FixedStep_new</code>, <code>FixedStep_tick</code></td></tr>
           <tr><td><code>stdlib/testing.ny</code></td><td><code>assert_eq</code>, <code>assert_ne</code>, <code>assert_true</code>, <code>assert</code>, <code>assert_bool</code> — see <a href="#testing">testing</a></td></tr>
@@ -915,6 +954,26 @@ fn main() -&gt; void {
 }</code></pre></div>
 </div>
 
+<h4 class="builtin-ex-title" id="ex-examples-builtins-io-print-array-ny"><code>examples/builtins/io/print_array.ny</code></h4>
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>fn main() {
+    let nums = [20, 1, 4, 3, 5, 2]
+    print(nums)
+    print([1.5, 2.5])
+    print([&quot;hello&quot;, &quot;Nyra&quot;])
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>fn main() -&gt; void {
+    let nums: [i32; 6] = [20, 1, 4, 3, 5, 2]
+    print(nums)
+    print([1.5, 2.5])
+    print([&quot;hello&quot;, &quot;Nyra&quot;])
+}</code></pre></div>
+</div>
+
 <h4 class="builtin-ex-title" id="ex-examples-builtins-io-print-ny"><code>examples/builtins/io/print.ny</code></h4>
 <div class="code-tabs" data-code-tabs>
   <div class="code-tabs-bar" role="tablist">
@@ -982,6 +1041,70 @@ fn main() -&gt; void {
     let raw: string = JSON_stringify(&quot;name&quot;, &quot;hamdy&quot;)
     print(raw)
     print(JSON_parse(raw, &quot;name&quot;))
+}</code></pre></div>
+</div>
+
+<h4 class="builtin-ex-title" id="ex-examples-builtins-map-main-ny"><code>examples/builtins/map/main.ny</code></h4>
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>import &quot;stdlib/map.ny&quot;
+
+fn main() {
+    let mut m = HashMap_str_i32_new()
+    m = m.insert(&quot;score&quot;, 100)
+    print(m.get(&quot;score&quot;))
+    print(m.contains(&quot;score&quot;))
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>import &quot;stdlib/map.ny&quot;
+
+fn main() {
+    let mut m = HashMap_str_i32_new()
+    m = m.insert(&quot;score&quot;, 100)
+    print(m.get(&quot;score&quot;))
+    print(m.contains(&quot;score&quot;))
+}</code></pre></div>
+</div>
+
+<h4 class="builtin-ex-title" id="ex-examples-builtins-math-intrinsics-ny"><code>examples/builtins/math_intrinsics.ny</code></h4>
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>// Compiler math intrinsics: no stdlib prelude required (--no-prelude friendly).
+// Build: nyra build examples/builtins/math_intrinsics.ny --release --no-prelude -o math_intrinsics
+// Run:   ./target/release/math_intrinsics
+
+fn main() {
+    let a = abs_i32(-42)
+    let b = min_i32(3, 7)
+    let c = max_i32(3, 7)
+    let d = clamp_i32(15, 0, 10)
+    print(a)
+    print(b)
+    print(c)
+    print(d)
+    let x = abs(-5)
+    print(x)
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>// Compiler math intrinsics: no stdlib prelude required (--no-prelude friendly).
+// Build: nyra build examples/builtins/math_intrinsics.ny --release --no-prelude -o math_intrinsics
+// Run:   ./target/release/math_intrinsics
+
+fn main() -&gt; void {
+    let a = abs_i32(-42)
+    let b = min_i32(3, 7)
+    let c = max_i32(3, 7)
+    let d = clamp_i32(15, 0, 10)
+    print(a)
+    print(b)
+    print(c)
+    print(d)
+    let x = abs(-5)
+    print(x)
 }</code></pre></div>
 </div>
 
@@ -1433,6 +1556,30 @@ fn main() -&gt; void {
 }</code></pre></div>
 </div>
 
+<h4 class="builtin-ex-title" id="ex-examples-builtins-stdlib-random-ny"><code>examples/builtins/stdlib/random.ny</code></h4>
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>import &quot;stdlib/random.ny&quot;
+
+fn main() {
+    print(random())
+    print(Random())
+    print(random_range(1, 6))
+    print(random_f64())
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>import &quot;stdlib/random.ny&quot;
+
+fn main() {
+    print(random())
+    print(Random())
+    print(random_range(1, 6))
+    print(random_f64())
+}</code></pre></div>
+</div>
+
 <h4 class="builtin-ex-title" id="ex-examples-builtins-stdlib-string-includes-ny"><code>examples/builtins/stdlib/string_includes.ny</code></h4>
 <div class="code-tabs" data-code-tabs>
   <div class="code-tabs-bar" role="tablist">
@@ -1527,7 +1674,7 @@ fn main() -&gt; void {
 }</code></pre></div>
 </div>
 
-<h4 class="builtin-ex-title" id="ex-examples-builtins-stdlib-string-trim-ny"><code>examples/builtins/stdlib/trim.ny</code></h4>
+<h4 class="builtin-ex-title" id="ex-examples-builtins-stdlib-string-trim-ny"><code>examples/builtins/stdlib/string_trim.ny</code></h4>
 <div class="code-tabs" data-code-tabs>
   <div class="code-tabs-bar" role="tablist">
     <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
@@ -1751,6 +1898,32 @@ fn main() -&gt; void {
 }</code></pre></div>
 </div>
 
+<h4 class="builtin-ex-title" id="ex-examples-builtins-strvec-main-ny"><code>examples/builtins/strvec/main.ny</code></h4>
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>import &quot;stdlib/vec_str.ny&quot;
+
+fn main() {
+    let mut v = StrVec_new()
+    v = v.push(&quot;alpha&quot;)
+    v = v.push(&quot;beta&quot;)
+    print(v.len())
+    print(v.get(0))
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>import &quot;stdlib/vec_str.ny&quot;
+
+fn main() {
+    let mut v = StrVec_new()
+    v = v.push(&quot;alpha&quot;)
+    v = v.push(&quot;beta&quot;)
+    print(v.len())
+    print(v.get(0))
+}</code></pre></div>
+</div>
+
 <h4 class="builtin-ex-title" id="ex-examples-builtins-timing-mem-ny"><code>examples/builtins/timing/mem.ny</code></h4>
 <div class="code-tabs" data-code-tabs>
   <div class="code-tabs-bar" role="tablist">
@@ -1800,6 +1973,34 @@ fn main() -&gt; void {
     }
     time_end(&quot;work&quot;)
     print(sum)
+}</code></pre></div>
+</div>
+
+<h4 class="builtin-ex-title" id="ex-examples-builtins-vec-main-ny"><code>examples/builtins/vec/main.ny</code></h4>
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs-bar" role="tablist">
+    <button type="button" class="code-tab active" role="tab" data-tab="easy" aria-selected="true">Without types</button>
+    <button type="button" class="code-tab" role="tab" data-tab="typed" aria-selected="false">With types</button>
+  </div>
+  <div class="code-panel active" data-panel="easy" role="tabpanel"><pre><code>import &quot;stdlib/vec.ny&quot;
+
+fn main() {
+    let v = Vec_i32_new()
+    Vec_i32_push(v, 10)
+    Vec_i32_push(v, 20)
+    print(Vec_i32_len(v))
+    print(Vec_i32_get(v, 0))
+    print(Vec_i32_pop(v))
+}</code></pre></div>
+  <div class="code-panel" data-panel="typed" role="tabpanel" hidden><pre><code>import &quot;stdlib/vec.ny&quot;
+
+fn main() {
+    let v = Vec_i32_new()
+    Vec_i32_push(v, 10)
+    Vec_i32_push(v, 20)
+    print(Vec_i32_len(v))
+    print(Vec_i32_get(v, 0))
+    print(Vec_i32_pop(v))
 }</code></pre></div>
 </div>
 </section>
@@ -1953,10 +2154,22 @@ fn main() -&gt; void {
           <tr><td><code>Math_round(x)</code></td><td>Round (MVP: identity on <code>i32</code>)</td><td><code>examples/builtins/stdlib/math_round.ny</code></td></tr>
           <tr><td><code>Math_floor(x)</code></td><td>Floor (MVP)</td><td><code>examples/builtins/stdlib/math_floor.ny</code></td></tr>
           <tr><td><code>Math_ceil(x)</code></td><td>Ceil (MVP)</td><td><code>examples/builtins/stdlib/math_ceil.ny</code></td></tr>
-          <tr><td><code>Math_random()</code></td><td>Random <code>f64</code> in [0, 1)</td><td><code>examples/builtins/stdlib/math_random.ny</code></td></tr>
+          <tr><td><code>Math_random()</code></td><td>Random <code>f64</code> in [0, 1) — ChaCha20 via <code>rand_f64()</code></td><td><code>examples/builtins/stdlib/math_random.ny</code></td></tr>
         </tbody>
       </table>
       <p>Combined: <code>examples/builtins/math/main.ny</code></p>
+
+      <h4 id="builtins-stdlib-random"><code>stdlib/random.ny</code></h4>
+      <table>
+        <thead><tr><th>Function</th><th>Description</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>random()</code> / <code>Random()</code></td><td>Random <code>i32</code> (ChaCha20, HW-seeded)</td><td><code>examples/builtins/stdlib/random.ny</code></td></tr>
+          <tr><td><code>random_range(min, max)</code></td><td>Inclusive range, unbiased</td><td><code>examples/builtins/stdlib/random.ny</code></td></tr>
+          <tr><td><code>random_f64()</code></td><td>Unit interval <code>f64</code>, 53-bit</td><td><code>examples/builtins/stdlib/random.ny</code></td></tr>
+          <tr><td><code>shuffle_pick(vec)</code></td><td>Random <code>i32</code> from vector</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <p>See also <a href="#random">Random (ChaCha20)</a> · <a href="os-hardware.html#security">Hardware TRNG</a></p>
 
       <h4 id="builtins-stdlib-json"><code>stdlib/builtins_json.ny</code></h4>
       <table>

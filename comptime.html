@@ -338,9 +338,20 @@ pub const GET_CODE = comptime {
           <tr><td><code>examples/toolchain/comptime_match.ny</code></td><td>Enum / bool / integer <code>match</code></td></tr>
           <tr><td><code>examples/toolchain/comptime_struct_enum.ny</code></td><td>Struct literals + struct <code>match</code></td></tr>
           <tr><td><code>examples/toolchain/comptime_power.ny</code></td><td>Tables, string <code>match</code>, concat</td></tr>
+          <tr><td><code>examples/toolchain/metaprogramming.ny</code></td><td>Comptime + macros + struct JSON synthesis</td></tr>
           <tr><td><code>tests/nyra/comptime/</code></td><td>Full test grid (<code>*_test.ny</code> runners)</td></tr>
         </tbody>
       </table>
+
+      <h2>Metaprogramming (overview)</h2>
+      <p>Nyra metaprogramming runs <strong>during compilation</strong> — no runtime reflection cost on hot paths:</p>
+      <ul>
+        <li><strong>Comptime</strong> — file modules, <code>#[comptime]</code> functions, and <code>comptime { }</code> blocks fold values before codegen</li>
+        <li><strong>Macros</strong> — hygienic expression substitution before typecheck (<a href="traits-macros.html">traits &amp; macros</a>)</li>
+        <li><strong>Generics</strong> — monomorph specialization (<a href="generics.html">generics</a>)</li>
+        <li><strong>Struct JSON</strong> — compiler synthesizes <code>{Struct}_json_encode</code> / <code>_json_decode</code> for eligible structs (<code>examples/struct_serde.ny</code>)</li>
+      </ul>
+      <p>See <code>examples/toolchain/metaprogramming.ny</code> and <code>stdlib/meta/mod.ny</code>.</p>
 
       <footer class="site-footer"><a href="generics.html">← Generics</a> · <a href="modules.html">Modules →</a></footer>
     </main>

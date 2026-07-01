@@ -164,6 +164,8 @@ webDocs/
     ├── build-search-index.mjs    # Regenerate search-index.json
     ├── build-nyra-skill.mjs      # Sync nyra-skill → compiler repo skills/
     ├── build-builtin-snippets.mjs
+    ├── capture-builtin-outputs.mjs
+    ├── builtin-outputs.json
     ├── embed-all-code-tabs.mjs
     ├── generate-pages.py         # Scaffold new HTML pages
     ├── generate-learn-track.py
@@ -202,7 +204,8 @@ make build-webdocs
 | `build-search-index.mjs` | `search-index.json` | ✅ | — |
 | `build-nyra-skill.mjs` | `skills/skill.md` (parent) | ✅ (local file only) | For agent sync |
 | `embed-all-code-tabs.mjs` | Patches HTML code blocks | — | ✅ (examples + `.typed.ny` siblings) |
-| `build-builtin-snippets.mjs` | `stdlib.html` gallery | — | ✅ |
+| `capture-builtin-outputs.mjs` | `builtin-outputs.json` (stdout from `examples/builtins/`) | run before gallery rebuild when examples change | ✅ |
+| `build-builtin-snippets.mjs` | `stdlib.html` + `methods.html` gallery | needs `builtin-outputs.json` for methods output | ✅ |
 | `sync-nav.py` | Updates sidebar in all pages | ✅ | — |
 | `generate-pages.py` | New page from template | ✅ | — |
 

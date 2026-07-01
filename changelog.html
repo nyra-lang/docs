@@ -146,6 +146,13 @@
       <h1 data-i18n="pages.changelog.h1">Changelog</h1>
       <p class="lead" data-i18n-html="pages.changelog.lead">Spec freeze history and release notes.</p>
 
+<h2>v1.39.0 (systems &amp; stdlib — 2026-07-01)</h2>
+<ul>
+<li><strong><code>stdlib/random.ny</code></strong> — ChaCha20 CSPRNG seeded from OS/hardware entropy; <code>random()</code>, <code>Random()</code>, unbiased <code>random_range</code>, 53-bit <code>random_f64</code>; <code>Math_random()</code> uses same backend</li>
+<li><strong>Metaprogramming docs</strong> — comptime + macros + struct JSON synthesis; <code>examples/toolchain/metaprogramming.ny</code>, <code>stdlib/meta/mod.ny</code></li>
+<li><strong>Systems features</strong> — C <code>union</code>, <code>size_of</code>/<code>align_of</code>, <code>bytes</code> type, SIMD, arena allocator (see <code>CHANGELOG.md</code>)</li>
+</ul>
+
 <h2>v1.39.0 (nyrapkg split — 2026-06-30)</h2>
 <ul>
 <li><strong>nyrapkg</strong> — standalone package manager in <a href="https://github.com/nyra-lang/pkg">nyra-lang/pkg</a> (written in Nyra): <code>init</code>, <code>add</code>, <code>install</code>, <code>verify</code>, <code>--version</code>, <code>bootstrap</code>, <code>self update</code>, <code>toolchain update</code></li>

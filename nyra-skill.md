@@ -310,6 +310,26 @@ Use `priv const` for internal comptime helpers (Nyra defaults to `pub` when visi
 
 Integer separators: `1_000_000`
 
+### Metaprogramming (compile-time code generation)
+
+Nyra metaprogramming inspects or generates code **during compilation** — zero runtime reflection on hot paths:
+
+| Mechanism | When it runs | Example |
+|-----------|--------------|---------|
+| **Comptime** | const fold before codegen | `comptime` file, `#[comptime] fn`, `comptime { }` |
+| **Macros** | AST substitution before typecheck | `macro field_sum(a,b,c) { a + b + c }` |
+| **Generics** | Monomorph before LLVM IR | `fn id<T>(x: T) -> T` → `id__i32`, `id__string` |
+| **Struct JSON** | Compiler synthesis after typecheck | `{Struct}_json_encode` / `_json_decode` |
+
+**Struct → JSON (automatic):** declare an eligible struct; the compiler emits encode/decode helpers — no runtime serde registry:
+
+```ny
+struct User { name: string, age: i32 }
+let json = User_json_encode(User { name: "Ada", age: 30 })
+```
+
+See `examples/toolchain/metaprogramming.ny`, `examples/struct_serde.ny`, `stdlib/meta/mod.ny`, `stdlib/serde/mod.ny`.
+
 ## Language reference
 
 Quick lookup for syntax the lexer and parser accept today. Types are optional unless inference fails.
@@ -435,10 +455,13 @@ Stop early without linking: `nyra check .` · JSON diagnostics: `nyra diag . --j
 | char | Copy | Unicode scalar; literals `'a'`, `'\n'`, `'\u{1F600}'` |
 | bool | Copy | true / false |
 | string | Move | UTF-8 pointer; literals are static |
+| bytes | Move | Binary blob handle; **not** implicitly convertible to `string` |
 | void | — | No return value (Rust `()` unit type) |
-| struct Name { fields } | Copy or Move | Move if any field is Move |
+| struct Name { fields } | Copy or Move | Move if any field is Move; `repr(C)`, `align(N)`, `packed` |
+| union Name { fields } | Copy | C-style union; field access only in `unsafe` |
 | enum Name { A, B } | Copy | **Tag-only** by default — unit variants, no stored data |
-| enum Name { Some(T) } | Copy or Move | **With payload** (Extended) — one field per variant; see [Enums & payloads](#enums--payloads) |
+| enum Name { Some(T) } | Copy or Move | **With payload** — heterogeneous payloads per variant supported |
+| i32x4 / f32x4 / f64x2 | Copy | Portable SIMD vector types |
 | option / Option | Copy | Built-in **tag names** for `??` / `?.` desugar; **payloads only after** `import "stdlib/option.ny"` |
 | result / Result | Copy | Same split as `Option` — tags built-in; `Ok(v)` / `Err(e)` need stdlib import or monomorph enum |
 | [T; N] | depends | Fixed array; type syntax `[i32; N]` or `[i32: N]` |
@@ -469,6 +492,10 @@ Type annotations: `let x: i32 = 0`, `let b: u8 = 255`, `fn f(n: i32) -> bool` �
 | `Mutex<T>` / `RwLock<T>` | `stdlib/sync/mutex.ny`, `rwlock.ny` | Stdlib |
 | `AtomicI32` / `AtomicBool` | `Atomic_i32`, `AtomicBool` in `stdlib/sync/atomic.ny` | Stdlib |
 | `Rc`, `Cell`, `RefCell`, `Pin`, `PhantomData`, `Cow`, `!` | — | Not in Nyra MVP |
+| `size_of` / `align_of` | `size_of<T>()`, `align_of<T>()` | Compiler intrinsics (`stdlib/mem/layout.ny`) |
+| Stack buffer | `StackBuffer_i32_64` (`stdlib/buf/stack.ny`) | Stack-only; cannot be returned |
+| Arena | `Arena_new` / `Arena_alloc` (`stdlib/alloc/arena.ny`) | Bump allocator, O(1) reset |
+| SIMD | `simd_add_i32x4`, `stdlib/simd/mod.ny` | Portable + platform (`x86.ny`, `arm.ny`) |
 
  (zero types) and `.typed.ny`.
 
@@ -1394,6 +1421,20 @@ import "stdlib/builtins_string.ny"
 
 Prefer built-in `.split()` / `.trim()` on `string` when you do not need the import.
 
+### `stdlib/random.ny` — ChaCha20 CSPRNG (hardware-seeded)
+
+```ny
+import "stdlib/random.ny"
+```
+
+| Function | Description |
+|----------|-------------|
+| `random()` / `Random()` | Random `i32` — ChaCha20 stream seeded from OS/hardware entropy |
+| `random_range(min, max)` | Inclusive range with rejection sampling (no modulo bias) |
+| `random_f64()` | Random `f64` in `[0, 1)` — 53-bit precision |
+
+Seeding uses `getentropy` / `arc4random_buf` / `BCryptGenRandom` / Intel `RDRAND` (when available), mixed into ChaCha20. For raw OS TRNG bytes use `stdlib/os/hw_crypto.ny` → `hw_random_bytes`.
+
 ### `stdlib/builtins_math.ny` — JS-style math
 
 ```ny
@@ -1404,7 +1445,7 @@ import "stdlib/builtins_math.ny"
 |----------|-------------|
 | `Math_max(a, b)` / `Math_min(a, b)` | Min / max (`i32`) — wraps `max_i32` / `min_i32` |
 | `Math_round(x)` / `Math_floor(x)` / `Math_ceil(x)` | Rounding (MVP on `i32`) |
-| `Math_random()` | Random `f64` in `[0, 1)` |
+| `Math_random()` | Random `f64` in `[0, 1)` — ChaCha20 via `rand_f64()` |
 
 ### `stdlib/builtins_json.ny` — MVP JSON helpers
 

@@ -604,7 +604,17 @@ fn main() -&gt; void {
 </div><!-- NYRA_SNIPPET_END -->      <p><strong>Linux:</strong> POSIX mqueue (<code>librt</code>). <strong>macOS:</strong> in-process best-effort queue (name ignored). <strong>Windows:</strong> mailslot best-effort queue (local IPC).</p>
 
       <h2 id="security">Hardware crypto &amp; permissions</h2>
-      <p>Modules: <code>hw_crypto.ny</code>, <code>permissions.ny</code> — OS-level hardware RNG and privilege drop. For application crypto (SHA, HMAC, AES), use <a href="stdlib.html#crypto"><code>stdlib/crypto/mod.ny</code></a> (portable C in <code>rt_crypto.c</code>).</p>
+      <p>Modules: <code>hw_crypto.ny</code>, <code>permissions.ny</code> — OS-level hardware RNG and privilege drop. For everyday app randomness (dice, shuffles, simulations), use <a href="stdlib.html#random"><code>stdlib/random.ny</code></a> (<code>random()</code>, <code>Random()</code>, <code>random_range</code>, <code>random_f64</code>) — ChaCha20 seeded from the same OS/hardware entropy. For application crypto (SHA, HMAC, AES), use <a href="stdlib.html#crypto"><code>stdlib/crypto/mod.ny</code></a> (portable C in <code>rt_crypto.c</code>).</p>
+
+      <h3>Everyday random vs hardware TRNG</h3>
+      <table>
+        <thead><tr><th>API</th><th>Module</th><th>Use when</th></tr></thead>
+        <tbody>
+          <tr><td><code>random()</code> / <code>Random()</code></td><td><code>stdlib/random.ny</code></td><td>Games, shuffles, quick numeric random — fast ChaCha20 stream</td></tr>
+          <tr><td><code>random_bytes(n)</code></td><td><code>stdlib/crypto/random.ny</code></td><td>Hex-encoded random bytes (same ChaCha20 backend)</td></tr>
+          <tr><td><code>hw_random_bytes(n)</code></td><td><code>stdlib/os/hw_crypto.ny</code></td><td>Raw OS TRNG for keys, tokens, crypto seeds</td></tr>
+        </tbody>
+      </table>
 
       <h3>Hardware TRNG</h3>
       <!-- NYRA_SNIPPET_START -->
@@ -737,7 +747,7 @@ import &quot;stdlib/net/http/mod.ny&quot;</code></pre></div>
           <tr><td>CPU affinity / RDTSC</td><td><code>affinity.ny</code>, <code>clocks.ny</code></td></tr>
           <tr><td>USB list / serial port</td><td><code>usb.ny</code>, <code>serial.ny</code></td></tr>
           <tr><td>SIGINT / mqueue</td><td><code>signals.ny</code> + <code>mqueue.ny</code> (Linux POSIX; macOS/Windows best-effort)</td></tr>
-          <tr><td>HW random / drop privs</td><td><code>hw_crypto.ny</code>, <code>permissions.ny</code></td></tr>
+          <tr><td>Random / HW crypto</td><td><code>random.ny</code>, <code>hw_crypto.ny</code>, <code>permissions.ny</code></td></tr>
           <tr><td>CPU topology / disk / netif</td><td><code>cpu.ny</code>, <code>storage.ny</code>, <code>netif.ny</code></td></tr>
           <tr><td>Embedded / MMIO</td><td><code>no_std</code> + <code>stdlib/core/mem.ny</code></td></tr>
           <tr><td>Device over network</td><td><code>stdlib/net/tcp.ny</code> or <code>net/http</code></td></tr>

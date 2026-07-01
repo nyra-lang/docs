@@ -1342,6 +1342,30 @@ pre .tok-operator {
   font-size: 0.88rem;
 }
 
+.example-output-label {
+  margin: 0.65rem 0 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+pre.example-output {
+  margin: 0 0 1.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent, #3d8f7a);
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+
+pre.example-output code {
+  white-space: pre;
+}
+
 .file-tree {
   font-family: var(--font-mono);
   font-size: 0.82rem;
