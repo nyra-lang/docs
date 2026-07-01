@@ -238,34 +238,73 @@ fn main() {
       <p>Full runnable examples: <a href="methods.html#join-handle">Built-in methods → JoinHandle</a> · <a href="methods.html#ex-spawn-join"><code>.join()</code> example</a>.</p>
 
       <h2 id="parallel-for">parallel for</h2>
-      <p>Use <code>parallel for</code> when iterations are <strong>independent</strong>. Nyra schedules <strong>worker threads</strong>; the OS maps them to CPU cores (P-cores, E-cores, etc.).</p>
+      <p>Use <code>parallel for</code> when iterations are <strong>independent</strong>. Each variant below follows: <strong>name → explanation → example → output</strong>. Full runnable programs: <a href="methods.html#ex-parallel">methods gallery</a> · <code>examples/builtins/parallel/</code>.</p>
 
-      <h3>Three levels of control</h3>
-      <pre><code>// 1. Auto (recommended)
-parallel for i in 0..1000 {
-    work(i)
-}
-
-// 2. Cap workers (up to N; fewer if iteration count is small)
-parallel(max_threads = 4) for i in 0..1000 {
-    work(i)
-}
-
-// 3. Exact worker count
-parallel(threads = 4) for i in 0..1000 {
-    work(i)
+      <h3 id="parallel-task">Name: <code>parallel for</code> / <code>parallel:task</code></h3>
+      <p><strong>Explanation:</strong> Default backend is the <strong>global task pool</strong> (same workers as <code>spawn</code>). Fork-join: the loop body runs on pooled workers; <code>main</code> continues only after all iterations finish. Requires <code>allow_extended</code>.</p>
+      <pre><code>allow_extended
+fn main() {
+    parallel for i in 0..4 {
+        print(i)
+    }
+    print(999)
 }</code></pre>
+      <p><strong>Output</strong> (iteration lines may appear in any order; <code>999</code> is always last):</p>
+      <pre><code>0
+1
+3
+2
+999</code></pre>
+      <p>Gallery: <a href="methods.html#ex-parallel"><code>parallel for</code></a> · Run: <code>nyra run examples/builtins/parallel/parallel_task.ny</code></p>
 
-      <h3>More options</h3>
-      <pre><code>parallel(cpu = 80%) for i in 0..n { work(i) }          // 80% of logical CPUs
-parallel(threads = cpu_count() - 1) for i in 0..n { } // leave one for the OS
+      <h3 id="parallel-task-max">Name: <code>parallel:task(max = N)</code></h3>
+      <p><strong>Explanation:</strong> Explicit task-pool alias with a worker cap. Prefer <code>max = N</code> over deprecated <code>max_threads</code> — avoids confusion with <code>parallel:thread</code>.</p>
+      <pre><code>allow_extended
+fn main() {
+    parallel:task(max = 4) for i in 0..1000 {
+        work(i)
+    }
+}</code></pre>
+      <p><strong>Output:</strong> Depends on <code>work(i)</code>; the loop is fork-join — code after the loop runs only when every iteration completes.</p>
+      <p>Gallery: <a href="methods.html#ex-parallel-task-max"><code>parallel:task(max = N)</code></a> · Run: <code>nyra run examples/builtins/parallel/parallel_task_max.ny</code></p>
 
-parallel(mode = auto) for i in 0..n { }            // default
-parallel(mode = balanced) for i in 0..n { }         // performance + responsiveness
-parallel(mode = max_performance) for i in 0..n { }  // use all logical CPUs
-parallel(mode = background) for i in 0..n { }      // lighter load</code></pre>
-      <p>Prefer <code>threads</code> / <code>max_threads</code> over <code>cores</code> — Nyra creates workers; the OS schedules them. <code>cores = N</code> is accepted as an alias for <code>max_threads</code> with a parser note.</p>
-      <p>Built-in <code>cpu_count()</code> returns logical CPU count (prelude). See also <code>stdlib/os/cpu.ny</code>.</p>
+      <h3 id="parallel-thread-max">Name: <code>parallel:thread(max = N)</code></h3>
+      <p><strong>Explanation:</strong> OS-thread fork-join per chunk (~MB stack). Use for blocking I/O or when you need real thread isolation. Backend is chosen by <code>:thread</code>, not by the <code>max</code> key.</p>
+      <pre><code>allow_extended
+fn main() {
+    parallel:thread(max = 4) for i in 0..1000 {
+        work(i)
+    }
+}</code></pre>
+      <p><strong>Output</strong> (sample with <code>print(i)</code>; order non-deterministic):</p>
+      <pre><code>2
+3
+0
+1
+999</code></pre>
+      <p>Gallery: <a href="methods.html#ex-parallel-thread"><code>parallel:thread</code></a> · Run: <code>nyra run examples/builtins/parallel/parallel_thread.ny</code></p>
+
+      <h3>Backend summary</h3>
+      <table>
+        <thead><tr><th>Syntax</th><th>Backend</th><th>When</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>parallel for</code> / <code>parallel:task</code></td><td>Task pool (default)</td><td>Most CPU-bound parallel loops</td><td><a href="methods.html#ex-parallel">gallery</a></td></tr>
+          <tr><td><code>parallel:thread</code> / <code>backend = thread</code></td><td>OS thread fork-join</td><td>Blocking syscalls, isolation</td><td><a href="methods.html#ex-parallel-thread">gallery</a></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Worker options</h3>
+      <table>
+        <thead><tr><th>Option</th><th>Meaning</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>max = N</code></td><td>At most N workers</td><td><code>parallel(max = 4) for i in 0..n { … }</code></td></tr>
+          <tr><td><code>threads = N</code></td><td>Exactly N workers</td><td><a href="methods.html#ex-parallel-exact">gallery</a></td></tr>
+          <tr><td><code>cpu = P%</code></td><td>P percent of logical CPUs</td><td><code>parallel(cpu = 80%) for i in 0..n { … }</code></td></tr>
+          <tr><td><code>mode = …</code></td><td><code>auto</code>, <code>balanced</code>, <code>max_performance</code>, <code>background</code></td><td><code>parallel(mode = balanced) for i in 0..n { … }</code></td></tr>
+        </tbody>
+      </table>
+      <p>Legacy keys <code>max_threads</code>, <code>max_workers</code>, <code>cores</code> still parse with a deprecation note — use <code>max</code>.</p>
+      <p>Built-in <code>cpu_count()</code> — gallery: <a href="methods.html#ex-cpu-count"><code>cpu_count()</code></a>. Extended introspection: <code>stdlib/os/cpu.ny</code> (<code>cpu_logical_cores()</code>, AVX, brand).</p>
       <table>
         <thead><tr><th>Rule</th><th>Why</th></tr></thead>
         <tbody>
@@ -277,19 +316,32 @@ parallel(mode = background) for i in 0..n { }      // lighter load</code></pre>
       </table>
       <p>On <code>wasm32-wasi</code>, <code>parallel for</code> runs sequentially (no pthreads).</p>
 
-      <h2 id="progress-for">progress for</h2>
-      <p>Sequential loops with a built-in progress bar and status line — no manual <code>print</code> or formatting.</p>
-      <pre><code>progress(label = "parser tests") for item in tests {
-    run(item)
-}
-
-progress for i in 0..100 {
-    step(i)
+      <h2 id="benchmark-block">benchmark { }</h2>
+      <p><strong>Name:</strong> <code>benchmark { … }</code><br>
+      <strong>Explanation:</strong> Prints wall time, RSS delta, and CPU% for a block. Requires <code>allow_extended</code>.<br>
+      <strong>Example:</strong> <a href="methods.html#ex-benchmark">methods gallery</a> · <code>nyra run examples/builtins/benchmark/benchmark.ny</code></p>
+      <pre><code>allow_extended
+fn main() {
+    benchmark {
+        run()
+    }
 }</code></pre>
-      <p>Each iteration prints:</p>
+      <p><strong>Output:</strong></p>
+      <pre><code>Time: 0.1 ms
+Memory: 0.0 B
+CPU: 98%</code></pre>
+
+      <h2 id="progress-for">progress for</h2>
+      <p><strong>Name:</strong> <code>progress(label = "…") for x in items { … }</code><br>
+      <strong>Explanation:</strong> Sequential loop with built-in progress bar — not parallel. Optional <code>label</code>; cannot combine with <code>parallel for</code>.</p>
+      <pre><code>allow_extended
+progress(label = "parser tests") for item in tests {
+    run(item)
+}</code></pre>
+      <p><strong>Output</strong> (each iteration):</p>
       <pre><code>[#####-------] 43%
 Running parser tests...</code></pre>
-      <p>Without <code>label</code>, the status line defaults to <code>Running &lt;iterable&gt;...</code> (e.g. <code>Running tests...</code>) or <code>Processing...</code> for ranges. Implemented in <code>stdlib/rt/rt_progress.c</code>; cannot combine with <code>parallel for</code>.</p>
+      <p>Full example with body output: <a href="methods.html#ex-progress"><code>progress for</code> gallery</a>.</p>
 
       <h2 id="captures">Captures &amp; ownership</h2>
       <!-- NYRA_SNIPPET_START -->

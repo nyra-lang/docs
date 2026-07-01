@@ -658,7 +658,17 @@ impl Drop for FileHandle {
     print(s)                 // ERROR: use of moved value 's'
 }</code></pre></div>
 </div><!-- NYRA_SNIPPET_END -->      <h2 id="defer">defer vs Drop (Extended)</h2>
-      <p><code>defer</code> schedules a <strong>call expression</strong> at scope exit (LIFO). It lives in the <strong>Extended</strong> tier (<code>warning[W001]</code>). For most code, <strong>auto-drop and <code>impl Drop</code> replace <code>defer</code></strong> — do not use <code>defer free</code> on owned strings (double-free risk).</p>
+      <p><strong>Name:</strong> <code>defer expr</code><br>
+      <strong>Explanation:</strong> Schedules a call at scope exit (LIFO). Prefer <code>impl Drop</code> for resources — do not <code>defer free</code> on owned strings.<br>
+      <strong>Example:</strong> <a href="methods.html#ex-defer">methods gallery</a> · <code>nyra run examples/builtins/defer/defer_return.ny</code></p>
+      <pre><code>allow_extended
+fn cleanup() { print(1) }
+fn main() {
+    defer cleanup()
+    return
+}</code></pre>
+      <p><strong>Output:</strong> <code>1</code> (before function returns). LIFO demo: <a href="methods.html#ex-defer-lifo"><code>#ex-defer-lifo</code></a> → <code>body</code>, <code>a</code>, <code>b</code>.</p>
+      <p><code>defer</code> schedules a <strong>call expression</strong> at scope exit (LIFO). It lives in the <strong>Extended</strong> tier. For most code, <strong>auto-drop and <code>impl Drop</code> replace <code>defer</code></strong> — do not use <code>defer free</code> on owned strings (double-free risk).</p>
       <table>
         <thead><tr><th>Need</th><th>Prefer</th><th><code>defer</code>?</th></tr></thead>
         <tbody>

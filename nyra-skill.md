@@ -357,7 +357,7 @@ Quick lookup for syntax the lexer and parser accept today. Types are optional un
 | `print` | Built-in stdout; optional `color:` |
 | `spawn` / `spawn:task` / `spawn:thread` | Concurrent block — task pool (default) or OS thread (Extended) |
 | `allow_extended` | File directive — marks Extended-tier unit (see [spawn](#spawn--spawntask--spawnthread-extended--no-import-keyword)) |
-| `parallel for` | Parallel loop over range or array (Extended) |
+| `parallel for` / `parallel:task` / `parallel:thread` | Parallel loop — task pool (default) or OS thread chunks (Extended) |
 | `progress for` | Progress bar loop (Extended) |
 | `benchmark` | Timed block with Time/Memory/CPU report (Extended) |
 | `defer` | Scope-exit call (LIFO) — **Extended**; prefer auto-drop / `impl Drop` (see below) |
@@ -1300,99 +1300,178 @@ fn main() {
 
 Channels: `stdlib/sync/channel.ny`
 
-### `parallel for` (Extended)
+### `parallel for` / `parallel:task` / `parallel:thread` (Extended)
 
-Independent iterations across worker threads — no manual thread pool. Compiler lowers to `parallel_for_range` (`stdlib/rt/rt_parallel.c`).
+Each entry: **name → explanation → example → output**. Runnable: `examples/builtins/parallel/` · gallery: [methods.html#ex-parallel](https://nyra-lang.github.io/docs/methods.html#ex-parallel).
+
+#### `parallel for` (task pool — default)
+
+**Explanation:** Independent iterations on the global task pool (same workers as `spawn`). Fork-join — code after the loop runs when all iterations finish. Requires `allow_extended`.
 
 ```ny
-parallel for i in 0..1000 { work(i) }
-parallel(max_threads = 4) for i in 0..1000 { work(i) }
-parallel(threads = 4) for i in 0..1000 { work(i) }
-parallel(cpu = 80%) for i in 0..n { work(i) }
-parallel(threads = cpu_count() - 1) for i in 0..n { work(i) }
-parallel(mode = balanced) for i in 0..n { work(i) }
+allow_extended
+fn main() {
+    parallel for i in 0..4 {
+        print(i)
+    }
+    print(999)
+}
 ```
+
+**Output** (lines `0`–`3` may appear in any order; `999` always last):
+
+```
+0
+1
+3
+2
+999
+```
+
+#### `parallel:task(max = N)`
+
+**Explanation:** Explicit task-pool alias; `max = N` caps worker chunks. Prefer `max` over `max_threads` to avoid confusion with `:thread`.
+
+```ny
+parallel:task(max = 4) for i in 0..1000 { work(i) }
+```
+
+**Output:** Depends on `work(i)`; loop is fork-join before the next statement runs.
+
+#### `parallel:thread(max = N)`
+
+**Explanation:** OS-thread fork-join per chunk. Backend is `:thread`, not the `max` key.
+
+```ny
+parallel:thread(max = 4) for i in 0..1000 { work(i) }
+```
+
+**Output** (with `print(i)` inside; order non-deterministic):
+
+```
+2
+3
+0
+1
+999
+```
+
+#### Worker options
 
 | Option | Meaning |
 |--------|---------|
-| *(none)* | `mode = auto`, workers from CPU count |
-| `max_threads = N` | At most N workers |
+| *(none)* | Task pool, `mode = auto`, workers from CPU count |
+| `parallel:thread` / `backend = thread` | OS thread backend |
+| `max = N` | At most N workers |
 | `threads = N` | Exactly N workers |
-| `cpu = P%` | `P` percent of logical CPUs |
+| `cpu = P%` | P percent of logical CPUs |
 | `mode` | `auto`, `balanced`, `max_performance`, `background` |
 
-`cpu_count()` — built-in logical CPU count.
+**Rules:** no `break`; no outer mutation; captures must be **Send**; range, fixed array, `string`, or `vec_str`. On `wasm32-wasi`, runs sequentially.
 
-Rules: no `break`; no mutation of outer variables; captures must be **Send**; iterable must be range, fixed array, `string`, or `vec_str`. On `wasm32-wasi`, runs sequentially.
+Gallery also covers: [`parallel(threads = N)`](methods.html#ex-parallel-exact) · [`parallel for n in array`](methods.html#ex-parallel-array) · [`progress for`](methods.html#ex-progress).
 
 
 
 ### `progress for` (Extended)
 
-Built-in progress bar for sequential loops (`stdlib/rt/rt_progress.c`).
+**Name:** `progress(label = "…") for x in items { … }`  
+**Explanation:** Sequential progress bar; cannot combine with `parallel for`.  
+**Example:** see [methods.html#ex-progress](https://nyra-lang.github.io/docs/methods.html#ex-progress)
 
 ```ny
-progress(label = "parser tests") for item in tests {
-    run(item)
-}
-
-progress for i in 0..100 {
-    step(i)
+allow_extended
+progress(label = "demo") for i in 0..3 {
+    print(i)
 }
 ```
 
-Output each iteration: `[#####-------] 43%` plus `Running parser tests...`. Optional `label = "..."`; default derives from iterable name. Cannot combine with `parallel for`.
+**Output:**
+
+```
+[#####--------] 33%
+Running demo...
+…
+0
+1
+2
+```
 
 
 
 ### `benchmark { }` (Extended)
 
-Measure wall time, RSS delta, and process CPU usage — no manual timers.
+**Name:** `benchmark { … }`  
+**Explanation:** Wall time, RSS delta, and process CPU% for a block — no manual timers.  
+**Example:** [methods.html#ex-benchmark](https://nyra-lang.github.io/docs/methods.html#ex-benchmark) · `nyra run examples/builtins/benchmark/benchmark.ny`
 
 ```ny
-benchmark {
-    run()
+allow_extended
+
+extern fn blackbox_i32(x: i32) -> i32
+
+fn main() {
+    benchmark {
+        let mut acc = 0
+        for i in 0..10000 {
+            acc = blackbox_i32(acc + i)
+        }
+        blackbox_i32(acc)
+    }
 }
 ```
 
-Prints:
+**Output:**
 
 ```
-Time: 14.2 ms
-Memory: 1.8 MB
-CPU: 38%
+Time: 0.1 ms
+Memory: 0.0 B
+CPU: 98%
 ```
 
-Lowers to `benchmark_begin()` / `benchmark_end()` in `stdlib/rt/rt_bench.c`. For iteration loops use `stdlib/bench/mod.ny`; for labeled timers use `time_start` / `mem_start`.
+(Varies by machine.)
 
 
 
 ## Async & await (Stable Extended)
 
-`async`/`await` compile to promise handles + cooperative poll loops. **Not available on `wasm32-wasi`.**
+Gallery: [methods.html#ex-async-fn](https://nyra-lang.github.io/docs/methods.html#ex-async-fn) · Runnable: `examples/builtins/async/`
+
+#### `async fn` + `await`
+
+**Explanation:** Call returns handle immediately; body on `spawn:thread`. Import `stdlib/async_v1.ny` for executor.
 
 ```ny
-async fn fetch() -> i32 {
-    let h = async_promise_new()
-    // … complete promise …
-    return await h
+allow_extended
+import "stdlib/async_v1.ny"
+
+async fn compute() -> i32 {
+    return 42
 }
 
 fn main() {
-    let f = fetch()        // returns promise handle immediately (non-blocking call site)
-    let v = await f        // yields i32 when complete
+    print(await compute())
 }
 ```
+
+**Output:** `42`
+
+#### State machine (multiple `await`)
+
+**Output:** `100` — see `#ex-await` · `async_state_machine.ny`
+
+#### `Future<T>` (v1.26)
+
+**Output:** `Nyra async v2` — see `#ex-async-future`
 
 | Topic | Behavior |
 |-------|----------|
 | **`async fn` desugar (v1.5)** | Body runs on **`spawn:thread`**; call site gets promise handle immediately |
-| **State machine (v1.6–v1.7)** | Top-level `await` in `async fn`; **`await` inside `if` / `while` / range `for`** (CFG lowering) |
+| **State machine (v1.6–v1.7)** | Top-level `await` in `async fn`; **`await` inside `if` / `while` / range `for`** |
 | **`await` in `spawn` / `unsafe`** | Uses blocking `async_await` — not cooperative |
-| **Runtime symbols** | `async_promise_new`, `async_promise_complete`, `async_poll`, `async_await`, `runtime_executor_tick` |
-| **Executor (v1.4)** | `Executor_sleep_ms`, `Executor_run_until` |
 | **Futures (v1.26)** | `import "stdlib/async/future.ny"` — `Future_i32`, `Future_select2_i32(a, b)` |
-| **Race detection** | `nyra build --race` → ThreadSanitizer (`-fsanitize=thread`) |
+
+Not on `wasm32-wasi`. Full guide: [async.html](https://nyra-lang.github.io/docs/async.html)
 
 
 
@@ -1446,7 +1525,7 @@ import "stdlib/sync/atomic.ny"
 | `spawn_join` / `spawn_handle_drop` | Join / detach OS thread handle |
 | `spawn_task_capture` | Task pool (`spawn` / `spawn:task`); returns `JoinHandle` |
 | `spawn_task_join` / `spawn_task_handle_drop` | Join / fire-and-forget task handle |
-| `parallel_for_range` | Fork-join `parallel for` |
+| `parallel_for_range` | Fork-join `parallel for` — task pool (default) or OS thread chunks |
 | `progress_update` / `progress_finish` | Progress bar |
 
 Not on `wasm32-wasi` (sequential stub).
@@ -1604,7 +1683,23 @@ fn main() {
 
 ### defer vs Drop — when to use which
 
-**Short answer:** **`Drop` (auto-drop + `impl Drop`) covers almost every cleanup case.** Keep `defer` in **Extended** tier — it is a niche escape hatch, not the default path. Do **not** move it to Core while RAII remains the recommended model.
+Gallery: [methods.html#ex-defer](https://nyra-lang.github.io/docs/methods.html#ex-defer) · `examples/builtins/defer/`
+
+**Name:** `defer cleanup()`  
+**Example:**
+
+```ny
+allow_extended
+fn cleanup() { print(1) }
+fn main() {
+    defer cleanup()
+    return
+}
+```
+
+**Output:** `1`
+
+**Short answer:** **`Drop` (auto-drop + `impl Drop`) covers almost every cleanup case.** Keep `defer` in **Extended** tier — niche escape hatch, not the default path.
 
 | Goal | Preferred (Core / ownership) | `defer` (Extended) |
 |------|------------------------------|---------------------|
