@@ -13,6 +13,10 @@ const SKILLS_OUT = path.join(ROOT, 'skills', 'skill.md');
 
 const body = fs.readFileSync(SOURCE, 'utf8');
 const header = `# Nyra Programming Language\n\n> Canonical copy: \`webDocs/nyra-skill.md\`. Regenerate with \`node webDocs/scripts/build-nyra-skill.mjs\`.\n\n`;
+const stripped = body.replace(
+  /^# Nyra Programming Language\n\n> Canonical copy:[^\n]*\n\n(?:# Nyra Programming Language\n\n> Canonical copy:[^\n]*\n\n)*/,
+  ''
+);
 
-fs.writeFileSync(SKILLS_OUT, header + body.replace(/^# Nyra Language[^\n]*\n\n/, ''));
+fs.writeFileSync(SKILLS_OUT, header + stripped);
 console.log('skills/skill.md synced from webDocs/nyra-skill.md');

@@ -2,10 +2,6 @@
 
 > Canonical copy: `webDocs/nyra-skill.md`. Regenerate with `node webDocs/scripts/build-nyra-skill.mjs`.
 
-# Nyra Programming Language
-
-> Canonical copy: `webDocs/nyra-skill.md`. Regenerate with `node webDocs/scripts/build-nyra-skill.mjs`.
-
 Use this file as the **sole authoritative reference** for Nyra syntax, semantics, stdlib, toolchain, PGO, and escape analysis.
 Do not invent features not listed here. Full docs: `webDocs/` in the Nyra repository.
 
@@ -20,7 +16,7 @@ Do not invent features not listed here. Full docs: `webDocs/` in the Nyra reposi
 5. [Language reference — keywords, operators, statements](#language-reference)
 6. [Types & functions](#types)
 7. [Control flow, structs, enums & payloads, imports](#control-flow)
-8. [Built-in API & I/O (no import)](#io--builtins)
+8. [Built-in API, methods & I/O](#io--builtins) — strings, arrays, math, Vec, HashMap, helpers
 9. [Ownership & memory](#ownership-summary)
 10. [Performance — monomorph, DCE, release, PGO, escape analysis](#performance--optimization)
 11. [Stdlib, NyraPkg, FFI & C interop](#stdlib-modular--see-stdlibreadmemd)
@@ -653,6 +649,19 @@ impl Calculator {
 // call: c.add(10)  →  Calculator_add(c, 10)
 ```
 
+**`impl` rules:**
+
+| Form | Purpose |
+|------|---------|
+| `impl Type { fn method(self, …) }` | Instance methods — `self` is owned receiver |
+| `impl Drop for Type { fn drop(self) }` | RAII cleanup at scope exit (preferred over `defer`) |
+| `impl Trait for Type { fn trait_method(self, …) }` | Static trait dispatch (Extended) |
+| `impl Type { fn new() -> Type }` | Constructor pattern (convention, not keyword) |
+
+Method calls borrow or move `self` per signature. Chaining works when methods return `self` (e.g. `HashMap_str_i32.insert`).
+
+**Tuples:** `(a, b)` — access `.0`, `.1`, …; destructure `let (x, y) = pair`; match arms `(a, b) => …`.
+
 ## Enums & payloads
 
 Nyra has **two enum modes**. Do not mix them up — error handling depends on which you use.
@@ -806,6 +815,21 @@ fn main() {
 
 See full runnable gallery: `examples/builtins/` · `webDocs/methods.html` · `webDocs/stdlib.html#builtins`
 
+**Quick lookup — what needs an import?**
+
+| Category | Import? | Receiver / type |
+|----------|---------|-----------------|
+| I/O, `date()`, timing, `spawn`, `parallel for`, math intrinsics | **No** | Global functions |
+| String `.split()` / `.trim()` / … | **No** | `string` — borrows receiver |
+| Fixed array `.len()` / `.sort()` / `.sort_by()` | **No** | `[T; N]` |
+| Split list `.len()` / `for s in parts` | **No** | result of `.split()` |
+| `Vec_i32_*` / `vec_*` | auto-prelude or `import "stdlib/vec.ny"` | `ptr` handle |
+| `StrVec` methods | auto-prelude or `import "stdlib/vec_str.ny"` | `StrVec` struct |
+| `HashMap_str_*` methods | auto-prelude or `import "stdlib/map.ny"` | `HashMap_str_i32`, `HashMap_str_str` |
+| `Array_*` / `String_*` / `Math_*` / `JSON_*` | `import "stdlib/builtins_*.ny"` | Function-style wrappers |
+
+**User-defined methods:** declare with `impl TypeName { fn method(self, …) -> TypeName { … } }` — call as `obj.method(arg)` (lowers to `TypeName_method(obj, arg)`). `impl Drop for T` runs at scope exit. `impl Trait for T` for static dispatch; `dyn Trait` for trait objects (Extended).
+
 ### I/O (no import)
 
 ```ny
@@ -861,10 +885,28 @@ for p in parts { print(p) }
 print("hello".trim().to_upper())
 ```
 
+### Number & math intrinsics (no import)
+
+Compiler builtins — lowered to LLVM, zero call overhead. Work with `--no-prelude`.
+
+| Call | Args | Returns | Notes |
+|------|------|---------|-------|
+| `abs(x)` | `i32` or `f64` | same as arg | Type overload |
+| `abs_i32(x)` / `abs_f64(x)` | 1 numeric | `i32` / `f64` | Explicit typed variants |
+| `min_i32(a, b)` / `max_i32(a, b)` | 2 × `i32` | `i32` | Min / max |
+| `min_f64(a, b)` / `max_f64(a, b)` | 2 × `f64` | `f64` | Min / max |
+| `clamp_i32(x, lo, hi)` | 3 × `i32` | `i32` | Clamp to `[lo, hi]` |
+| `sin(x)` / `cos(x)` / `tan(x)` | `f64` | `f64` | Trig (libm) |
+| `atan2(y, x)` | 2 × `f64` | `f64` | Two-arg atan |
+| `cpu_count()` | — | `i32` | Logical CPUs (for `parallel for`) |
+
+See `examples/builtins/math_intrinsics.ny`. For `pow_i32`, `sqrt_i32`, etc. use `stdlib/math.ny` or `import "stdlib/builtins_math.ny"` (`Math_max`, `Math_random`, …).
+
 ### Fixed arrays & `for … in` (no import)
 
 | Syntax / method | On | Returns |
 |-----------------|-----|---------|
+| `arr[i]` | fixed array | `T` — zero-based index |
 | `for i in 0..n` | half-open range | — |
 | `for x in arr` | `[T; N]` array | element `T` |
 | `for c in str` | `string` | `char` per byte |
@@ -886,6 +928,93 @@ print(nums[0])   // original unchanged
 |--------|---------|
 | `parts.length()` / `parts.len()` | `i32` part count |
 | `for s in parts` | each `string` part |
+
+### `Vec_i32` — growable `i32` vector
+
+`import "stdlib/vec.ny"` (or auto-prelude). Handle type is `ptr` — **no** `.push()` method sugar; use free functions.
+
+| Function | Args | Returns | Notes |
+|----------|------|---------|-------|
+| `Vec_i32_new()` | — | `ptr` | Empty vector |
+| `Vec_i32_push(v, x)` / `vec_push(v, x)` | `ptr`, `i32` | `void` / `ptr` | Append; `vec_push` returns handle for chaining |
+| `Vec_i32_get(v, i)` / `vec_get(v, i)` | `ptr`, `i32` | `i32` | Index (0-based) |
+| `Vec_i32_set(v, i, value)` | `ptr`, `i32`, `i32` | `void` | In-place update |
+| `Vec_i32_len(v)` / `vec_len(v)` | `ptr` | `i32` | Element count |
+| `Vec_i32_pop(v)` | `ptr` | `i32` | Pop last |
+| `Vec_i32_from_range(start, end)` | 2 × `i32` | `ptr` | Half-open range fill |
+| `Vec_i32_free(v)` | `ptr` | `void` | Manual free (or auto-drop if owned) |
+
+```ny
+import "stdlib/vec.ny"
+
+let v = Vec_i32_new()
+Vec_i32_push(v, 10)
+Vec_i32_push(v, 20)
+print(Vec_i32_len(v))       // 2
+print(Vec_i32_get(v, 0))    // 10
+Vec_i32_set(v, 1, 99)
+```
+
+### `StrVec` — string vector with method syntax
+
+`import "stdlib/vec_str.ny"` (or auto-prelude). Struct with `impl` methods — **supports** `.push()` / `.get()` / `.len()`.
+
+| Method / function | Args | Returns | Notes |
+|-------------------|------|---------|-------|
+| `StrVec_new()` | — | `StrVec` | Empty list |
+| `.push(value)` | `string` | `StrVec` | Append (method chaining) |
+| `.get(index)` | `i32` | `string` | Indexed access |
+| `.len()` | — | `i32` | Element count |
+| `StrVec_from_lines(text)` | `string` | `StrVec` | Split on `\n` |
+| `StrVec_from_argv(start_index)` | `i32` | `StrVec` | CLI args from index |
+| `argv()` | — | `StrVec` | Shorthand: `StrVec_from_argv(1)` |
+| `StrVec_join_lines(vec)` | `StrVec` | `string` | Join with `\n` |
+| `Vec_string_*` aliases | — | — | Generic `Vec<string>` syntax maps here |
+
+```ny
+let lines = StrVec_from_lines("a\nb\nc")
+print(lines.get(0))
+let mut v = StrVec_new()
+v = v.push("hello").push("world")
+for s in v { print(s) }   // iterate when used as iterable in loops
+```
+
+### `HashMap` — string-keyed maps with method syntax
+
+`import "stdlib/map.ny"` (or auto-prelude). Two monomorph types ship today:
+
+| Type | Value type | Constructor |
+|------|------------|-------------|
+| `HashMap_str_i32` | `i32` | `HashMap_str_i32_new()` |
+| `HashMap_str_str` | `string` | `HashMap_str_str_new()` |
+
+| Method | Args | Returns | Notes |
+|--------|------|---------|-------|
+| `.insert(key, value)` | `string`, value | same map type | **Chains** — returns `self` |
+| `.get(key)` | `string` | `i32` / `string` | Lookup (0 / `""` if missing — check with `.contains`) |
+| `.contains(key)` | `string` | `i32` | `1` if key exists, else `0` |
+| `.keys()` | — | `StrVec` | All keys |
+| `.remove(key)` | `string` | same map type | Remove key; chains |
+
+Low-level `ptr` API (GhostTerm / FFI style): `map_str_i32_new`, `map_str_i32_insert`, `map_str_i32_get`, `map_str_i32_contains`, `map_str_i32_keys`, `map_str_i32_remove`, `map_str_i32_free`. Struct wrappers auto-call `Drop`.
+
+```ny
+import "stdlib/map.ny"
+
+let scores = HashMap_str_i32_new()
+    .insert("alice", 95)
+    .insert("bob", 87)
+
+print(scores.get("alice"))       // 95
+print(scores.contains("bob"))    // 1
+
+let keys = scores.keys()
+for k in keys { print(k) }
+
+let updated = scores.remove("bob")
+```
+
+Generic syntax `HashMap<K, V>` is Extended tier — monomorph names above are Core-stable.
 
 ### Timing & memory (no import)
 
@@ -979,21 +1108,64 @@ See `examples/benchmark_block.ny`.
 
 ## Stdlib-style helpers (import required)
 
-These are **not** built-ins — import when needed:
+Ergonomic **function-style** wrappers — use when you prefer JS-like names over `ptr` handles or method syntax.
+
+### `stdlib/builtins_array.ny` — `Vec_i32` helpers
 
 ```ny
 import "stdlib/builtins_array.ny"
-import "stdlib/vec.ny"
 ```
 
 | Function | Description |
 |----------|-------------|
-| `Array_push(v, x)` | Append `i32` to `Vec_i32` |
+| `Array_push(v, x)` | Append `i32` |
 | `Array_pop(v)` | Pop last `i32` |
 | `Array_map(v, f)` | Map with `fn(i32) -> i32` |
-| `Array_filter(v, pred)` | Filter (`pred` returns 1/0) |
+| `Array_filter(v, pred)` | Filter (`pred` returns `1`/`0`) |
 | `Array_reduce(v, init, f)` | Fold left |
 | `Array_find(v, pred, fallback)` | First match or fallback |
+
+### `stdlib/builtins_string.ny` — string helpers
+
+```ny
+import "stdlib/builtins_string.ny"
+```
+
+| Function | Description |
+|----------|-------------|
+| `String_toUpperCase(s)` / `String_toLowerCase(s)` | ASCII case |
+| `String_includes(s, needle)` | Substring test → `i32` `1`/`0` |
+| `String_split(s, sep)` | Split → `ptr` string vector |
+| `String_replace(s, from, to)` | Replace all matches |
+| `String_replacen(s, from, to, count)` | Replace at most `count` matches |
+| `trim(s)` | Strip whitespace |
+
+Prefer built-in `.split()` / `.trim()` on `string` when you do not need the import.
+
+### `stdlib/builtins_math.ny` — JS-style math
+
+```ny
+import "stdlib/builtins_math.ny"
+```
+
+| Function | Description |
+|----------|-------------|
+| `Math_max(a, b)` / `Math_min(a, b)` | Min / max (`i32`) — wraps `max_i32` / `min_i32` |
+| `Math_round(x)` / `Math_floor(x)` / `Math_ceil(x)` | Rounding (MVP on `i32`) |
+| `Math_random()` | Random `f64` in `[0, 1)` |
+
+### `stdlib/builtins_json.ny` — MVP JSON helpers
+
+```ny
+import "stdlib/builtins_json.ny"
+```
+
+| Function | Description |
+|----------|-------------|
+| `JSON_stringify(key, value)` | Single-field JSON object string |
+| `JSON_parse(json, key)` | Read string field from JSON |
+
+For full JSON/serde use `stdlib/json/mod.ny`, `stdlib/serialize/mod.ny`, or NyraPkg `ny-serde`.
 
 Example: `examples/builtins/array/main.ny`
 
@@ -1231,7 +1403,7 @@ Nyra uses **monomorph names** in Core stdlib and **generic syntax** in Extended 
 | API | Current (use this) | Legacy / alternate | Notes |
 |-----|-------------------|-------------------|-------|
 | Growable `i32` vector | `Vec_i32_new()`, `Vec_i32_push(v, x)`, `Vec_i32_len(v)` | `Vec<T>` generic syntax (Extended) | Handle type is `ptr`; free with `Vec_i32_free(v)` or scope end if owned |
-| String-key map | `HashMap_str_i32_*`, `HashMap_str_str_*`, `Map_str_i32_*` in `map.ny` | `HashMap<K,V>` (Extended) | **Method chaining works:** `HashMap_str_i32_new().insert("a", 1).insert("b", 2)` · or low-level `ptr` + `nyra_map_*` externs |
+| String-key map | `HashMap_str_i32_*`, `HashMap_str_str_*`, `Map_str_i32_*` in `map.ny` | `HashMap<K,V>` (Extended) | **Method chaining:** `.insert().insert()` · `.get` · `.contains` · `.keys()` · `.remove()` |
 | String vector | `StrVec`, `StrVec_from_argv`, `StrVec_from_lines` in `vec_str.ny` | `Vec_str_*` low-level `ptr` API | CLI args, JSON keys, line lists |
 | Heap single owner | `import "stdlib/box.ny"` → `Box<string>`, `Box_new(value)` | `Box_string` (v2.3 changelog name) | `Box<T>` monomorph; today `Box_new` ships for `string` |
 | Shared ownership | `import "stdlib/arc.ny"` → `Arc<i32>`, `Arc<string>`, `Arc_from_i32`, `Arc_from_string`, `Arc_get_applied_i32` | `Arc_i32`, `Arc_new_i32`, `Arc_clone_i32` (v2.3 struct + manual `impl Drop`) | Legacy `Arc_i32` API remains in `arc.ny` for backward compat |
@@ -1255,7 +1427,27 @@ fn main() {
 }
 ```
 
-Do **not** write `v.push(1)` — `Vec_i32` is a `ptr` handle, not a method-chaining object. Use `Vec_i32_push(v, x)` or `import "stdlib/builtins_array.ny"` helpers (`Array_push`, `Array_map`, …).
+Do **not** write `v.push(1)` on `Vec_i32` — `ptr` handle, not method-chaining object. Use `Vec_i32_push(v, x)` or `import "stdlib/builtins_array.ny"` helpers (`Array_push`, `Array_map`, …). For string lists use `StrVec` which **does** support `.push()`.
+
+### HashMap example (method chaining)
+
+```ny
+import "stdlib/map.ny"
+
+fn main() {
+    let cache = HashMap_str_str_new()
+        .insert("theme", "dark")
+        .insert("lang", "en")
+
+    print(cache.get("theme"))
+    print(cache.contains("lang"))
+
+    let keys = cache.keys()
+    for k in keys { print(k) }
+
+    cache = cache.remove("lang")
+}
+```
 
 ### Arc / Box examples (Extended — generic syntax)
 
@@ -1281,9 +1473,20 @@ import "stdlib/map.ny"
 import "stdlib/strings/ops.ny"
 ```
 
-**Stdlib auto-prelude (lazy):** Referenced stdlib symbols resolve on demand via a virtual symbol table — use `read_file`, `Vec_i32_new`, `StrVec`, `os_arg_count`, `os_arg_at`, `list_dir`, `is_dir`, etc. without imports; only used modules are merged into the build. Opt out with `# no_std` or `--no-prelude`. Explicit `import "stdlib/vec.ny"` still works.
+**Stdlib auto-prelude (lazy):** Referenced stdlib symbols resolve on demand via a virtual symbol table — use `read_file`, `Vec_i32_new`, `StrVec`, `HashMap_str_i32_new`, `os_arg_count`, `os_arg_at`, `list_dir`, `is_dir`, `env_get`, etc. without imports; only used modules are merged into the build. Opt out with `# no_std` or `--no-prelude`. Explicit `import "stdlib/vec.ny"` still works.
 
-**Compiler math intrinsics (always on):** `abs_i32`, `abs_f64`, `min_i32`, `max_i32`, `clamp_i32`, `min_f64`, `max_f64`, and typed `abs(x)` lower to LLVM intrinsics — no stdlib merge required. See `examples/builtins/math_intrinsics.ny` with `--no-prelude`.
+**Common auto-prelude symbols (no import when prelude enabled):**
+
+| Domain | Functions |
+|--------|-----------|
+| **FS** | `read_file`, `read_file_limit`, `write_file`, `append_file`, `file_exists`, `exists`, `is_dir`, `list_dir`, `list_dir_entries`, `create_dir`, `create_dir_all`, `remove_file`, `remove_dir`, `copy_file`, `file_size` |
+| **CLI / env** | `os_arg_count`, `os_arg_at`, `argv`, `env_get`, `env_set`, `env_has` |
+| **Collections** | `Vec_i32_*`, `vec_*`, `StrVec_*`, `HashMap_str_i32_*`, `HashMap_str_str_*` |
+| **Strings** | `strcat`, `strlen`, `substring`, `strstr_pos` (via `stdlib/strings.ny` chain) |
+| **Crypto** | `sha256`, `hmac_sha256`, … (`stdlib/crypto/mod.ny`) |
+| **Net** | `tcp_listen`, `tcp_accept`, … (`stdlib/net/tcp.ny`) |
+
+**Compiler math intrinsics (always on):** `abs`, `abs_i32`, `abs_f64`, `min_i32`, `max_i32`, `clamp_i32`, `min_f64`, `max_f64`, `sin`, `cos`, `tan`, `atan2`, and typed `abs(x)` lower to LLVM — no stdlib merge required. See `examples/builtins/math_intrinsics.ny` with `--no-prelude`.
 
 **Core modules (usable):** `vec.ny`, `vec_str.ny`, `map.ny`, `collections/*`, `strings/ops.ny`, `strings/regex.ny`, `fs/mod.ny`, `path.ny`, `crypto/mod.ny`, `encoding/base64.ny`, `time/instant.ny`, `time/date.ny`, `json/mod.ny`, `serialize/mod.ny`, `iter/mod.ny`, `env/mod.ny`, `config/mod.ny`, **`net/http/mod.ny`**, `net/tcp.ny`, `net/udp.ny`, `net/websocket.ny`, `tls.ny`, `strconv/mod.ny`, `flag/mod.ny`, `bufio/mod.ny`, `context/mod.ny`, `sync/mod.ny`, `process.ny`, `bridge/mod.ny`, `db/sqlite.ny`, `db/lsm.ny`, `db/sql_parse.ny`, `db/sstable.ny`, `collections/btree_pages.ny`, `bench/mod.ny`, `profile/mod.ny`, `testing.ny`, `async.ny` (Extended). Docs: `webDocs/stdlib.html` (`#cli-parsing`, `#database`, `#process`, `#crypto`).
 
@@ -1878,7 +2081,7 @@ Tests: `tests/nyra/break_clone_test.ny` · `tests/nyra/hashmap_chain_test.ny` ·
 | **Escape analysis** | escape-analysis.html |
 | Performance toolchain | performance.html |
 | OS APIs (battery, syscalls) | stdlib.html#os |
-| Stdlib API & all builtins | stdlib.html#builtins |
+| Stdlib API & all builtins | stdlib.html#builtins · methods.html |
 | Backend (TCP/HTTP/JSON) | backend.html |
 | net/http API reference | net-http.html |
 | C Bindgen & `nyra pkg c` | c-bindgen.html |
